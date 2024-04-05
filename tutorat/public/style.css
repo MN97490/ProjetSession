@@ -1,0 +1,482 @@
+
+ .centering {
+    text-align: center;
+ }
+
+ 
+.bodyConnect {
+   margin: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+}
+.bodyStat {
+   background:#FAE4C7;
+   margin: 0;
+   width: 100%;
+   
+}
+.logoCegepConnect{
+   width: 300px;
+
+   max-width: 35%;
+
+}
+
+
+.formulaireCo {
+   border: 1px solid white;
+   width: 300px;
+   max-width: 80%;
+   padding: 20px;
+   text-align: center;
+   background-color: rgba(9, 45, 116, 0.7);
+}
+
+.formulaireCo label {
+   display: inline-block; 
+   text-align: right; 
+   width: 35%; 
+   margin-right: 10px; 
+   font-weight: bold; 
+}
+
+.formulaireCo input[type="text"],
+.formulaireCo input[type="password"] {
+   width: 50%; 
+   padding: 5px;
+   margin-bottom: 10px;
+}
+
+.formulaireCo input[type="submit"] {
+   width: auto; 
+}
+.LienIndex{
+   margin: auto;
+   width: 200px;
+   border: 3px solid #73AD21;
+   padding: 10px;
+   background-color: #092d74;
+   color: white;
+}
+.BtnIndex{
+   background-color: whitesmoke;
+   margin-top: 200px;
+   align-items: center;
+   padding: 100px;
+   width: 33%;
+   border: 5px solid black;
+}
+
+.bienvenue{
+display: flex;
+background-color: lightgray;
+text-align: center;
+justify-content: center;
+height: 80px;
+font-weight: bolder;
+}
+.good{
+   padding: 10%;
+   justify-self: center;
+   background-color: green;
+   font-weight: bolder;
+   font-size:xx-large;
+   width: 350px;
+   height: 500px;
+}
+.mid{
+   padding: 10%;
+   background-color: yellow;
+   font-weight: bolder;
+   font-size:xx-large;
+   width: 350px;
+   height: 500px;
+}
+.bad{
+   padding: 10%;
+   background-color: red;
+   font-weight: bolder;
+   font-size:xx-large;
+   width: 350px;
+   height: 500px;
+}
+.CreerEvent{
+   padding: 1%;
+   color: #092d74;
+   font-weight: bolder;
+}
+.divvote{
+padding: 100px;
+position: fixed;
+top: 50%;
+display: inline;
+}
+.formcreation{
+   padding: 10px;
+   margin: auto;
+   color: aliceblue;
+   width: 300px;
+   max-width: 20%;
+   border: 3px solid aliceblue;
+   position: fixed;
+   right: 40%;
+   top: 30%;
+
+}
+.bodyvote{
+   background-color: #092D74;
+}
+
+
+.table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 20px; 
+ 
+ 
+
+   background-color: #fff; 
+   
+ }
+ .deleteButton {
+   background-color: #ff0000;
+   color: #fff;
+   border: none;
+   padding: 5px 10px;
+   cursor: pointer;
+   font-weight: bold;
+  
+ }
+ .modifBtn {
+   background-color: gray;
+   color: #fff;
+   border: none;
+   padding: 5px 10px;
+   margin-top: 5px;
+   cursor: pointer;
+   font-weight: bold;
+ }
+ .table th {
+   background-color: #99C8F2;
+   padding: 10px;
+   text-align: center;
+   width: 300px;
+   max-width: 40%;
+ }
+ 
+
+ .table td {
+   padding: 10px;
+   text-align: center;
+ }
+ 
+
+
+
+ .LienIndexStat,
+ .LienDecoStat {
+   text-decoration: none;
+   color: #007bff;
+   font-weight: bold;
+ }
+
+
+
+
+ #background-video {
+   position: fixed; 
+   top: 0; 
+   left: 0; 
+   min-width: 100%; 
+   min-height: 100%;
+   object-fit: cover; 
+   z-index: -1; 
+ }
+ 
+ .bodyRecap{
+background: #FAE4C7;;
+margin: 0;
+width: 100%;
+ }
+
+ .titreEvent{
+ 
+
+
+   
+   color: red;
+text-align: center;
+
+
+   
+
+ }
+
+ .footer {
+   background-color: #092d74;
+   padding: 10px;
+   text-align: center;
+   color: white;
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+}
+
+.footerContent {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.logocegepFooter {
+   width: 50px;
+   max-width: 10%;
+   margin-right: 10px;
+}
+
+p {
+   margin: 0;
+   white-space: nowrap; 
+}
+
+.footerConnect{
+   background-color: rgba(9, 45, 116, 0.7);
+   padding: 10px;
+   text-align: center;
+   color: white;
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+
+}
+
+
+.footerRecap{
+
+   background-color: #092d74;
+   padding: 10px;
+   text-align: center;
+   color: white;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   width: 100%;
+ 
+   
+
+}
+.footerStat{
+
+   background-color: #092d74;
+   padding: 10px;
+   text-align: center;
+   color: white;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   width: 100%;
+
+}
+#menu {
+	background: #092D74;
+	color: #FFF;
+	height: 80px;
+	padding-left: 18px;
+	border-radius: 0px;
+}
+#menu ul, #menu li {
+	margin: 0 auto;
+	padding: 0;
+	list-style: none
+}
+#menu ul {
+	width: 100%;
+}
+#menu li {
+	float: left;
+	display: inline;
+	position: relative;
+}
+#menu a {
+	display: block;
+	line-height: 80px;
+	padding: 0 14px;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+#menu a.dropdown-arrow:after {
+	content: "\25BE";
+	margin-left: 5px;
+}
+#menu li a:hover {
+	color: #CF2E2E;
+	
+}
+#menu input {
+	display: none;
+	margin: 0;
+	padding: 0;
+	height: 80px;
+	width: 100%;
+	opacity: 0;
+	cursor: pointer
+}
+#menu label {
+	display: none;
+	line-height: 80px;
+	text-align: center;
+	position: absolute;
+	left: 35px
+}
+#menu label:before {
+	font-size: 1.6em;
+	content: "\2261"; 
+	margin-left: 20px;
+}
+#menu ul.sub-menus{
+	height: auto;
+	overflow: hidden;
+	width: 170px;
+	background: #444444;
+	position: absolute;
+	z-index: 99;
+	display: none;
+}
+#menu ul.sub-menus li {
+	display: block;
+	width: 100%;
+}
+#menu ul.sub-menus a {
+	color: #FFFFFF;
+	font-size: 16px;
+}
+#menu li:hover ul.sub-menus {
+	display: block
+}
+#menu ul.sub-menus a:hover{
+	background: #F2F2F2;
+	color: #CF2E2E;
+}
+@media screen and (max-width: 800px){
+	#menu {position:relative}
+	#menu ul {background:#111;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none}
+	#menu ul.sub-menus {width:100%;position:static;}
+	#menu ul.sub-menus a {padding-left:30px;}
+	#menu li {display:block;float:none;width:auto;}
+	#menu input, #menu label {position:absolute;top:0;left:0;display:block}
+	#menu input {z-index:4}
+	#menu input:checked + label {color:white}
+	#menu input:checked + label:before {content:"\00d7"}
+	#menu input:checked ~ ul {display:block}
+}
+#menu li:last-child {
+   float: right;
+   
+   
+}
+#menu li:last-child a {
+   float: right;
+   display: flex;
+justify-content: center;
+align-items: center;
+
+   
+   
+}
+#menu li:last-child a:hover {
+	color: #CF2E2E;
+   background-color:  #F2F2F2;
+ 
+}
+.decoIcon{
+width: 50px;
+max-width: 100%;
+
+
+}
+
+.bodycreation{
+
+   background:#FAE4C7;
+   margin: 0;
+   width: 100%;
+
+
+}
+.bodyGestion{
+   background:#FAE4C7;
+   margin: 0;
+   width: 100%;
+
+}
+
+.bodindex{
+   background-image: url('https://www.cegeptr.qc.ca/wp-content/uploads/2021/11/20211123_182704.jpg');
+   margin: 0;
+   width: 100%;
+
+}
+.bodyVote{
+   background:#FAE4C7;
+   margin: 0;
+   width: 100%;
+align-items: center;
+justify-items: center;
+
+}
+.centrage {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh; 
+ }
+
+
+.ajoutBtn {
+   background-color: green; 
+   color: #fff; 
+   padding: 10px 20px; 
+   border: none; 
+   border-radius: 5px; 
+
+   font-size: 16px; 
+}
+
+
+
+
+.imgcegepindex{
+   max-width: 300px;
+   max-height: 300px;
+}
+.divimageindex{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: auto;
+   width: auto;
+   padding: 5%;
+}
+
+
+.fadeIn {
+   opacity: 0; 
+   transition: opacity 1s ease-in-out; 
+
+   position: absolute; 
+   top: 50%; 
+   left: 50%; 
+   font-size: 30px;
+   color: red;
+}
+
+
+.appear {
+   opacity: 1; 
+}
