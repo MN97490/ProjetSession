@@ -38,8 +38,9 @@
                 <label for="password">Confirmer le mot de Passe:</label>
                 <input type="password" name="confirmpassword" value="" placeholder="confirmer le mot de Passe"><br>
                 <p style="color:red;"></p>
-                <input type="submit" value="Connexion">
+                <input type="submit" value="S'inscrire">
             </form> 
+            <a href="/">Se connecter</a>
         </div>
     </div>
 
@@ -52,5 +53,3 @@
 </body>
 </html>
 
-</body>
-</html>

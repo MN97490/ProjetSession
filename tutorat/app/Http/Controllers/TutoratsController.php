@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UsagersController extends Controller
+class TutoratsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return View('Tutorat.index');
     }
 
     /**
@@ -19,7 +19,7 @@ class UsagersController extends Controller
      */
     public function create()
     {
-        return View('Usagers.inscription');
+        //
     }
 
     /**
@@ -33,9 +33,9 @@ class UsagersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function showLoginForm()
+    public function show(string $id)
     {
-        return View('Usagers.login');
+        //
     }
 
     /**

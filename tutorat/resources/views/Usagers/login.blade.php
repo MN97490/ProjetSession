@@ -26,6 +26,7 @@
                 <p style="color:red;"></p>
                 <input type="submit" value="Connexion">
             </form> 
+            <a href="/usagers/creation">Nouvel usager</a>
         </div>
     </div>
 
