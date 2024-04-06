@@ -38,6 +38,11 @@ class UsagersController extends Controller
         return View('Usagers.login');
     }
 
+    public function showProfil()
+    {
+        return View('Usagers.profil');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

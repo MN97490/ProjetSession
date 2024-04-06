@@ -14,3 +14,6 @@ Route::get('/usagers/creation',
 
 Route::get('/index',
 [TutoratsController::class, 'index'])->name('Tutorat.index');
+
+Route::get('/profil',
+[UsagersController::class, 'showProfil'])->name('Usagers.profil');

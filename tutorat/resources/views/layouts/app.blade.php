@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../style.css">
+  <link rel="shortcut icon" type="image/png" href="../img/apple-icon-72x72.png"/>
  
   <script src="main.js"></script>
 </head>
@@ -25,8 +26,8 @@
         <a href="/index">Accueil</a>
         <a href="">Messagerie</a>
         <a href="">Tutorat</a>
-        <a href="">Profile</a>
-        <a href="#"><i class="fas fa-bell sub-nav-logo"></i></a>
+        <a href="/profil">Profil</a>
+        <a href=""><i class="fas fa-bell sub-nav-logo"></i></a>
         
         @csrf
         <button  class="deconnexionBtn" type="submit">Déconnexion</button> 
