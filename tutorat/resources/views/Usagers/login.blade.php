@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <link rel="stylesheet" href="../style.css">
-    <title>Connexiond</title>
+    <title>Connexion</title>
     <link rel="shortcut icon" type="image/png" href="../img/apple-icon-72x72.png"/>
 </head>
 
@@ -17,6 +17,7 @@
     <div class="centering">
         <div class="formulaireCo">
             <form action="" method="post">
+            @csrf
                 <label for="username">Utilisateur:</label>
                 <input type="text" name="username" value="" placeholder=" Utilisateur"><br>
                 <p style="color:red;"></p>
@@ -31,7 +32,7 @@
     <div class="footerConnect">
         <div class="footerContent">
             <img src="../img/logoCegepNoBg.png" class="logocegepFooter" alt="logocegep">
-            <p>© Tous droits réservés - Cégep de Trois-Rivières - 2023</p>
+            <p>© Tous droits réservés - Cégep de Trois-Rivières - 2024</p>
         </div>
     </div>
 </body>
