@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('usagers', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
+            $table->string('email',190);
             $table->string('password');
             $table->string('nomUtilisateur');
             $table->string('nom');
             $table->string('prenom');
-            $table->string('matiere');
+            $table->foreignId('domaineEtude')->constrained('domaineEtudes');
             $table->set('type',['admin','prof','eleve']);
             $table->boolean('is_tuteur');
+            $table->unique('email');
             $table->rememberToken()->nullable();
             $table->timestamps();
         });

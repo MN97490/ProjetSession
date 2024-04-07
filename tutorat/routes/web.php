@@ -17,3 +17,9 @@ Route::get('/index',
 
 Route::get('/profil',
 [UsagersController::class, 'showProfil'])->name('Usagers.profil');
+
+Route::POST('/connect',
+[UsagersController::class, 'connect'])->name('Usagers.connect');
+
+Route::get('/logout',
+[UsagersController::class, 'logout'])->name('Usagers.logout');

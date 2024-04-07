@@ -22,10 +22,10 @@ class UsagersSeeder extends Seeder
                 'nom' => 'nomAdmin',
                 'prenom' => 'prenomAdmin',
                 'email' => 'admin@email.com',
-                'matiere'=> 'aucune',
+                'domaineEtude'=> '1',
                 'is_tuteur'=>'0',
                 'password' => Hash::make('qwerty'),
-                'role' => 'admin',
+                'type' => 'admin',
             ],
             [
                 'id' => 2,
@@ -33,10 +33,10 @@ class UsagersSeeder extends Seeder
                 'nom' => 'nomNormal',
                 'prenom' => 'prenomNormal',
                 'email' => 'normal@email.com',
-                'matiere'=> 'BD',
+                'domaineEtude'=> '1',
                 'is_tuteur'=>'0',
                 'password' => Hash::make('qwerty'),
-                'role' => 'prof',
+                'type' => 'prof',
             ],
             [
                 'id' => 3,
@@ -44,10 +44,10 @@ class UsagersSeeder extends Seeder
                 'nom' => 'nomKid',
                 'prenom' => 'prenomKid',
                 'email' => 'kid@email.com',
-                'matiere'=> 'BD',
+                'domaineEtude'=> '1',
                 'is_tuteur'=>'1',
                 'password' => Hash::make('qwerty'),
-                'role' => 'eleve',
+                'type' => 'eleve',
             ]
         ]);
     }

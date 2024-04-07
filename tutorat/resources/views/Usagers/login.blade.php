@@ -16,7 +16,7 @@
 
     <div class="centering">
         <div class="formulaireCo">
-            <form action="" method="post">
+            <form action="{{route('Usagers.connect')}}" method="post">
             @csrf
                 <label for="username">Utilisateur:</label>
                 <input type="text" name="username" value="" placeholder=" Utilisateur"><br>

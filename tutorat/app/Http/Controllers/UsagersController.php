@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsagersController extends Controller
 {
@@ -27,9 +28,27 @@ class UsagersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //objet de type usager a la fin objet->save
     }
 
+    public function connect(Request $request)
+    {
+        $reussi = Auth::attempt(['nomUtilisateur' => $request->username, 'password' => $request->password]);
+        if($reussi){
+            return redirect()->route('Tutorat.index') ->with('message', "Connexion réussie");
+        }
+        else{
+            return redirect()->route('login')->withErrors(['Informations invalides']); 
+        }
+
+    }
+
+    public function logout(Request $request)
+    {
+     Auth::logout();   
+     return redirect()->route('login'); 
+
+    }
     /**
      * Display the specified resource.
      */

@@ -26,6 +26,7 @@
     <div class="centering">
         <div class="formulaireCo">
             <form action="" method="post">
+            @csrf
                 <label for="username">Utilisateur:</label>
                 <input type="text" name="username" value="" placeholder=" Utilisateur"><br>
                 <p style="color:red;"></p>

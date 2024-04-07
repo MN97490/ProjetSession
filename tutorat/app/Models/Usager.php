@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Usager extends Model
+class Usager extends User
 {
     use HasFactory,Notifiable;
 
@@ -15,7 +15,7 @@ class Usager extends Model
         'nomUtilisateur',
         'nom',
         'prenom',
-        'matiere',
+        'domaineEtude',
         'email',
         'type',
         'is_tuteur'
