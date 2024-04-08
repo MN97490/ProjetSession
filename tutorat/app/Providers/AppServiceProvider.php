@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::directive('role', function ($role) {
+            $roles = explode(',', $role);
+            $roles = array_map('trim', $roles);
+                return "<?php if(auth()->check() && in_array(auth()->user()->role, [". implode(',' , $roles) . "])) : ?>";  
+            });
+    
+            Blade::directive('endrole', function () {
+                return "<?php endif; ?>";
+            });
+               
+    
     }
 }

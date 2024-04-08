@@ -25,7 +25,7 @@ class UsagersSeeder extends Seeder
                 'domaineEtude'=> '1',
                 'is_tuteur'=>'0',
                 'password' => Hash::make('qwerty'),
-                'type' => 'admin',
+                'role' => 'admin',
             ],
             [
                 'id' => 2,
@@ -36,7 +36,7 @@ class UsagersSeeder extends Seeder
                 'domaineEtude'=> '1',
                 'is_tuteur'=>'0',
                 'password' => Hash::make('qwerty'),
-                'type' => 'prof',
+                'role' => 'prof',
             ],
             [
                 'id' => 3,
@@ -47,7 +47,7 @@ class UsagersSeeder extends Seeder
                 'domaineEtude'=> '1',
                 'is_tuteur'=>'1',
                 'password' => Hash::make('qwerty'),
-                'type' => 'eleve',
+                'role' => 'eleve',
             ]
         ]);
     }

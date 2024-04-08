@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Usager extends User
+class Usager extends Authenticatable
 {
     use HasFactory,Notifiable;
 
@@ -17,7 +17,7 @@ class Usager extends User
         'prenom',
         'domaineEtude',
         'email',
-        'type',
+        'role',
         'is_tuteur'
     ];
 

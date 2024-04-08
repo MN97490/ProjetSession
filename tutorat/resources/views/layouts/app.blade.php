@@ -27,10 +27,14 @@
      
         <a href="/index">Accueil</a>
         <a href="">Messagerie</a>
+       
+        @role('admin')
+ 
         <a href="">Tutorat</a>
+        @endrole
         <a href="/profil">Profil</a>
         <a href=""><i class="fas fa-bell sub-nav-logo"></i></a>
-        
+     
         @csrf
         <form action="{{route('Usagers.logout')}}" method="get">
         <button  class="deconnexionBtn" type="submit">Déconnexion</button> 
