@@ -37,8 +37,11 @@
      
         @csrf
         <form action="{{route('Usagers.logout')}}" method="get">
-        <button  class="deconnexionBtn" type="submit">Déconnexion</button> 
+        <input class="deconnexionBtn" type="submit" value="deconnexion"><br>
+        
+        
         </form>
+        
       
            
       </nav>
