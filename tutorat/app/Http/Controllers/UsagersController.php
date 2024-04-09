@@ -8,6 +8,7 @@ use Auth;
 use Log;
 use App\Models\Usager;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Domaine;
 
 class UsagersController extends Controller
 {
@@ -24,7 +25,10 @@ class UsagersController extends Controller
      */
     public function create()
     {
-        return View('Usagers.inscription');
+        //$domaines = domaine::all();
+       // return View('Usagers.inscription');
+        $domainesEtude = Domaine::all();
+        return view('Usagers.inscription', ['domainesEtude' => $domainesEtude]);
     }
 
     /**
@@ -32,7 +36,16 @@ class UsagersController extends Controller
      */
     public function store(Request $request)
     {
-        //objet de type usager a la fin objet->save
+        try {
+            $usager = new Usager($request->all());
+            $usager->password = Hash::make($request->password);
+            $usager->save();
+        }
+        catch (\Throwable $e) {
+            Log::emergency($e);
+            return redirect()->route('usagers.create')->withErrors(['L\'ajout n\'a pas fonctionné']);
+        }
+        return redirect()->route('login');
     }
 
     public function connect(Request $request)

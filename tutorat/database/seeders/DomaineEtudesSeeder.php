@@ -13,7 +13,7 @@ class DomaineEtudesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('domaineetudes')->insert([
+        DB::table('domaines')->insert([
             [
                 'id' => 1,
                 'nomDomaine' => 'Informatique'

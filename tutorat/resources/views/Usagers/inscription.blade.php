@@ -22,23 +22,41 @@
     <video autoplay muted loop id="background-video">
         <source src="../img/cegeploop.mp4" type="video/mp4">
     </video>
-
+    @csrf
     <div class="centering">
         <div class="formulaireCo">
-            <form action="" method="post">
-            @csrf
-                <label for="username">Utilisateur:</label>
-                <input type="text" name="username" value="" placeholder=" Utilisateur"><br>
-                <p style="color:red;"></p>
-                <label for="username">adresse courriel:</label>
-                <input type="text" name="email" value="" placeholder=" adresse courriel"><br>
-                <p style="color:red;"></p>
+            <form action="{{ route('usagers.store') }}" method="post">
+            
+                <label for="username">Nom d'utilisateur:</label>
+                <input type="text" name="username" value="" placeholder="Utilisateur"><br>
+              
+                <label for="email">adresse courriel:</label>
+                <input type="text" name="email" value="" placeholder="Adresse courriel"><br>
+
+                <label for="email">Nom:</label>
+                <input type="text" name="nom" value="" placeholder="Nom"><br>
+
+                <label for="email">Prénom:</label>
+                <input type="text" name="prenom" value="" placeholder="Prénom"><br>
+
+                                <label for="domaine_etude">Domaine d'étude:</label>
+                <select name="domaine_etude" id="domaine_etude">
+                    @foreach($domainesEtude as $domaine)
+                        <option value="{{ $domaine->id }}">{{ $domaine->nomDomaine }}</option>
+                    @endforeach
+                </select>
+
+                
                 <label for="password">Mot de Passe:</label>
                 <input type="password" name="password" value="" placeholder="Mot de Passe"><br>
-                <p style="color:red;"></p>
+        
                 <label for="password">Confirmer le mot de Passe:</label>
-                <input type="password" name="confirmpassword" value="" placeholder="confirmer le mot de Passe"><br>
-                <p style="color:red;"></p>
+                <input type="password" name="confirmpassword" value="" placeholder="Confirmer le mot de Passe"><br>
+
+                <label for="role">Type de compte</label>
+                <input type="radio" class="form-control" id="role" name="role" value="eleve">
+                <label for="role" id="role" name="role">Eleve</label>
+                
                 <input type="submit" value="S'inscrire">
             </form> 
             <a href="/">Se connecter</a>
