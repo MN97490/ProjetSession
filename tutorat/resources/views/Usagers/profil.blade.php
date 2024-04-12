@@ -3,18 +3,25 @@
 @section('contenu')
 
 <section class="main-container" >
-<h1 class="text-center">Page de modification du profil</h1>
-<form method="POST" action="" >
+<h1 class="text-center">Page profil de @auth {{ Auth::user()->nomUtilisateur }} @endauth</h1>
+<form method="POST" action="{{route('Usagers.modifier')}}" >
+@csrf
 <div class="form-group">
-            <label for="nomUtilisateurUsager">Nom d'utilisateur</label>
-            <input type="text" class="form-control" id="nomUtilisateurUsager" placeholder="Nom d'utilisateur" name="nomUtilisateur" value=""><br/>
+        <label for="nomUtilisateurUsager">Nom d'utilisateur</label>
+        <input type="text" class="form-control" id="nomUtilisateurUsager" value="{{ $usager->nomUtilisateur }}" readonly><br/>
 
 
-            <label for="adresseCourrielUsager">Adresse courriel</label>
-            <input type="text" class="form-control" id="adresseCourrielUsager" placeholder="Adresse Courriel" name="adresseCourriel" value=""><br/>
+        <label for="adresseCourrielUsager">Adresse courriel</label>
+        <input type="text" class="form-control" id="adresseCourrielUsager" value="{{ $usager->email }}" readonly><br/>
 
-            <label for="motDePasse">Mot de passe</label>
-            <input type="text" class="form-control" id="motDePasseUsager" placeholder="Mot de passe" name="motDePasse"><br/>
+        <label for="prenom">Prénom</label>
+        <input type="text" class="form-control" id="prenomUsager" value="{{ $usager->prenom }}" readonly  ><br/>
+
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nomUsager" value="{{ $usager->nom }}" readonly  ><br/>
+
+        <label for="motDePasse">Mot de passe</label>
+        <input type="text" class="form-control" id="motDePasseUsager" value="*******" readonly  ><br/>
 
 
 
@@ -26,7 +33,7 @@
 
 
             </div>
-          <button type="submit" class="btn btn-primary" >Enregistrer</button>
+          <button type="submit" class="btn btn-primary" >Modifier les informations</button>
   
         </div>      
 </form>

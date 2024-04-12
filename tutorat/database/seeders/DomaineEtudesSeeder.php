@@ -25,8 +25,16 @@ class DomaineEtudesSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'nomDomaine' => 'Soin infirmier'
-            ]
+                'nomDomaine' => 'Soins infirmiers'
+            ],
+            [
+                'id' => 4,
+                'nomDomaine' => 'Sciences de la nature'
+            ],
+            [
+                'id' => 5,
+                'nomDomaine' => 'Sciences humaines'
+            ],
         ]);
     }
 }

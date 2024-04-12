@@ -36,8 +36,10 @@
         <a href=""><i class="fas fa-bell sub-nav-logo"></i></a>
      
         @csrf
+        
         <form action="{{route('Usagers.logout')}}" method="get">
-        <input class="deconnexionBtn" type="submit" value="deconnexion"><br>
+        <p> <span style="color: red;">@ @auth {{ Auth::user()->nomUtilisateur }} @endauth</span></p>
+        <input class="deconnexionBtn" type="submit" value="Deconnexion"><br>
         
         
         </form>

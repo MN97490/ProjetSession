@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UsagerRequest;
 use Auth;
 use Log;
+
 use App\Models\Usager;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Domaine;
@@ -37,12 +38,33 @@ class UsagersController extends Controller
     public function store(Request $request)
     {
         try {
-            $usager = new Usager($request->all());
-            $usager->password = Hash::make($request->password);
+            // Validation des données soumises
+            $validatedData = $request->validate([
+                'nomUtilisateur' => 'required|string|max:255|unique:usagers',
+                'email' => 'required|string|email|max:255|unique:usagers',
+                'nom' => 'required|string|max:255',
+                'prenom' => 'required|string|max:255',
+                'domaineEtude' => 'required|exists:domaines,id', // Modifiez ici si le nom de votre table est "domaines"
+                'password' => 'required|string|min:8|confirmed',
+                'role' => 'required|string|in:eleve',
+            ]);
+    
+            // Création d'un nouvel utilisateur
+            $usager = new Usager();
+            $usager->nomUtilisateur = $validatedData['nomUtilisateur'];
+            $usager->email = $validatedData['email'];
+            $usager->nom = $validatedData['nom'];
+            $usager->prenom = $validatedData['prenom'];
+            $usager->domaineEtude = $validatedData['domaineEtude']; // Assurez-vous que la colonne dans la table "usagers" correspond
+            $usager->password = Hash::make($validatedData['password']);
+            $usager->role = $validatedData['role'];
             $usager->save();
-        }
-        catch (\Throwable $e) {
-            Log::emergency($e);
+            
+            // Log successful user creation
+            Log::info('New user created successfully: ' . $usager->nomUtilisateur);
+        } catch (\Throwable $e) {
+            // Log error if user creation fails
+            Log::error('Error creating user: ' . $e->getMessage());
             return redirect()->route('usagers.create')->withErrors(['L\'ajout n\'a pas fonctionné']);
         }
         return redirect()->route('login');
@@ -59,7 +81,6 @@ class UsagersController extends Controller
         }
 
     }
-
     public function logout(Request $request)
     {
      Auth::logout();   
@@ -76,21 +97,52 @@ class UsagersController extends Controller
 
     public function showProfil()
     {
-        return View('Usagers.profil');
+        $usager = Auth::user();
+
+        return view('Usagers.profil', compact('usager'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        
+        $usager = Auth::user();
+        return view('Usagers.modifier', compact('usager'));
+    }
+   
+    public function editAdmin()
+    {
+        
+       
+      
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UsagerRequest $request, Usager $usager)
+    {
+        try{
+            $usager->nom = $request->nom;
+            $usager->nomUtilisateur = $request->nomUtilisateur;
+            $usager->prenom = $request->prenom;
+            $usager->email = $request->email;
+            $usager->password = Hash::make($request->password);
+            $usager->save();
+            return redirect()->route('Usagers.profil')->with('message', "Modification de " . $usager->nomUtilisateur . " réussie!");
+        }
+        catch(\Throwable $e){
+            //Gérer l'erreur
+            Log::emergency($e);
+            return redirect()->route('Usagers.modifier')->withErrors(['la modification n\'a pas fonctionné']); 
+        }
+        return redirect()->route('Usagers.modifier');
+
+    }
+
+    public function updateAdmin(Request $request, string $id)
     {
         //
     }

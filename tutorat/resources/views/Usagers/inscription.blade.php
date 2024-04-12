@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+
 <!DOCTYPE html> 
 <html lang="fr">
 <head>
@@ -22,25 +14,25 @@
     <video autoplay muted loop id="background-video">
         <source src="../img/cegeploop.mp4" type="video/mp4">
     </video>
-    @csrf
+ 
     <div class="centering">
         <div class="formulaireCo">
-            <form action="{{ route('usagers.store') }}" method="post">
-            
+            <form action="{{ route('usagers.store') }}" method="POST">
+            @csrf
                 <label for="username">Nom d'utilisateur:</label>
-                <input type="text" name="username" value="" placeholder="Utilisateur"><br>
+                <input type="text" name="nomUtilisateur"  placeholder="Utilisateur"><br>
               
                 <label for="email">adresse courriel:</label>
-                <input type="text" name="email" value="" placeholder="Adresse courriel"><br>
+                <input type="text" name="email" placeholder="Adresse courriel"><br>
 
                 <label for="email">Nom:</label>
-                <input type="text" name="nom" value="" placeholder="Nom"><br>
+                <input type="text" name="nom"  placeholder="Nom"><br>
 
                 <label for="email">Prénom:</label>
-                <input type="text" name="prenom" value="" placeholder="Prénom"><br>
+                <input type="text" name="prenom" placeholder="Prénom"><br>
 
-                                <label for="domaine_etude">Domaine d'étude:</label>
-                <select name="domaine_etude" id="domaine_etude">
+                                <label for="domaineetude">Domaine d'étude:</label>
+                <select name="domaineEtude" id="domaineetude">
                     @foreach($domainesEtude as $domaine)
                         <option value="{{ $domaine->id }}">{{ $domaine->nomDomaine }}</option>
                     @endforeach
@@ -48,10 +40,10 @@
 
                 
                 <label for="password">Mot de Passe:</label>
-                <input type="password" name="password" value="" placeholder="Mot de Passe"><br>
+                <input type="password" name="password"  placeholder="Mot de Passe"><br>
         
                 <label for="password">Confirmer le mot de Passe:</label>
-                <input type="password" name="confirmpassword" value="" placeholder="Confirmer le mot de Passe"><br>
+                <input type="password" name="password_confirmation"  placeholder="Confirmer le mot de Passe"><br>
 
                 <label for="role">Type de compte</label>
                 <input type="radio" class="form-control" id="role" name="role" value="eleve">

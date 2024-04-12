@@ -15,7 +15,6 @@ class Usager extends Authenticatable
         'nomUtilisateur',
         'nom',
         'prenom',
-        'domaineEtude',
         'email',
         'role',
         'is_tuteur'
@@ -25,4 +24,9 @@ class Usager extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function domaineEtude()
+{
+    return $this->belongsTo(Domaine::class, 'domaineEtude');
+}
 }

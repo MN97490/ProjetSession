@@ -11,6 +11,12 @@ use App\Http\Controllers\DomaineEtudesController;
 Route::get('/',
 [UsagersController::class, 'showLoginForm'])->name('login');
 
+Route::get('/',
+[UsagersController::class, 'showLoginForm'])->name('login');
+
+Route::POST('/modifier',
+[UsagersController::class, 'edit'])->name('Usagers.modifier');
+
 Route::get('/usagers/creation',
 [UsagersController::class, 'create'])->name('usagers.create');
 
@@ -28,3 +34,7 @@ Route::POST('/connect',
 
 Route::get('/logout',
 [UsagersController::class, 'logout'])->name('Usagers.logout');
+
+
+Route::patch('/usagers/{usager}/modifier',
+[UsagersController::class, 'update'])->name('Usagers.update');
