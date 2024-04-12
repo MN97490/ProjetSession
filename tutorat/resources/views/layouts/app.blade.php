@@ -37,8 +37,8 @@
      
         @csrf
         
-        <form action="{{route('Usagers.logout')}}" method="get">
-        <p> <span style="color: red;">@ @auth {{ Auth::user()->nomUtilisateur }} @endauth</span></p>
+        <form class="deconnexionBtn" action="{{route('Usagers.logout')}}" method="get">
+        <p style="color:white"> Connecté en tant que:  <span style="color: rgba(12, 219, 12, 0.877);"> @auth {{ Auth::user()->nomUtilisateur }} @endauth</span></p>
         <input class="deconnexionBtn" type="submit" value="Deconnexion"><br>
         
         

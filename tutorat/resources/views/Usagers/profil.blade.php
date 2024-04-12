@@ -32,7 +32,7 @@
 
 
 
-            </div>
+            </div><br>
           <button type="submit" class="btn btn-primary" >Modifier les informations</button>
   
         </div>      
