@@ -11,6 +11,7 @@ use App\Models\Usager;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Domaine;
 
+
 class UsagersController extends Controller
 {
     /**
@@ -18,7 +19,8 @@ class UsagersController extends Controller
      */
     public function index()
     {
-        //
+        $usagers = Usager::all();
+        return View('usagers.liste', compact('usagers'));
     }
 
     /**
@@ -112,10 +114,11 @@ class UsagersController extends Controller
         return view('Usagers.modifier', compact('usager'));
     }
    
-    public function editAdmin()
+    public function editAdmin(Usager $usager)
     {
         
-       
+      
+        return View('usagers.modifierAdmin', compact('usager'));
       
     }
 
@@ -125,10 +128,13 @@ class UsagersController extends Controller
     public function update(UsagerRequest $request, Usager $usager)
     {
         try{
+        
             $usager->nom = $request->nom;
             $usager->nomUtilisateur = $request->nomUtilisateur;
             $usager->prenom = $request->prenom;
             $usager->email = $request->email;
+            $usager->domaineEtude=$request->domaineEtude;
+            $usager->role=$request->role;
             $usager->password = Hash::make($request->password);
             $usager->save();
             return redirect()->route('Usagers.profil')->with('message', "Modification de " . $usager->nomUtilisateur . " réussie!");

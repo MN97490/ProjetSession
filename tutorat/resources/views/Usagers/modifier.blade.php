@@ -5,7 +5,7 @@
 
 <section class="main-container" >
 <h1 class="text-center">Page modification profil de @auth {{ Auth::user()->nomUtilisateur }} @endauth</h1>
-<form method="POST" action="{{{route('Usagers.update', [$usager]) }}}" >
+<form method="POST" action="{{ route('Usagers.update', ['usager' => $usager]) }}" >
 @csrf
 @method('PATCH')
 <div class="form-group">
@@ -21,6 +21,10 @@
 
         <label for="nom">Nom</label>
         <input type="text" class="form-control" id="nomUsager" value="{{ old('nom', $usager->nom) }}" name="nom"  ><br/>
+
+        <input type="text" class="form-control" id="adresseCourrielUsager" value="{{ old('domaineEtude', $usager->domaineEtude) }}" name="domaineEtude"  hidden ><br/>
+
+        <input type="text" class="form-control" id="roleUsager" value="{{ old('role', $usager->role) }}" name="role"  hidden ><br/>
 
         <div class="form-group">
                   <label for="password">Mot de passe</label>

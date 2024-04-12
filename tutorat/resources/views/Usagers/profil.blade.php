@@ -4,7 +4,7 @@
 
 <section class="main-container" >
 <h1 class="text-center">Page profil de @auth {{ Auth::user()->nomUtilisateur }} @endauth</h1>
-<form method="POST" action="{{route('Usagers.modifier')}}" >
+<form method="GET" action="{{route('Usagers.modifier')}}" >
 @csrf
 <div class="form-group">
         <label for="nomUtilisateurUsager">Nom d'utilisateur</label>
