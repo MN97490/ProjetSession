@@ -22,7 +22,7 @@
                 <label for="username">Nom d'utilisateur:</label>
                 <input type="text" name="nomUtilisateur"  placeholder="Utilisateur"><br>
               
-                <label for="email">adresse courriel:</label>
+                <label for="email">Adresse courriel:</label>
                 <input type="text" name="email" placeholder="Adresse courriel"><br>
 
                 <label for="email">Nom:</label>
@@ -36,7 +36,7 @@
                     @foreach($domainesEtude as $domaine)
                         <option value="{{ $domaine->id }}">{{ $domaine->nomDomaine }}</option>
                     @endforeach
-                </select>
+                </select><br><br>
 
                 
                 <label for="password">Mot de Passe:</label>
@@ -47,11 +47,12 @@
 
                 <label for="role">Type de compte</label>
                 <input type="radio" class="form-control" id="role" name="role" value="eleve">
-                <label for="role" id="role" name="role">Eleve</label>
+                <label for="role" id="role" name="role">Élève:</label><br>
                 
-                <input type="submit" value="S'inscrire">
+                <input type="submit" value="valider">
             </form> 
-            <a href="/">Se connecter</a>
+            <div>déja inscrit?</div>
+            <input  style="margin: 5px;" onClick="window.location.href='/'" type="button" Value="se connecter">
         </div>
     </div>
 

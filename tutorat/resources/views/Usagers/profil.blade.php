@@ -3,8 +3,8 @@
 @section('contenu')
 
 <section class="main-container" >
-<h1 class="text-center">Page profil de @auth {{ Auth::user()->nomUtilisateur }} @endauth</h1>
-<form method="POST" action="{{route('Usagers.modifier')}}" >
+<h1 class="text-center">Page profil @auth {{ Auth::user()->nomUtilisateur }} @endauth</h1>
+<form method="POST" action="{{route('Usagers.modifier')}}" id="formprofil" >
 @csrf
 <div class="form-group">
         <label for="nomUtilisateurUsager">Nom d'utilisateur</label>
@@ -32,7 +32,7 @@
 
 
 
-            </div>
+            </div><br>
           <button type="submit" class="btn btn-primary" >Modifier les informations</button>
   
         </div>      
