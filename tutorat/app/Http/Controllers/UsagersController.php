@@ -20,7 +20,7 @@ class UsagersController extends Controller
     public function index()
     {
         $usagers = Usager::all();
-        return View('usagers.liste', compact('usagers'));
+        return View('Usagers.liste', compact('usagers'));
     }
 
     /**
@@ -148,9 +148,27 @@ class UsagersController extends Controller
 
     }
 
-    public function updateAdmin(Request $request, string $id)
+    public function updateAdmin(UsagerRequest $request, Usager $usager)
     {
-        //
+        try{
+        
+            $usager->nom = $request->nom;
+            $usager->nomUtilisateur = $request->nomUtilisateur;
+            $usager->prenom = $request->prenom;
+            $usager->email = $request->email;
+            $usager->domaineEtude=$request->domaineEtude;
+            $usager->role=$request->role;
+            $usager->password = Hash::make($request->password);
+            $usager->save();
+            return redirect()->route('Usagers.liste')->with('message', "Modification de " . $usager->nomUtilisateur . " réussie!");
+        }
+        catch(\Throwable $e){
+            //Gérer l'erreur
+            Log::emergency($e);
+            return redirect()->route('Usagers.modifierAdmin')->withErrors(['la modification n\'a pas fonctionné']); 
+        }
+        return redirect()->route('Usagers.modifierAdmin');
+
     }
 
     /**
@@ -158,6 +176,17 @@ class UsagersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try
+        {
+            $usager = Usager::findOrFail($id);
+            $usager->delete();
+            return redirect()->route('Usagers.liste')->with('message', "Suppression de " . $usager->nomUsager . " réussie!");
+        }
+        catch(\Throwable $e)
+        {
+            Log::emergency($e);
+            return redirect()->route('Usagers.liste')->withErrors(['la suppression n\'a pas fonctionné']); 
+        }
+        return redirect()->route('Usagers.liste');
     }
 }

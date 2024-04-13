@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsagersController;
 use App\Http\Controllers\TutoratsController;
-use App\Http\Requests\CheckRole;
+
 use App\Http\Controllers\DomaineEtudesController;
 
 
@@ -16,22 +16,22 @@ Route::get('/',
 [UsagersController::class, 'showLoginForm'])->name('login');
 
 Route::get('/modifier',
-[UsagersController::class, 'edit'])->name('Usagers.modifier');
+[UsagersController::class, 'edit'])->name('Usagers.modifier')->middleware('auth');
 
 Route::get('/modifierAdmin',
-[UsagersController::class, 'editAdmin'])->name('Usagers.modifierAdmin')->middleware('CheckRole:admin');
+[UsagersController::class, 'editAdmin'])->middleware('auth')->name('Usagers.modifierAdmin');
 
 Route::get('/usagers/creation',
 [UsagersController::class, 'create'])->name('usagers.create');
 
 Route::post('/usagers',
-[UsagersController::class, 'store'])->name('usagers.store');
+[UsagersController::class, 'store'])->name('usagers.store')->middleware('auth');
 
 Route::get('/index',
-[TutoratsController::class, 'index'])->name('Tutorat.index');
+[TutoratsController::class, 'index'])->name('Tutorat.index')->middleware('auth');
 
 Route::get('/profil',
-[UsagersController::class, 'showProfil'])->name('Usagers.profil');
+[UsagersController::class, 'showProfil'])->name('Usagers.profil')->middleware('auth');
 
 Route::POST('/connect',
 [UsagersController::class, 'connect'])->name('Usagers.connect');
@@ -41,7 +41,13 @@ Route::get('/logout',
 
 
 Route::patch('/usagers/{usager}/modifier',
-[UsagersController::class, 'update'])->name('Usagers.update');
+[UsagersController::class, 'update'])->name('Usagers.update')->middleware('auth');
+
+Route::patch('/usagers/{usager}/modifierAdmin',
+[UsagersController::class, 'updateAdmin'])->name('Usagers.updateAdmin')->middleware('auth');
 
 Route::get('/usagers/liste',
-[UsagersController::class, 'index'])->name('usagers.liste')->middleware('CheckRole:admin');
+[UsagersController::class, 'index'])->middleware('auth')->name('Usagers.liste');
+
+Route::delete('/usagers/{id}',
+[UsagersController::class, 'destroy'])->name('Usagers.destroy')->middleware('auth');

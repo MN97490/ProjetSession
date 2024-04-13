@@ -19,10 +19,10 @@
             <form action="{{route('Usagers.connect')}}" method="post">
             @csrf
                 <label style="color:white;" for="username">Utilisateur:</label>
-                <input type="text" name="username" value="" placeholder=" Utilisateur"><br>
+                <input type="text" name="username"  placeholder=" Utilisateur"><br>
                 <p style="color:red;"></p>
                 <label style="color:white;" for="password">Mot de Passe:</label>
-                <input type="password" name="password" value="" placeholder="Mot de Passe"><br>
+                <input type="password" name="password"  placeholder="Mot de Passe"><br>
                 <p style="color:red;"></p>
                 <input  type="submit" value="Connexion"><br>
                 <input  style="margin: 5px;" onClick="window.location.href='/usagers/creation'" type="button" Value="Nouvel usager">

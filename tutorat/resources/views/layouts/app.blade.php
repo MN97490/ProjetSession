@@ -28,11 +28,15 @@
         <a href="/index">Accueil</a>
         <a href="">Messagerie</a>
        
-        @role('admin')
+      
  
         <a href="">Tutorat</a>
-        @endrole
+    
         <a href="/profil">Profil</a>
+        @role('admin')
+        <a href="/usagers/liste">Gestion Utilisateur</a>
+
+        @endrole
         <a href=""><i class="fas fa-bell sub-nav-logo"></i></a>
      
         @csrf
