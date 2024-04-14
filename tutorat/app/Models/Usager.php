@@ -30,4 +30,9 @@ class Usager extends Authenticatable
 {
     return $this->belongsTo(Domaine::class, 'domaineEtude');
 }
+
+public function notes()
+{
+    return $this->hasMany(NoteEtudiant::class, 'idCompte');
+}
 }

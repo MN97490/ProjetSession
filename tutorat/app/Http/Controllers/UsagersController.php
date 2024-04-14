@@ -10,6 +10,8 @@ use Log;
 use App\Models\Usager;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Domaine;
+use App\Models\Matiere;
+use App\Models\Note;
 
 
 class UsagersController extends Controller
@@ -94,15 +96,32 @@ class UsagersController extends Controller
      */
     public function showLoginForm()
     {
+       
         return View('Usagers.login');
     }
 
     public function showProfil()
     {
         $usager = Auth::user();
-
-        return view('Usagers.profil', compact('usager'));
+        $domaineId = $usager->domaineEtude;
+    
+        // Récupérer les matières associées au domaine d'étude de l'utilisateur
+        $matieres = Matiere::where('idDomaineEtude', $domaineId)->get();
+    
+        // Récupérer les notes correspondantes de l'étudiant pour chaque matière
+        $notes = [];
+        foreach ($matieres as $matiere) {
+            $notesMatiere = Note::where('idCompte', $usager->id)
+                                ->where('idMatiere', $matiere->id)
+                                ->get();
+            $notes[$matiere->nomMatiere] = $notesMatiere->isNotEmpty() ? $notesMatiere->pluck('Note')->implode(', ') : 'Non disponible';
+        }
+        
+        return view('Usagers.profil', compact('usager', 'matieres', 'notes'));
     }
+    
+    
+
 
     /**
      * Show the form for editing the specified resource.

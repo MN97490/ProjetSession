@@ -1,14 +1,15 @@
 @extends('layouts.app')
-@section('title', "Profil")
+@section('title', "Page modification Administrateur")
 @section('contenu')
 
 
-<section class="main-container" >
-<h1 class="text-center">Page modification profil de </h1>
-<form method="POST" action="{{ route('Usagers.updateAdmin', ['usager' => $usager]) }}" >
-@csrf
-@method('PATCH')
-<div class="form-group">
+
+  <section class="main-container" >
+  <h1 class="text-center">Page modification profil de </h1>
+  <form method="POST" action="{{ route('Usagers.updateAdmin', ['usager' => $usager]) }}" >
+  @csrf
+  @method('PATCH')
+  <div class="form-group">
         <label for="nomUtilisateurUsager">Nom d'utilisateur</label>
         <input type="text" class="form-control" id="nomUtilisateurUsager" value="{{ old('nomUtilisateur', $usager->nomUtilisateur) }}" name="nomUtilisateur"><br/>
 
@@ -46,23 +47,22 @@
           <button type="submit" class="btn btn-primary" >Modifier les informations</button>
   
         </div>      
-</form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  </form>
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MatieresSeeder::class);
         $this->call(UsagersSeeder::class);
         $this->call(NoteEtudiantsSeeder::class);
-        
+        $this->call(MatiereDomaineSeeder::class);
        
         
     }

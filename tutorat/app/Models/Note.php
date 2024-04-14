@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NoteEtudiant extends Model
+class Note extends Model
 {
     use HasFactory;
 
@@ -15,4 +15,14 @@ class NoteEtudiant extends Model
         'Note'
         
     ];
+
+    public function matiere()
+    {
+        return $this->belongsTo(Matiere::class, 'idMatiere');
+    }
+
+    public function usager()
+    {
+        return $this->belongsTo(Usager::class, 'idCompte');
+    }
 }

@@ -25,7 +25,7 @@ Route::get('/usagers/creation',
 [UsagersController::class, 'create'])->name('usagers.create');
 
 Route::post('/usagers',
-[UsagersController::class, 'store'])->name('usagers.store')->middleware('auth');
+[UsagersController::class, 'store'])->name('usagers.store');
 
 Route::get('/index',
 [TutoratsController::class, 'index'])->name('Tutorat.index')->middleware('auth');
@@ -43,7 +43,11 @@ Route::get('/logout',
 Route::patch('/usagers/{usager}/modifier',
 [UsagersController::class, 'update'])->name('Usagers.update')->middleware('auth');
 
-Route::patch('/usagers/{usager}/modifierAdmin',
+Route::get('/usagers/{usager}/modifierAdmin',
+[UsagersController::class, 'editAdmin'])->name('Usagers.modifierAdmin')->middleware('auth');
+
+
+Route::patch('/usagers/{usager}/modifierAdmin/update',
 [UsagersController::class, 'updateAdmin'])->name('Usagers.updateAdmin')->middleware('auth');
 
 Route::get('/usagers/liste',

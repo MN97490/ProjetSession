@@ -14,7 +14,7 @@
             <div class="box">
                 <form>            
                     {{$usager->nomUtilisateur}}
-                  <button type="submit" formaction="{{ route('Usagers.updateAdmin', ['usager' => $usager]) }}"  class="options-button ">...</button>
+                  <button type="submit" formaction="{{ route('Usagers.modifierAdmin', ['usager' => $usager]) }}"  class="options-button ">...</button>
                 </form>
                 <form method="POST" action="{{route('Usagers.destroy', [$usager->id]) }}">
                   @csrf

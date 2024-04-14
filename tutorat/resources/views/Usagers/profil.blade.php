@@ -32,9 +32,24 @@
 
 
 
-            </div><br>
+          
           <button type="submit" class="btn btn-primary" >Modifier les informations</button>
   
         </div>      
+  </form>
+  @role('eleve')
+<form method="POST" action="">
+<div>
+            <h2>Matieres :</h2>
+            <ul>
+                @foreach ($matieres as $matiere)
+                    <li>{{ $matiere->nomMatiere }} - {{ isset($notes[$matiere->nomMatiere]) ? $notes[$matiere->nomMatiere] : 'Non disponible' }}</li>
+                @endforeach
+            </ul>
+        </div>
+ 
+    <button type="submit" class="btn btn-primary" >Modifier les notes</button>
+  </div> 
 </form>
+@endrole
 @endsection

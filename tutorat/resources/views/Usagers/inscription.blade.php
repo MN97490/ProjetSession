@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <link rel="stylesheet" href="../style.css">
-    <title>Connexiond</title>
+    <title>Inscription</title>
     <link rel="shortcut icon" type="image/png" href="../img/apple-icon-72x72.png"/>
 </head>
 
@@ -17,8 +17,8 @@
  
     <div class="centering">
         <div class="formulaireCo">
-            <form action="{{ route('usagers.store') }}" method="POST">
-            @csrf
+        <form action="{{ route('usagers.store') }}" method="POST">
+                 @csrf
                 <label for="username">Nom d'utilisateur:</label>
                 <input type="text" name="nomUtilisateur"  placeholder="Utilisateur"><br>
               
@@ -50,7 +50,7 @@
                 <label for="role" id="role" name="role">Élève:</label><br>
                 
                 <input type="submit" value="valider">
-            </form> 
+        </form> 
             <div>déja inscrit?</div>
             <input  style="margin: 5px;" onClick="window.location.href='/'" type="button" Value="se connecter">
         </div>
