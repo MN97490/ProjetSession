@@ -20,9 +20,10 @@ class UsagersController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    { $domainesEtude = Domaine::all();
+     
         $usagers = Usager::all();
-        return View('Usagers.liste', compact('usagers'));
+        return View('Usagers.liste', compact('usagers','domainesEtude'));
     }
 
     /**
@@ -50,7 +51,7 @@ class UsagersController extends Controller
                 'prenom' => 'required|string|max:255',
                 'domaineEtude' => 'required|exists:domaines,id', // Modifiez ici si le nom de votre table est "domaines"
                 'password' => 'required|string|min:8|confirmed',
-                'role' => 'required|string|in:eleve',
+                'role' => 'required',
             ]);
     
             // Création d'un nouvel utilisateur
@@ -72,6 +73,41 @@ class UsagersController extends Controller
             return redirect()->route('usagers.create')->withErrors(['L\'ajout n\'a pas fonctionné']);
         }
         return redirect()->route('login');
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        try {
+            // Validation des données soumises
+            $validatedData = $request->validate([
+                'nomUtilisateur' => 'required|string|max:255|unique:usagers',
+                'email' => 'required|string|email|max:255|unique:usagers',
+                'nom' => 'required|string|max:255',
+                'prenom' => 'required|string|max:255',
+                'domaineEtude' => 'required|exists:domaines,id', // Modifiez ici si le nom de votre table est "domaines"
+                'password' => 'required|string|min:8|confirmed',
+                'role' => 'required',
+            ]);
+    
+            // Création d'un nouvel utilisateur
+            $usager = new Usager();
+            $usager->nomUtilisateur = $validatedData['nomUtilisateur'];
+            $usager->email = $validatedData['email'];
+            $usager->nom = $validatedData['nom'];
+            $usager->prenom = $validatedData['prenom'];
+            $usager->domaineEtude = $validatedData['domaineEtude']; // Assurez-vous que la colonne dans la table "usagers" correspond
+            $usager->password = Hash::make($validatedData['password']);
+            $usager->role = $validatedData['role'];
+            $usager->save();
+            
+            // Log successful user creation
+            Log::info('New user created successfully: ' . $usager->nomUtilisateur);
+        } catch (\Throwable $e) {
+            // Log error if user creation fails
+            Log::error('Error creating user: ' . $e->getMessage());
+            return redirect()->route('Usagers.liste')->withErrors(['L\'ajout n\'a pas fonctionné']);
+        }
+        return redirect()->route('Usagers.liste');
     }
 
     public function connect(Request $request)
@@ -102,6 +138,7 @@ class UsagersController extends Controller
 
     public function showProfil()
     {
+        
         $usager = Auth::user();
         $domaineId = $usager->domaineEtude;
     
@@ -169,26 +206,29 @@ class UsagersController extends Controller
 
     public function updateAdmin(UsagerRequest $request, Usager $usager)
     {
-        try{
-        
+        try {
             $usager->nom = $request->nom;
             $usager->nomUtilisateur = $request->nomUtilisateur;
             $usager->prenom = $request->prenom;
             $usager->email = $request->email;
-            $usager->domaineEtude=$request->domaineEtude;
-            $usager->role=$request->role;
-            $usager->password = Hash::make($request->password);
+            $usager->domaineEtude = $request->domaineEtude;
+            $usager->role = $request->role;
+    
+            // Vérifier si le nouveau mot de passe est différent de l'ancien
+            if ($request->password !== $usager->password) {
+                $usager->password = Hash::make($request->password);
+            }
+    
             $usager->save();
+    
             return redirect()->route('Usagers.liste')->with('message', "Modification de " . $usager->nomUtilisateur . " réussie!");
-        }
-        catch(\Throwable $e){
-            //Gérer l'erreur
+        } catch (\Throwable $e) {
+            // Gérer l'erreur
             Log::emergency($e);
-            return redirect()->route('Usagers.modifierAdmin')->withErrors(['la modification n\'a pas fonctionné']); 
+            return redirect()->route('Usagers.liste')->withErrors(['La modification n\'a pas fonctionné']); 
         }
-        return redirect()->route('Usagers.modifierAdmin');
-
     }
+    
 
     /**
      * Remove the specified resource from storage.

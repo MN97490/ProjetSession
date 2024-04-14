@@ -27,6 +27,10 @@ Route::get('/usagers/creation',
 Route::post('/usagers',
 [UsagersController::class, 'store'])->name('usagers.store');
 
+
+Route::post('/usagers',
+[UsagersController::class, 'storeAdmin'])->name('usagers.storeAdmin');
+
 Route::get('/index',
 [TutoratsController::class, 'index'])->name('Tutorat.index')->middleware('auth');
 

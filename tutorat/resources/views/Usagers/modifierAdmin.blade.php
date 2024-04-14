@@ -29,10 +29,10 @@
 
         <div class="form-group">
                   <label for="password">Mot de passe</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" class="form-control" id="password" name="password" value="{{ old('password', $usager->password) }}">
                 <div class="form-group">
                   <label for="password_confirmation">Mot de passe confirmation</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"><br>
+                <input type="password" class="form-control" id="password_confirmation" value="{{ old('password', $usager->password) }}" name="password_confirmation"><br>
 
 
 
@@ -48,6 +48,8 @@
   
         </div>      
   </form>
+
+  
 @endsection
 
 
