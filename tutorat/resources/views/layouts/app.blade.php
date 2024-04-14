@@ -32,10 +32,18 @@
       
  
         <a href="">Tutorat</a>
+        @unless(Auth::user()->is_tuteur)
+      <a href="">Devenir Tuteur</a>
+    @endunless
     
         <a href="/profil">Profil</a>
         @role('admin')
         <a href="/usagers/liste">Gestion Utilisateur</a>
+
+        @endrole
+
+        @role('admin','prof')
+        <a href="/usagers/liste">Gestion Note</a>
 
         @endrole
         <a href=""><i class="fas fa-bell sub-nav-logo"></i></a>
