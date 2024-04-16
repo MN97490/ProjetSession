@@ -59,3 +59,6 @@ Route::get('/usagers/liste',
 
 Route::delete('/usagers/{id}',
 [UsagersController::class, 'destroy'])->name('Usagers.destroy')->middleware('auth');
+
+Route::get('/conversations','ConversationController@index')->name('conversations');
+Route::get('/conversations/{id}','ConversationController@show')->name('conversation.show');
