@@ -71,10 +71,57 @@
                 <input type="submit" value="Ajouter un utilisateur">
         </form> 
 
- 
+        @if (count($domainesEtude))
+      <h1 id="usagers">Domaine d'étude</h1>
+
+            @foreach($domainesEtude as $domaine)
+            <div class="box">
+                <form>            
+                    {{$domaine->nomDomaine}}
+                  <button type="submit" formaction="{{ route('Domaines.modifier', ['domaine' => $domaine]) }}"  class="options-button ">...</button>
+                </form>
+          
+              </a>
+              </div>
+            @endforeach
+            @else
+          <p>Il n'y a aucun domaine d'étude.</p>
+          @endif
+
+          @foreach($domainesEtude as $domaine)
+    <h2>{{ $domaine->nomDomaine }}</h2>
+    <ul>
+        @foreach($domaine->matieres as $matiere)
+            <li>
+                {{ $matiere->nomMatiere }}  <button type="submit">X</button>
+                <form action="{{ route('Domaines.destroyRelation', ['idDomaine' => $domaine->id, 'idMatiere' => $matiere->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                   
+                </form>
+            </li>
+        @endforeach
+    </ul>
+@endforeach
+
+
+
+
+        <form action="{{ route('Domaines.store') }}" method="POST">
+                 @csrf
+                <label for="nomDomaine">Nom domaine étude:</label>
+                <input type="text" name="nomDomaine"  placeholder="Nom domaine étude"><br>
+              
+                
+                
+                <input type="submit" value="Ajouter un domaine d'étude">
+        </form> 
+
 
 @else
     <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
 @endrole
 
 @endsection

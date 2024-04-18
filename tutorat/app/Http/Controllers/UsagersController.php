@@ -14,6 +14,7 @@ use App\Models\Matiere;
 use App\Models\Note;
 
 
+
 class UsagersController extends Controller
 {
     /**
@@ -21,9 +22,14 @@ class UsagersController extends Controller
      */
     public function index()
     { $domainesEtude = Domaine::all();
+        $matieresParDomaine = [];
+
+        foreach ($domainesEtude as $domaine) {
+            $matieresParDomaine[$domaine->nomDomaine] = $domaine->matieres()->pluck('nomMatiere')->toArray();
+        }
      
         $usagers = Usager::all();
-        return View('Usagers.liste', compact('usagers','domainesEtude'));
+        return View('Usagers.liste', compact('usagers','domainesEtude','matieresParDomaine'));
     }
 
     /**
@@ -64,6 +70,20 @@ class UsagersController extends Controller
             $usager->password = Hash::make($validatedData['password']);
             $usager->role = $validatedData['role'];
             $usager->save();
+
+            
+            $matieres = Matiere::where('idDomaineEtude', $usager->domaineEtude)->get();
+
+            // Créer des notes de base pour chaque matière
+            foreach ($matieres as $matiere) {
+                $note = new Note();
+                $note->idCompte = $usager->id;
+                $note->idMatiere = $matiere->id;
+                $note->note = 0; // Vous pouvez définir la note de base ici
+                $note->save();
+            
+            }
+
             
             // Log successful user creation
             Log::info('New user created successfully: ' . $usager->nomUtilisateur);
@@ -248,4 +268,6 @@ class UsagersController extends Controller
         }
         return redirect()->route('Usagers.liste');
     }
+
+    
 }

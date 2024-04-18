@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsagersController;
 use App\Http\Controllers\TutoratsController;
 
-use App\Http\Controllers\DomaineEtudesController;
+use App\Http\Controllers\domaineEtudesController;
 
 
 
@@ -28,7 +28,7 @@ Route::post('/usagers',
 [UsagersController::class, 'store'])->name('usagers.store');
 
 
-Route::post('/usagers',
+Route::post('/usagersAdmin',
 [UsagersController::class, 'storeAdmin'])->name('usagers.storeAdmin');
 
 Route::get('/index',
@@ -59,3 +59,17 @@ Route::get('/usagers/liste',
 
 Route::delete('/usagers/{id}',
 [UsagersController::class, 'destroy'])->name('Usagers.destroy')->middleware('auth');
+
+Route::POST('/domaineAdmin',
+[domaineEtudesController::class, 'store'])->name('Domaines.store')->middleware('auth');
+
+Route::get('/domaineAdmin/{domaine}/modifierAdmin',
+[domaineEtudesController::class, 'edit'])->name('Domaines.modifier')->middleware('auth');
+
+
+Route::patch('/domaineAdmin/{domaine}/modifierAdmin/update',
+[domaineEtudesController::class, 'update'])->name('Domaines.update')->middleware('auth');
+
+
+Route::delete('/domaines/{idDomaine}/matieres/{idMatiere}', 
+[domaineEtudesController::class, 'destroyRelation'])->name('Domaines.destroyRelation')->middleware('auth');

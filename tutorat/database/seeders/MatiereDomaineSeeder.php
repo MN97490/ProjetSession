@@ -24,6 +24,10 @@ class MatiereDomaineSeeder extends Seeder
                 'matiere_id' => 3,
                 'domaine_id' => 1
             ],
+            [
+                'matiere_id' => 3,
+                'domaine_id' => 2
+            ],
           
         ]);
     }
