@@ -22,14 +22,16 @@ class UsagersController extends Controller
      */
     public function index()
     { $domainesEtude = Domaine::all();
+        $matieres = Matiere::all();
         $matieresParDomaine = [];
+
 
         foreach ($domainesEtude as $domaine) {
             $matieresParDomaine[$domaine->nomDomaine] = $domaine->matieres()->pluck('nomMatiere')->toArray();
         }
      
         $usagers = Usager::all();
-        return View('Usagers.liste', compact('usagers','domainesEtude','matieresParDomaine'));
+        return View('Usagers.liste', compact('usagers','domainesEtude','matieresParDomaine','matieres'));
     }
 
     /**

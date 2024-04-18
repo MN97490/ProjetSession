@@ -73,3 +73,6 @@ Route::patch('/domaineAdmin/{domaine}/modifierAdmin/update',
 
 Route::delete('/domaines/{idDomaine}/matieres/{idMatiere}', 
 [domaineEtudesController::class, 'destroyRelation'])->name('Domaines.destroyRelation')->middleware('auth');
+
+Route::POST('/domaines//matieres/AjoutRelation', 
+[domaineEtudesController::class, 'ajoutRelation'])->name('Domaines.ajoutRelation')->middleware('auth');

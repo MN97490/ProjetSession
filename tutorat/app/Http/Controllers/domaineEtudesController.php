@@ -74,15 +74,40 @@ class domaineEtudesController extends Controller
     {
         //
     }
-
+    public function ajoutRelation(Request $request)
+    {
+        try {
+            $idDomaine = $request->input('idDomaine');
+            $idMatiere = $request->input('idMatiere');
+    
+            // Recherche du domaine et de la matière
+            $domaine = Domaine::findOrFail($idDomaine);
+            $matiere = Matiere::findOrFail($idMatiere);
+            
+            // Vérification si la relation existe déjà
+            if ($domaine->matieres->contains($matiere)) {
+                return redirect()->back()->withErrors(['La relation existe déjà.']);
+            }
+            
+            // Ajout de la relation
+            $domaine->matieres()->attach($matiere);
+    
+            return redirect()->back()->with('success', 'La relation a été ajoutée avec succès.');
+        } catch (\Throwable $e) {
+            // Gérer l'erreur
+            Log::error($e);
+            return redirect()->back()->withErrors(['Erreur lors de l\'ajout de la relation.']);
+        }
+    }
+    
     public function destroyRelation($idDomaine, $idMatiere)
     {
         try {
-            // Récupérer le domaine et la matière associée
+          
             $domaine = Domaine::findOrFail($idDomaine);
             $matiere = Matiere::findOrFail($idMatiere);
     
-            // Supprimer la relation entre le domaine et la matière dans la table pivot
+            
             $domaine->matieres()->detach($idMatiere);
     
             return redirect()->back()->with('success', 'La relation a été supprimée avec succès.');

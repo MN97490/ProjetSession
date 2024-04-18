@@ -88,21 +88,48 @@
           <p>Il n'y a aucun domaine d'étude.</p>
           @endif
 
+          
+
           @foreach($domainesEtude as $domaine)
     <h2>{{ $domaine->nomDomaine }}</h2>
     <ul>
         @foreach($domaine->matieres as $matiere)
             <li>
-                {{ $matiere->nomMatiere }}  <button type="submit">X</button>
+                
                 <form action="{{ route('Domaines.destroyRelation', ['idDomaine' => $domaine->id, 'idMatiere' => $matiere->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                   
+                    {{ $matiere->nomMatiere }}   <button type="submit">X</button>
                 </form>
             </li>
         @endforeach
     </ul>
 @endforeach
+
+<form action="{{ route('Domaines.ajoutRelation') }}" method="POST">
+    @csrf
+    <div>
+    <h2>AJOUT RELATION  </h2>
+        <label for="domaine">Domaine:</label>
+        <select name="idDomaine" id="domaine">
+            @foreach($domainesEtude as $domaine)
+                <option value="{{ $domaine->id }}">{{ $domaine->nomDomaine }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <label for="matiere">Matière:</label>
+        <select name="idMatiere" id="matiere">
+            @foreach($matieres as $matiere)
+                <option value="{{ $matiere->id }}">{{ $matiere->nomMatiere }}</option>
+            @endforeach
+        </select>
+    </div>
+    <button type="submit">Valider la relation</button>
+</form>
+
+
+
 
 
 
