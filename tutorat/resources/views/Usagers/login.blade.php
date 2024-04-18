@@ -24,6 +24,15 @@
                 <label style="color:white;" for="password">Mot de Passe:</label>
                 <input type="password" name="password"  placeholder="Mot de Passe"><br>
                 <p style="color:red;"></p>
+                @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                 <input  type="submit" value="Connexion"><br>
                 <input  style="margin: 5px;" onClick="window.location.href='/usagers/creation'" type="button" Value="Nouvel usager">
                 
