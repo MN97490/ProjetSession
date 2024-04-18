@@ -25,4 +25,16 @@ class DomaineRequest extends FormRequest
             'nomDomaine' => 'required',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'nomDomaine.required' => 'Le champ nom du domaine est requis.',
+        ];
+    }
 }

@@ -29,9 +29,19 @@ class domaineEtudesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DomaineRequest $request)
     {
-        //
+        try {
+            // Créer un nouveau domaine avec les données validées
+            $domaine = Domaine::create($request->validated());
+
+            // Rediriger avec un message de succès
+            return redirect()->back()->with('success', 'Le domaine a été ajouté avec succès.');
+        } catch (\Throwable $e) {
+            // Gérer l'erreur
+            Log::error($e);
+            return redirect()->back()->withErrors(['Une erreur est survenue lors de l\'ajout du domaine.']);
+        }
     }
 
     /**

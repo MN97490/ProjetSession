@@ -144,7 +144,15 @@
                 <input type="submit" value="Ajouter un domaine d'étude">
         </form> 
 
-
+        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 @else
     <script>window.location = "{{ route('Tutorat.index') }}";</script>
 
