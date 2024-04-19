@@ -28,10 +28,14 @@ class domaineEtudesController extends Controller
 
 
     public function indexProf()
+
     {
+        $domainesEtude=Domaine::all();
+        $matieres = Matiere::all();
         $usager = Auth::user();
         $domaineId = $usager->domaineEtude;
-        return $domaineId;
+        return View('Domaines.index');
+      
     }
 
 

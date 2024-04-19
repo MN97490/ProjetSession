@@ -150,12 +150,6 @@
                 <label for="nomMatiere">Nom matière:</label>
                 <input type="text" name="nomMatiere"  placeholder="Nom matière"><br>
 
-                <select name="idDomaineEtude" id="idDomaineEtude">
-            @foreach($domainesEtude as $domaine)
-                <option value="{{ $domaine->id }}">{{ $domaine->nomDomaine }}</option>
-            @endforeach
-             </select>
-              
                 
                 
                 <input type="submit" value="Ajouter une matière">

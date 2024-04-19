@@ -79,7 +79,10 @@ Route::POST('/domaines/matieres/AjoutRelation',
 [domaineEtudesController::class, 'ajoutRelation'])->name('Domaines.ajoutRelation')->middleware('auth');
 
 Route::get('/domaines/indexProf', 
-[domaineEtudesController::class, 'indexProf'])->name('Domaines.domaine')->middleware('auth');
+[domaineEtudesController::class, 'indexProf'])->name('Domaines.index')->middleware('auth');
+
+Route::POST('/domaines/matieres/AjoutAdmin', 
+[MatieresController::class, 'store'])->name('Matieres.store')->middleware('auth');
 
 Route::POST('/domaines/matieres/Ajout', 
-[MatieresController::class, 'store'])->name('Matieres.store')->middleware('auth');
+[MatieresController::class, 'storeProf'])->name('Matieres.storeProf')->middleware('auth');
