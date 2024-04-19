@@ -5,6 +5,9 @@
 @role('admin')
 
   <!-- MAIN CONTAINER -->
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-6" id="colusagers">
   <section class="main-container" >
       <div class="location" id="personne">
       @if (count($usagers))
@@ -29,7 +32,10 @@
           @endif
           
         </div>
-
+        </div>
+    
+    
+        <div class="col-6">
         <form action="{{ route('usagers.storeAdmin') }}" method="POST">
                  @csrf
                 <label for="username">Nom d'utilisateur:</label>
@@ -57,8 +63,10 @@
         
                 <label for="password">Confirmer le mot de Passe:</label>
                 <input type="password" name="password_confirmation"  placeholder="Confirmer le mot de Passe"><br>
+                <input type="radio" id="html" name="fav_language" value="HTML">
 
-                <label for="role">Type de compte</label>
+
+                <label for="role">Type de compte:</label>
                 <input type="radio" class="form-control" id="role" name="role" value="eleve">
                 <label for="role" id="role" name="role">Élève:</label><br>
                
@@ -68,9 +76,12 @@
                 <input type="radio" class="form-control" id="role" name="role" value="admin">
                 <label for="role" id="role" name="role">Admin:</label><br>
                 
-                <input type="submit" value="Ajouter un utilisateur">
-        </form> 
+                <input type="submit" value="Ajouter un utilisateur" class="btn btn-success">
 
+                
+        </form> 
+</div>
+<div class="col-6">
         @if (count($domainesEtude))
       <h1 id="usagers">Domaine d'étude</h1>
 
@@ -99,13 +110,14 @@
                 <form action="{{ route('Domaines.destroyRelation', ['idDomaine' => $domaine->id, 'idMatiere' => $matiere->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    {{ $matiere->nomMatiere }}   <button type="submit">X</button>
+                    {{ $matiere->nomMatiere }}   <button type="submit" class="btn btn-danger">X</button>
                 </form>
             </li>
         @endforeach
     </ul>
 @endforeach
-
+</div>
+<div class="col-6">
 <form action="{{ route('Domaines.ajoutRelation') }}" method="POST">
     @csrf
     <div>
@@ -119,13 +131,13 @@
     </div>
     <div>
         <label for="matiere">Matière:</label>
-        <select name="idMatiere" id="matiere">
+        <select name="idMatiere" id="matiere" style="margin: 10px">
             @foreach($matieres as $matiere)
                 <option value="{{ $matiere->id }}">{{ $matiere->nomMatiere }}</option>
             @endforeach
         </select>
     </div>
-    <button type="submit">Valider la relation</button>
+    <button type="submit" class="btn btn-success">Valider la relation</button>
 </form>
 
 
@@ -141,7 +153,7 @@
               
                 
                 
-                <input type="submit" value="Ajouter un domaine d'étude">
+                <input type="submit" value="Ajouter un domaine d'étude" class="btn btn-success" style="margin-top: 5px">
         </form> 
 
         @if ($errors->any())
@@ -152,10 +164,12 @@
             @endforeach
         </ul>
     </div>
+</div>
+</div>
 @endif
 @else
     <script>window.location = "{{ route('Tutorat.index') }}";</script>
-
+</div>
 
 @endrole
 
