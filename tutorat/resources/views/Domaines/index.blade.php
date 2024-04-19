@@ -46,6 +46,11 @@
                 @method('DELETE')
                 {{ $matiere->nomMatiere }}   <button type="submit">X</button>
             </form>
+
+            <form>            
+                   
+                  <button type="submit" formaction="{{ route('Matieres.modifierMatiere', ['matiere' => $matiere]) }}"  class="options-button ">...</button>
+                </form>
         </li>
     @endforeach
 </ul>

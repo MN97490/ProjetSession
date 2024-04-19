@@ -86,3 +86,15 @@ Route::POST('/domaines/matieres/AjoutAdmin',
 
 Route::POST('/domaines/matieres/Ajout', 
 [MatieresController::class, 'storeProf'])->name('Matieres.storeProf')->middleware('auth');
+
+
+Route::get('/domaines/matieres/Modif/{matiere}/form', 
+[MatieresController::class, 'edit'])->name('Matieres.modifierMatiere')->middleware('auth');
+
+
+Route::patch('/domaines/matieres/Modif/{matiere}/update', 
+[MatieresController::class, 'update'])->name('Matieres.update')->middleware('auth');
+
+
+Route::delete('/domaines/{id}/matieres/', 
+[MatieresController::class, 'destroy'])->name('Domaines.destroyMatiere')->middleware('auth');

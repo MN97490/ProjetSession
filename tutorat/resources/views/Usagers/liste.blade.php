@@ -129,6 +129,21 @@
 </form>
 
 
+<form action="" method="">
+    @csrf
+    <div>
+    <h2>Liste des Matières  </h2>
+    <div>
+        <label for="matiere">Matière:</label>
+        <select name="idMatiere" id="matiere">
+            @foreach($matieres as $matiere)
+                <option value="{{ $matiere->id }}">{{ $matiere->nomMatiere }}</option>
+            @endforeach
+        </select>
+    </div>
+    <button type="submit" formaction="{{ route('Matieres.modifierMatiere', ['matiere' => $matiere]) }}">Modifier une matière</button>  
+</form>
+
 
 
 

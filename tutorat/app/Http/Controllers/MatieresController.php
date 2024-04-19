@@ -106,11 +106,45 @@ class MatieresController extends Controller
 }
 
 
-public function update(Request $request, string $id)
+public function edit(Matiere $matiere)
 {
-    //
+    return View('Domaines.modifierMatiere', compact('matiere'));
 }
 
+
+public function update(MatiereRequest $request, Matiere $matiere)
+{
+    try {
+        $matiere->nomMatiere = $request->nomMatiere;
+        $matiere->save();
+
+        return redirect()->route('Domaines.index')->with('message', "Modification de " . $matiere->nomMatiere . " réussie!");
+    } catch (\Throwable $e) {
+        // Gérer l'erreur
+        Log::emergency($e);
+        return redirect()->route('Domaine.index')->withErrors(['La modification n\'a pas fonctionné']); 
+    }
+}
+public function destroy(string $id)
+{
+    try {
+        $matiere = Matiere::findOrFail($id);
+        
+        // Supprimer les relations dans la table pivot matiere_domaine
+        $matiere->domaines()->detach();
+       
+        // Supprimer les notes associées à la matière
+        $matiere->notes()->delete();
+        
+        // Supprimer la matière
+        $matiere->delete();
+        
+        return redirect()->route('Usagers.liste')->with('message', "Suppression de " . $matiere->nomMatiere . " réussie!");
+    } catch (\Throwable $e) {
+        Log::emergency($e);
+        return redirect()->route('Usagers.liste')->withErrors(['La suppression n\'a pas fonctionné']); 
+    }
+}
 
     
     
