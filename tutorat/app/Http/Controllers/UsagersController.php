@@ -59,7 +59,7 @@ class UsagersController extends Controller
                 'prenom' => 'required|string|max:255',
                 'domaineEtude' => 'required|exists:domaines,id', // Modifiez ici si le nom de votre table est "domaines"
                 'password' => 'required|string|min:8|confirmed',
-                'role' => 'required',
+                
             ]);
     
             // Création d'un nouvel utilisateur
@@ -70,7 +70,7 @@ class UsagersController extends Controller
             $usager->prenom = $validatedData['prenom'];
             $usager->domaineEtude = $validatedData['domaineEtude']; // Assurez-vous que la colonne dans la table "usagers" correspond
             $usager->password = Hash::make($validatedData['password']);
-            $usager->role = $validatedData['role'];
+           
             $usager->save();
     
             // Récupérer les matières associées au domaine d'étude de l'utilisateur

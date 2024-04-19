@@ -45,9 +45,9 @@
                 <label for="password">Confirmer le mot de Passe:</label>
                 <input type="password" name="password_confirmation"  placeholder="Confirmer le mot de Passe"><br>
 
+             
+              
                 
-                <input type="radio" class="form-control" id="role" name="role" value="eleve" hidden>
-                <label for="role" id="role" name="role">Élève:</label><br>
                 
                 <input type="submit" value="valider">
         </form> 

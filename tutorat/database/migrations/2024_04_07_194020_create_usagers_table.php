@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->foreignId('domaineEtude')->constrained('domaines');
-            $table->set('role',['admin','prof','eleve']);
+            $table->set('role',['admin','prof','eleve'])->default('eleve');;
             $table->boolean('is_tuteur')->default(false);
             $table->unique('email');
             $table->unique('nomUtilisateur');

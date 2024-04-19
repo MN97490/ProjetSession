@@ -26,18 +26,20 @@ class domaineEtudesController extends Controller
         return $domaineEtudes;
     }
 
-
     public function indexProf()
-
     {
-        $domainesEtude=Domaine::all();
-        $matieres = Matiere::all();
+        
+        $matieress = Matiere::all();
         $usager = Auth::user();
         $domaineId = $usager->domaineEtude;
-        return View('Domaines.index');
-      
-    }
+        $domaine = Domaine::find($domaineId);
+        
+        
+        $matieres = $domaine->matieres;
 
+        return view('Domaines.index', compact('domaine', 'matieres','matieress'));
+    }
+    
 
     /**
      * Show the form for creating a new resource.
