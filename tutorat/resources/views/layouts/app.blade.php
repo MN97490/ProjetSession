@@ -38,12 +38,12 @@
     
         <a href="/profil">Profil</a>
         @role('admin')
-        <a href="/usagers/liste">Gestion Utilisateur</a>
+        <a href="/usagers/liste">Panneau Administration</a>
 
         @endrole
 
         @role('admin','prof')
-        <a href="/usagers/liste">Gestion Note</a>
+        <a href="/domaines/indexProf">Gestion Domaine Étude</a>
 
         @endrole
         <a href=""><i class="fas fa-bell sub-nav-logo"></i></a>

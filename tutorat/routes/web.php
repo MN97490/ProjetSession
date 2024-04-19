@@ -5,6 +5,7 @@ use App\Http\Controllers\UsagersController;
 use App\Http\Controllers\TutoratsController;
 
 use App\Http\Controllers\domaineEtudesController;
+use App\Http\Controllers\MatieresController;
 
 
 
@@ -74,5 +75,11 @@ Route::patch('/domaineAdmin/{domaine}/modifierAdmin/update',
 Route::delete('/domaines/{idDomaine}/matieres/{idMatiere}', 
 [domaineEtudesController::class, 'destroyRelation'])->name('Domaines.destroyRelation')->middleware('auth');
 
-Route::POST('/domaines//matieres/AjoutRelation', 
+Route::POST('/domaines/matieres/AjoutRelation', 
 [domaineEtudesController::class, 'ajoutRelation'])->name('Domaines.ajoutRelation')->middleware('auth');
+
+Route::get('/domaines/indexProf', 
+[domaineEtudesController::class, 'indexProf'])->name('Domaines.domaine')->middleware('auth');
+
+Route::POST('/domaines/matieres/Ajout', 
+[MatieresController::class, 'store'])->name('Matieres.store')->middleware('auth');

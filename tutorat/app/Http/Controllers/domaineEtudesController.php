@@ -1,10 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+use Auth;
+use Log;
 
+use App\Http\Requests\UsagerRequest;
+
+
+
+use App\Models\Usager;
 use Illuminate\Http\Request;
 use App\Models\Domaine;
 use App\Models\Matiere;
+use App\Models\Note;
 use App\Http\Requests\DomaineRequest;
 
 class domaineEtudesController extends Controller
@@ -17,6 +25,15 @@ class domaineEtudesController extends Controller
         $domaineEtudes = domaine::all();
         return $domaineEtudes;
     }
+
+
+    public function indexProf()
+    {
+        $usager = Auth::user();
+        $domaineId = $usager->domaineEtude;
+        return $domaineId;
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -85,30 +102,48 @@ class domaineEtudesController extends Controller
         //
     }
     public function ajoutRelation(Request $request)
-    {
-        try {
-            $idDomaine = $request->input('idDomaine');
-            $idMatiere = $request->input('idMatiere');
-    
-            // Recherche du domaine et de la matière
-            $domaine = Domaine::findOrFail($idDomaine);
-            $matiere = Matiere::findOrFail($idMatiere);
-            
-            // Vérification si la relation existe déjà
-            if ($domaine->matieres->contains($matiere)) {
-                return redirect()->back()->withErrors(['La relation existe déjà.']);
-            }
-            
-            // Ajout de la relation
-            $domaine->matieres()->attach($matiere);
-    
-            return redirect()->back()->with('success', 'La relation a été ajoutée avec succès.');
-        } catch (\Throwable $e) {
-            // Gérer l'erreur
-            Log::error($e);
-            return redirect()->back()->withErrors(['Erreur lors de l\'ajout de la relation.']);
+{
+    try {
+        $idDomaine = $request->input('idDomaine');
+        $idMatiere = $request->input('idMatiere');
+
+        // Recherche du domaine et de la matière
+        $domaine = Domaine::findOrFail($idDomaine);
+        $matiere = Matiere::findOrFail($idMatiere);
+        
+        // Vérification si la relation existe déjà
+        if ($domaine->matieres->contains($matiere)) {
+            return redirect()->back()->withErrors(['La relation existe déjà.']);
         }
+        
+        // Ajout de la relation
+        $domaine->matieres()->attach($matiere);
+
+        // Création de notes pour tous les utilisateurs du domaine d'étude
+        $utilisateurs = Usager::where('domaineEtude', $idDomaine)->get();
+        foreach ($utilisateurs as $utilisateur) {
+            // Vérifier si une note existe déjà pour cette matière et cet utilisateur
+            $noteExiste = Note::where('idCompte', $utilisateur->id)
+                              ->where('idMatiere', $idMatiere)
+                              ->exists();
+            if (!$noteExiste) {
+                // Créer une nouvelle note avec une valeur par défaut
+                $note = new Note();
+                $note->idCompte = $utilisateur->id;
+                $note->idMatiere = $idMatiere;
+                $note->note = 0; // Valeur par défaut de la note
+                $note->save();
+            }
+        }
+
+        return redirect()->back()->with('success', 'La relation a été ajoutée avec succès.');
+    } catch (\Throwable $e) {
+        // Gérer l'erreur
+        Log::error($e);
+        return redirect()->back()->withErrors(['Erreur lors de l\'ajout de la relation.']);
     }
+}
+
     
     public function destroyRelation($idDomaine, $idMatiere)
     {

@@ -144,6 +144,26 @@
                 <input type="submit" value="Ajouter un domaine d'étude">
         </form> 
 
+        
+        <form action="{{ route('Matieres.store') }}" method="POST">
+                 @csrf
+                <label for="nomMatiere">Nom matière:</label>
+                <input type="text" name="nomMatiere"  placeholder="Nom matière"><br>
+
+                <select name="idDomaineEtude" id="idDomaineEtude">
+            @foreach($domainesEtude as $domaine)
+                <option value="{{ $domaine->id }}">{{ $domaine->nomDomaine }}</option>
+            @endforeach
+             </select>
+              
+                
+                
+                <input type="submit" value="Ajouter une matière">
+        </form> 
+
+
+
+       
         @if ($errors->any())
     <div class="alert alert-danger">
         <ul>

@@ -16,7 +16,7 @@ class Matiere extends Model
         return $this->belongsToMany(Domaine::class, 'matiere_domaine', 'matiere_id', 'domaine_id');
     }
     public function notes()
-    {
+    { 
         return $this->hasMany(NoteEtudiant::class, 'idMatiere');
     }
 }
