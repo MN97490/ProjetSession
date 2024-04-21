@@ -224,8 +224,8 @@ class UsagersController extends Controller
     public function editAdmin(Usager $usager)
     {
         
-      
-        return View('usagers.modifierAdmin', compact('usager'));
+        $domainesEtude = Domaine::all();
+        return View('usagers.modifierAdmin', compact('usager','domainesEtude'));
       
     }
 
@@ -262,23 +262,70 @@ class UsagersController extends Controller
             $usager->nomUtilisateur = $request->nomUtilisateur;
             $usager->prenom = $request->prenom;
             $usager->email = $request->email;
-            $usager->domaineEtude = $request->domaineEtude;
-            $usager->role = $request->role;
+            $usager->is_tuteur = $request->is_tuteur;
+            
+       
+            if ($request->role !== $usager->role) {
+               
+                if ($usager->role === 'eleve') {
+                   
+                    if ($request->role === 'admin' || $request->role === 'prof') {
+                        $usager->notes()->delete();
+                    } 
+                   
+                    else {
+                       
+                        $matieres = Domaine::find($request->domaineEtude)->matieres;
     
-            // Vérifier si le nouveau mot de passe est différent de l'ancien
+                        foreach ($matieres as $matiere) {
+                            
+                            $existingNote = $usager->notes()->where('idMatiere', $matiere->id)->first();
+    
+                            // Si aucune note n'existe, on en crée une nouvelle
+                            if (!$existingNote) {
+                                $note = new Note();
+                                $note->idCompte = $usager->id;
+                                $note->idMatiere = $matiere->id;
+                                $note->note = 0; // Vous pouvez définir la note de base ici
+                                $note->save();
+                            }
+                        }
+                    }
+                } 
+               
+                elseif ($request->role === 'eleve') {
+                    
+                    $usager->notes()->delete();
+                    
+                   
+                    $matieres = Domaine::find($request->domaineEtude)->matieres;
+    
+                    foreach ($matieres as $matiere) {
+                        $note = new Note();
+                        $note->idCompte = $usager->id;
+                        $note->idMatiere = $matiere->id;
+                        $note->note = 0; 
+                        $note->save();
+                    }
+                }
+            }
+    
+            $usager->role = $request->role;
+            $usager->domaineEtude = $request->domaineEtude;
+            
+           
             if ($request->password !== $usager->password) {
                 $usager->password = Hash::make($request->password);
             }
     
             $usager->save();
     
-            return redirect()->route('Usagers.liste')->with('message', "Modification de " . $usager->nomUtilisateur . " réussie!");
-        } catch (\Throwable $e) {
-            // Gérer l'erreur
-            Log::emergency($e);
-            return redirect()->route('Usagers.liste')->withErrors(['La modification n\'a pas fonctionné']); 
+            return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Une erreur s\'est produite lors de la mise à jour du profil.');
         }
     }
+    
     
 
     /**

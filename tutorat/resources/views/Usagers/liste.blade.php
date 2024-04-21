@@ -16,7 +16,7 @@
                     {{$usager->nomUtilisateur}}
                   <button type="submit" formaction="{{ route('Usagers.modifierAdmin', ['usager' => $usager]) }}"  class="options-button ">...</button>
                 </form>
-                <form method="POST" action="{{route('Usagers.destroy', [$usager->id]) }}">
+                <form method="POST" action="{{route('Usagers.destroy', [$usager->id]) }}"  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet usager ?');">
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="btn btn-danger">X</button>
@@ -129,22 +129,31 @@
 </form>
 
 
-<form action="" method="">
-    @csrf
-    <div>
-    <h2>Liste des Matières  </h2>
-    <div>
-        <label for="matiere">Matière:</label>
-        <select name="idMatiere" id="matiere">
+
+
+
+@if (count($matieres))
+      <h1 >Matières</h1>
+
             @foreach($matieres as $matiere)
-                <option value="{{ $matiere->id }}">{{ $matiere->nomMatiere }}</option>
+            <div class="box">
+                <form>            
+                    {{$matiere->nomMatiere}}
+                  <button type="submit" formaction="{{ route('Matieres.modifierMatiere', ['matiere' => $matiere]) }}"  class="options-button ">...</button>
+                </form>
+                <form method="POST" action="{{route('Matieres.destroyMatiere', [$matiere->id]) }}"  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette matière ?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-danger">X</button>
+                </form>
+              </a>
+              </div>
             @endforeach
-        </select>
-    </div>
-    <button type="submit" formaction="{{ route('Matieres.modifierMatiere', ['matiere' => $matiere]) }}">Modifier une matière</button>  
-</form>
-
-
+            @else
+          <p>Il n'y a aucune matière.</p>
+          @endif
+          
+      
 
 
 
@@ -167,7 +176,7 @@
 
                 
                 
-                <input type="submit" value="Ajouter une matière">
+                <input type="submit" value="Ajouter une matière" >
         </form> 
 
 

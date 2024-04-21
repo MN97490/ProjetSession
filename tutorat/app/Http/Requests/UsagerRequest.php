@@ -29,7 +29,7 @@ class UsagerRequest extends FormRequest
             'prenom' => 'required',
             'domaineEtude' => 'required',
             'role' => 'required',
-            'is_tuteur'=>'',
+            'is_tuteur'=>'required',
         ];
     }
 }

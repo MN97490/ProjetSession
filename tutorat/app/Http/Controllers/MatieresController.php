@@ -118,11 +118,11 @@ public function update(MatiereRequest $request, Matiere $matiere)
         $matiere->nomMatiere = $request->nomMatiere;
         $matiere->save();
 
-        return redirect()->route('Domaines.index')->with('message', "Modification de " . $matiere->nomMatiere . " réussie!");
+        return redirect()->route('Tutorat.index')->with('message', "Modification de " . $matiere->nomMatiere . " réussie!");
     } catch (\Throwable $e) {
         // Gérer l'erreur
         Log::emergency($e);
-        return redirect()->route('Domaine.index')->withErrors(['La modification n\'a pas fonctionné']); 
+        return redirect()->route('Tutorat.index')->withErrors(['La modification n\'a pas fonctionné']); 
     }
 }
 public function destroy(string $id)
@@ -139,10 +139,10 @@ public function destroy(string $id)
         // Supprimer la matière
         $matiere->delete();
         
-        return redirect()->route('Usagers.liste')->with('message', "Suppression de " . $matiere->nomMatiere . " réussie!");
+        return redirect()->route('Tutorat.index')->with('message', "Suppression de " . $matiere->nomMatiere . " réussie!");
     } catch (\Throwable $e) {
         Log::emergency($e);
-        return redirect()->route('Usagers.liste')->withErrors(['La suppression n\'a pas fonctionné']); 
+        return redirect()->route('Tutorat.index')->withErrors(['La suppression n\'a pas fonctionné']); 
     }
 }
 

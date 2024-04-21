@@ -97,4 +97,4 @@ Route::patch('/domaines/matieres/Modif/{matiere}/update',
 
 
 Route::delete('/domaines/{id}/matieres/', 
-[MatieresController::class, 'destroy'])->name('Domaines.destroyMatiere')->middleware('auth');
+[MatieresController::class, 'destroy'])->name('Matieres.destroyMatiere')->middleware('auth');
