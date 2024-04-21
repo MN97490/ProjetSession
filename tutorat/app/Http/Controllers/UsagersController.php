@@ -173,39 +173,16 @@ class UsagersController extends Controller
     }
     public function showProfil()
     {
-        // Récupérer l'utilisateur authentifié
         $usager = Auth::user();
-    
-        // Récupérer le domaine d'étude de l'utilisateur
-        $domaine = Domaine::find($usager->domaineEtude);
-    
-        // Initialiser un tableau pour stocker les notes
-        $notes = [];
-    
-        // Vérifier si le domaine existe
-        if ($domaine) {
-            // Récupérer les matières associées au domaine d'étude de l'utilisateur
-            $matieres = $domaine->matieres;
-    
-            // Récupérer les notes correspondantes de l'utilisateur pour chaque matière
-            foreach ($matieres as $matiere) {
-                // Récupérer les notes de l'utilisateur pour cette matière
-                $note = Note::where('idCompte', $usager->id)
-                             ->where('idMatiere', $matiere->id)
-                             ->first();
-    
-                // Stocker la note dans le tableau avec le nom de la matière comme clé
-                $notes[$matiere->nomMatiere] = $note ? $note->Note : 'Non disponible';
-            }
-        } else {
-            // Gérer le cas où le domaine d'étude n'est pas trouvé
-            // Vous pouvez renvoyer un message d'erreur ou rediriger l'utilisateur
-            // selon vos besoins
-        }
-    
-        // Passer les données à la vue
+        $domaineId = $usager->domaineEtude;
+        $matieres = Matiere::whereHas('domaines', function($query) use ($domaineId) {
+            $query->where('domaine_id', $domaineId);
+        })->get();
+        $notes = Note::where('idCompte', $usager->id)->get()->keyBy('idMatiere');
         return view('Usagers.profil', compact('usager', 'matieres', 'notes'));
     }
+    
+    
     
     
     

@@ -6,6 +6,7 @@ use App\Http\Controllers\TutoratsController;
 
 use App\Http\Controllers\domaineEtudesController;
 use App\Http\Controllers\MatieresController;
+use App\Http\Controllers\NotesController;
 
 
 
@@ -98,3 +99,6 @@ Route::patch('/domaines/matieres/Modif/{matiere}/update',
 
 Route::delete('/domaines/{id}/matieres/', 
 [MatieresController::class, 'destroy'])->name('Matieres.destroyMatiere')->middleware('auth');
+Route::put('/notes/{note}', [NotesController::class, 'updateNote'])->name('updateNote')->middleware('auth');;
+
+Route::put('/notes/{noteId}/update', [NotesController::class, 'updateNoteProf'])->name('notes.update');

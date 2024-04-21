@@ -54,4 +54,28 @@
         </li>
     @endforeach
 </ul>
+@foreach($matieres as $matiere)
+    <h3>{{ $matiere->nomMatiere }}</h3>
+    <ul>
+        @foreach($notesParMatiere[$matiere->id] as $note)
+            @if($note->usager->domaineEtude == Auth::user()->domaineEtude)
+                <li>
+                    <div>
+                        <strong>Utilisateur :</strong> {{ $note->usager->nomUtilisateur }} <br>
+                        <strong>Nom :</strong> {{ $note->usager->nom }} <br>
+                        <strong>Prénom :</strong> {{ $note->usager->prenom }} <br>
+                    </div>
+                    <form method="POST" action="{{ route('notes.update', ['noteId' => $note->id]) }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="number" name="newNote" min="0" max="20" value="{{ $note->Note }}" required>
+                        <button type="submit">Modifier</button>
+                    </form>
+                </li>
+            @endif
+        @endforeach
+    </ul>
+@endforeach
+
+
 

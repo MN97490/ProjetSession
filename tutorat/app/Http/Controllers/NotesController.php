@@ -7,13 +7,17 @@ use App\Models\Domaine;
 use App\Models\Matiere;
 use App\Models\Note;
 use App\Models\Usager;
+use App\Http\Requests\NoteRequest;
+use Log;
+use Auth;
+
 
 
 class NotesController extends Controller
 {
     public function index()
     {
-        $notes = NoteEtudiant::all();
+        $notes = Note::all();
         return $notes;
     }
      /**
@@ -51,11 +55,32 @@ class NotesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+  /**
+ * Update the specified resource in storage.
+ */
+public function updateNote(NoteRequest $request, Note $note)
+{
+    try {
+        $note->update($request->all());
+        return redirect()->route('Usagers.profil')->with('message', "Modification de la note réussie!");
+    } catch (\Throwable $e) {
+        // Gérer l'erreur
+        Log::emergency($e);
+        return redirect()->route('Tutorat.index')->withErrors(['La modification n\'a pas fonctionné']); 
     }
+}
 
+    
+public function updateNoteProf(Request $request, $noteId)
+{
+    $note = Note::findOrFail($noteId);
+    $note->update(['Note' => $request->newNote]);
+
+    return redirect()->back()->with('success', 'Note mise à jour avec succès!');
+}
+
+    
+    
     /**
      * Remove the specified resource from storage.
      */

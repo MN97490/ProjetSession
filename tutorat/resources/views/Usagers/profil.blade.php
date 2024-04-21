@@ -23,33 +23,23 @@
         <label for="motDePasse">Mot de passe</label>
         <input type="text" class="form-control" id="motDePasseUsager" value="*******" readonly  ><br/>
 
-
-
-
-    
-
-            
-
-
-
-          
-          <button type="submit" class="btn btn-primary" >Modifier les informations</button>
+        <button type="submit" class="btn btn-primary" >Modifier les informations</button>
   
         </div>      
   </form>
   @role('eleve')
-<form method="POST" action="">
-<div>
-            <h2>Matieres :</h2>
-            <ul>
-                @foreach ($matieres as $matiere)
-                    <li>{{ $matiere->nomMatiere }} - {{ isset($notes[$matiere->nomMatiere]) ? $notes[$matiere->nomMatiere] : 'Non disponible' }}</li>
-                @endforeach
-            </ul>
-        </div>
- 
-    <button type="submit" class="btn btn-primary" >Modifier les notes</button>
-  </div> 
-</form>
+  @foreach($matieres as $matiere)
+    <form method="POST" action="{{ route('updateNote', ['note' => $notes[$matiere->id]->id]) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cette note ?')">
+        @csrf
+        @method('PUT')
+        <label>{{ $matiere->nomMatiere }}</label>
+        <input type="hidden" name="idMatiere" value="{{ $matiere->id }}">
+        <input type="hidden" name="idCompte" value="{{ Auth::user()->id }}">
+        <input type="number" name="Note"  min="0" max="100" value="{{ $notes[$matiere->id]['Note'] }}">
+        <button type="submit">Enregistrer</button>
+    </form>
+  @endforeach
+
+
 @endrole
 @endsection
