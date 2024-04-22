@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9" crossorigin="anonymous"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="{{ asset('js/fullcalendar/main.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('../style.css') }}">
   <link rel="shortcut icon" type="image/png" href="{{ asset('img/apple-icon-72x72.png') }}"/>
 </head>
@@ -34,7 +36,7 @@
        
       
  
-        <a href="">Tutorat</a>
+        <a href="/tutorat">Tutorat</a>
         @unless(Auth::user()->is_tuteur)
       <a href="">Devenir Tuteur</a>
     @endunless
@@ -44,7 +46,9 @@
         <a href="/usagers/liste">Panneau Administration</a>
 
         @endrole
-
+        <a href="/calendrier">Mes disponibilités</a>
+        
+        
         @role('admin','prof')
         <a href="/domaines/indexProf">Gestion Domaine Étude</a>
 

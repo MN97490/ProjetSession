@@ -7,6 +7,7 @@ use App\Http\Controllers\TutoratsController;
 use App\Http\Controllers\domaineEtudesController;
 use App\Http\Controllers\MatieresController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\DisponibilitesController;
 
 
 
@@ -99,6 +100,21 @@ Route::patch('/domaines/matieres/Modif/{matiere}/update',
 
 Route::delete('/domaines/{id}/matieres/', 
 [MatieresController::class, 'destroy'])->name('Matieres.destroyMatiere')->middleware('auth');
-Route::put('/notes/{note}', [NotesController::class, 'updateNote'])->name('updateNote')->middleware('auth');;
+Route::put('/notes/{note}', [NotesController::class, 'updateNote'])->name('updateNote')->middleware('auth');
 
 Route::put('/notes/{noteId}/update', [NotesController::class, 'updateNoteProf'])->name('notes.update');
+
+Route::get('/calendrier', function () {
+    return view('Usagers.calendrier');
+});
+
+Route::post('/disponibilites', [DisponibilitesController::class, 'store']);
+Route::patch('/disponibilites/{id}', [DisponibilitesController::class, 'update']);
+Route::get('/disponibilites', [DisponibilitesController::class, 'index']);
+Route::delete('/disponibilites/{id}', [DisponibilitesController::class, 'destroy']);
+
+Route::get('/tutorat', [TutoratsController::class, 'indexRecherche'])->name('Tutorat.tuteur');
+
+
+
+Route::post('/recherche-tuteur', [TutoratsController::class, 'rechercherTuteur'])->name('Tutorat.recherche');

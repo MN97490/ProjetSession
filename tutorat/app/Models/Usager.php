@@ -35,4 +35,9 @@ public function notes()
 {
     return $this->hasMany(Note::class, 'idCompte');
 }
+
+public function disponibilites()
+{
+    return $this->hasMany(Disponibilite::class, 'usager_id');
+}
 }
