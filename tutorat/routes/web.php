@@ -4,7 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsagersController;
 use App\Http\Controllers\TutoratsController;
 use App\Http\Controllers\ConversationController;
+<<<<<<< Updated upstream
 use App\Http\Controllers\DomaineEtudesController;
+=======
+use App\Http\Controllers\domaineEtudesController;
+use App\Http\Controllers\MatieresController;
+use App\Http\Controllers\NotesController;
+use App\Http\Controllers\DisponibilitesController;
+>>>>>>> Stashed changes
 
 
 
@@ -60,5 +67,67 @@ Route::get('/usagers/liste',
 Route::delete('/usagers/{id}',
 [UsagersController::class, 'destroy'])->name('Usagers.destroy')->middleware('auth');
 
+<<<<<<< Updated upstream
 Route::get('/Messagerie',[ConversationController::class,'index'])->name('Conversation.index');
 Route::get('/Messagerie/{id}','ConversationController@show')->name('conversation.show');
+=======
+Route::POST('/domaineAdmin',
+[domaineEtudesController::class, 'store'])->name('Domaines.store')->middleware('auth');
+
+Route::get('/domaineAdmin/{domaine}/modifierAdmin',
+[domaineEtudesController::class, 'edit'])->name('Domaines.modifier')->middleware('auth');
+
+
+Route::patch('/domaineAdmin/{domaine}/modifierAdmin/update',
+[domaineEtudesController::class, 'update'])->name('Domaines.update')->middleware('auth');
+
+
+Route::delete('/domaines/{idDomaine}/matieres/{idMatiere}', 
+[domaineEtudesController::class, 'destroyRelation'])->name('Domaines.destroyRelation')->middleware('auth');
+
+Route::POST('/domaines/matieres/AjoutRelation', 
+[domaineEtudesController::class, 'ajoutRelation'])->name('Domaines.ajoutRelation')->middleware('auth');
+
+Route::get('/domaines/indexProf', 
+[domaineEtudesController::class, 'indexProf'])->name('Domaines.index')->middleware('auth');
+
+Route::POST('/domaines/matieres/AjoutAdmin', 
+[MatieresController::class, 'store'])->name('Matieres.store')->middleware('auth');
+
+Route::POST('/domaines/matieres/Ajout', 
+[MatieresController::class, 'storeProf'])->name('Matieres.storeProf')->middleware('auth');
+
+
+Route::get('/domaines/matieres/Modif/{matiere}/form', 
+[MatieresController::class, 'edit'])->name('Matieres.modifierMatiere')->middleware('auth');
+
+
+Route::patch('/domaines/matieres/Modif/{matiere}/update', 
+[MatieresController::class, 'update'])->name('Matieres.update')->middleware('auth');
+
+
+Route::delete('/domaines/{id}/matieres/', 
+[MatieresController::class, 'destroy'])->name('Matieres.destroyMatiere')->middleware('auth');
+Route::put('/notes/{note}', [NotesController::class, 'updateNote'])->name('updateNote')->middleware('auth');
+
+Route::put('/notes/{noteId}/update', [NotesController::class, 'updateNoteProf'])->name('notes.update');
+
+Route::get('/calendrier', function () {
+    return view('Usagers.calendrier');
+});
+
+Route::post('/disponibilites', [DisponibilitesController::class, 'store']);
+Route::patch('/disponibilites/{id}', [DisponibilitesController::class, 'update']);
+Route::get('/disponibilites', [DisponibilitesController::class, 'index']);
+Route::delete('/disponibilites/{id}', [DisponibilitesController::class, 'destroy']);
+
+Route::get('/tutorat', [TutoratsController::class, 'indexRecherche'])->name('Tutorat.tuteur');
+
+
+
+Route::post('/recherche-tuteur', [TutoratsController::class, 'rechercherTuteur'])->name('Tutorat.recherche');
+
+
+Route::get('/Messagerie',[ConversationController::class,'index'])->name('Conversation.index');
+Route::get('/Messagerie/{user}',[ConversationController::class,'show'])->name('conversation.users');
+>>>>>>> Stashed changes
