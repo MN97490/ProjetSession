@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('matieres', function (Blueprint $table) {
             $table->id();
             $table->string('nomMatiere',50);
-            $table->foreignId('idDomaineEtude')->constrained('domaines');
+            
             $table->timestamps();
         });
     }

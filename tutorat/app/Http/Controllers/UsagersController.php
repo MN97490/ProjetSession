@@ -59,7 +59,7 @@ class UsagersController extends Controller
                 'prenom' => 'required|string|max:255',
                 'domaineEtude' => 'required|exists:domaines,id', // Modifiez ici si le nom de votre table est "domaines"
                 'password' => 'required|string|min:8|confirmed',
-                'role' => 'required',
+                
             ]);
     
             // Création d'un nouvel utilisateur
@@ -70,12 +70,12 @@ class UsagersController extends Controller
             $usager->prenom = $validatedData['prenom'];
             $usager->domaineEtude = $validatedData['domaineEtude']; // Assurez-vous que la colonne dans la table "usagers" correspond
             $usager->password = Hash::make($validatedData['password']);
-            $usager->role = $validatedData['role'];
+           
             $usager->save();
-
-            
-            $matieres = Matiere::where('idDomaineEtude', $usager->domaineEtude)->get();
-
+    
+            // Récupérer les matières associées au domaine d'étude de l'utilisateur
+            $matieres = Domaine::find($usager->domaineEtude)->matieres;
+    
             // Créer des notes de base pour chaque matière
             foreach ($matieres as $matiere) {
                 $note = new Note();
@@ -83,10 +83,8 @@ class UsagersController extends Controller
                 $note->idMatiere = $matiere->id;
                 $note->note = 0; // Vous pouvez définir la note de base ici
                 $note->save();
-            
             }
-
-            
+    
             // Log successful user creation
             Log::info('New user created successfully: ' . $usager->nomUtilisateur);
         } catch (\Throwable $e) {
@@ -96,6 +94,7 @@ class UsagersController extends Controller
         }
         return redirect()->route('login');
     }
+    
 
     public function storeAdmin(Request $request)
     {
@@ -106,31 +105,46 @@ class UsagersController extends Controller
                 'email' => 'required|string|email|max:255|unique:usagers',
                 'nom' => 'required|string|max:255',
                 'prenom' => 'required|string|max:255',
-                'domaineEtude' => 'required|exists:domaines,id', // Modifiez ici si le nom de votre table est "domaines"
+                'domaineEtude' => 'required|exists:domaines,id', 
                 'password' => 'required|string|min:8|confirmed',
                 'role' => 'required',
             ]);
     
-            // Création d'un nouvel utilisateur
+          
             $usager = new Usager();
             $usager->nomUtilisateur = $validatedData['nomUtilisateur'];
             $usager->email = $validatedData['email'];
             $usager->nom = $validatedData['nom'];
             $usager->prenom = $validatedData['prenom'];
-            $usager->domaineEtude = $validatedData['domaineEtude']; // Assurez-vous que la colonne dans la table "usagers" correspond
+            $usager->domaineEtude = $validatedData['domaineEtude']; 
             $usager->password = Hash::make($validatedData['password']);
             $usager->role = $validatedData['role'];
             $usager->save();
+    
+           
+            if ($usager->role === 'eleve') {
+                $matieres = Domaine::find($usager->domaineEtude)->matieres;
+        
+                
+                foreach ($matieres as $matiere) {
+                    $note = new Note();
+                    $note->idCompte = $usager->id;
+                    $note->idMatiere = $matiere->id;
+                    $note->note = 0; 
+                    $note->save();
+                }
+            }
+    
             
-            // Log successful user creation
             Log::info('New user created successfully: ' . $usager->nomUtilisateur);
         } catch (\Throwable $e) {
-            // Log error if user creation fails
+           
             Log::error('Error creating user: ' . $e->getMessage());
             return redirect()->route('Usagers.liste')->withErrors(['L\'ajout n\'a pas fonctionné']);
         }
         return redirect()->route('Usagers.liste');
     }
+    
 
     public function connect(Request $request)
     {
@@ -157,27 +171,19 @@ class UsagersController extends Controller
        
         return View('Usagers.login');
     }
-
     public function showProfil()
     {
-        
         $usager = Auth::user();
         $domaineId = $usager->domaineEtude;
-    
-        // Récupérer les matières associées au domaine d'étude de l'utilisateur
-        $matieres = Matiere::where('idDomaineEtude', $domaineId)->get();
-    
-        // Récupérer les notes correspondantes de l'étudiant pour chaque matière
-        $notes = [];
-        foreach ($matieres as $matiere) {
-            $notesMatiere = Note::where('idCompte', $usager->id)
-                                ->where('idMatiere', $matiere->id)
-                                ->get();
-            $notes[$matiere->nomMatiere] = $notesMatiere->isNotEmpty() ? $notesMatiere->pluck('Note')->implode(', ') : 'Non disponible';
-        }
-        
+        $matieres = Matiere::whereHas('domaines', function($query) use ($domaineId) {
+            $query->where('domaine_id', $domaineId);
+        })->get();
+        $notes = Note::where('idCompte', $usager->id)->get()->keyBy('idMatiere');
         return view('Usagers.profil', compact('usager', 'matieres', 'notes'));
     }
+    
+    
+    
     
     
 
@@ -195,8 +201,8 @@ class UsagersController extends Controller
     public function editAdmin(Usager $usager)
     {
         
-      
-        return View('usagers.modifierAdmin', compact('usager'));
+        $domainesEtude = Domaine::all();
+        return View('usagers.modifierAdmin', compact('usager','domainesEtude'));
       
     }
 
@@ -233,23 +239,70 @@ class UsagersController extends Controller
             $usager->nomUtilisateur = $request->nomUtilisateur;
             $usager->prenom = $request->prenom;
             $usager->email = $request->email;
-            $usager->domaineEtude = $request->domaineEtude;
-            $usager->role = $request->role;
+            $usager->is_tuteur = $request->is_tuteur;
+            
+       
+            if ($request->role !== $usager->role) {
+               
+                if ($usager->role === 'eleve') {
+                   
+                    if ($request->role === 'admin' || $request->role === 'prof') {
+                        $usager->notes()->delete();
+                    } 
+                   
+                    else {
+                       
+                        $matieres = Domaine::find($request->domaineEtude)->matieres;
     
-            // Vérifier si le nouveau mot de passe est différent de l'ancien
+                        foreach ($matieres as $matiere) {
+                            
+                            $existingNote = $usager->notes()->where('idMatiere', $matiere->id)->first();
+    
+                            // Si aucune note n'existe, on en crée une nouvelle
+                            if (!$existingNote) {
+                                $note = new Note();
+                                $note->idCompte = $usager->id;
+                                $note->idMatiere = $matiere->id;
+                                $note->note = 0; // Vous pouvez définir la note de base ici
+                                $note->save();
+                            }
+                        }
+                    }
+                } 
+               
+                elseif ($request->role === 'eleve') {
+                    
+                    $usager->notes()->delete();
+                    
+                   
+                    $matieres = Domaine::find($request->domaineEtude)->matieres;
+    
+                    foreach ($matieres as $matiere) {
+                        $note = new Note();
+                        $note->idCompte = $usager->id;
+                        $note->idMatiere = $matiere->id;
+                        $note->note = 0; 
+                        $note->save();
+                    }
+                }
+            }
+    
+            $usager->role = $request->role;
+            $usager->domaineEtude = $request->domaineEtude;
+            
+           
             if ($request->password !== $usager->password) {
                 $usager->password = Hash::make($request->password);
             }
     
             $usager->save();
     
-            return redirect()->route('Usagers.liste')->with('message', "Modification de " . $usager->nomUtilisateur . " réussie!");
-        } catch (\Throwable $e) {
-            // Gérer l'erreur
-            Log::emergency($e);
-            return redirect()->route('Usagers.liste')->withErrors(['La modification n\'a pas fonctionné']); 
+            return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Une erreur s\'est produite lors de la mise à jour du profil.');
         }
     }
+    
     
 
     /**
@@ -257,19 +310,21 @@ class UsagersController extends Controller
      */
     public function destroy(string $id)
     {
-        try
-        {
+        try {
             $usager = Usager::findOrFail($id);
+            
+            // Supprimer toutes les notes associées à l'utilisateur
+            $usager->notes()->delete();
+            
+            // Maintenant, supprimer l'utilisateur lui-même
             $usager->delete();
+            
             return redirect()->route('Usagers.liste')->with('message', "Suppression de " . $usager->nomUsager . " réussie!");
-        }
-        catch(\Throwable $e)
-        {
+        } catch (\Throwable $e) {
             Log::emergency($e);
-            return redirect()->route('Usagers.liste')->withErrors(['la suppression n\'a pas fonctionné']); 
+            return redirect()->route('Usagers.liste')->withErrors(['La suppression n\'a pas fonctionné']); 
         }
-        return redirect()->route('Usagers.liste');
     }
-
+    
     
 }

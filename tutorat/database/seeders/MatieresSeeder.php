@@ -16,18 +16,18 @@ class MatieresSeeder extends Seeder
             [
                 'id' => 1,
                 'nomMatiere' => 'BD',
-                'idDomaineEtude'=>'1'
+                
                
             ],
             [
                 'id' => 2,
                 'nomMatiere' => 'Web',
-                'idDomaineEtude'=>'1'
+                
             ],
             [
                 'id' => 3,
                 'nomMatiere' => 'POO',
-                'idDomaineEtude'=>'1'
+               
             ]
         ]);
     }

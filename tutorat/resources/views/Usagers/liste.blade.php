@@ -16,7 +16,7 @@
                     {{$usager->nomUtilisateur}}
                   <button type="submit" formaction="{{ route('Usagers.modifierAdmin', ['usager' => $usager]) }}"  class="options-button ">...</button>
                 </form>
-                <form method="POST" action="{{route('Usagers.destroy', [$usager->id]) }}">
+                <form method="POST" action="{{route('Usagers.destroy', [$usager->id]) }}"  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet usager ?');">
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="btn btn-danger">X</button>
@@ -132,6 +132,30 @@
 
 
 
+@if (count($matieres))
+      <h1 >Matières</h1>
+
+            @foreach($matieres as $matiere)
+            <div class="box">
+                <form>            
+                    {{$matiere->nomMatiere}}
+                  <button type="submit" formaction="{{ route('Matieres.modifierMatiere', ['matiere' => $matiere]) }}"  class="options-button ">...</button>
+                </form>
+                <form method="POST" action="{{route('Matieres.destroyMatiere', [$matiere->id]) }}"  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette matière ?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-danger">X</button>
+                </form>
+              </a>
+              </div>
+            @endforeach
+            @else
+          <p>Il n'y a aucune matière.</p>
+          @endif
+          
+      
+
+
 
 
         <form action="{{ route('Domaines.store') }}" method="POST">
@@ -144,6 +168,20 @@
                 <input type="submit" value="Ajouter un domaine d'étude">
         </form> 
 
+        
+        <form action="{{ route('Matieres.store') }}" method="POST">
+                 @csrf
+                <label for="nomMatiere">Nom matière:</label>
+                <input type="text" name="nomMatiere"  placeholder="Nom matière"><br>
+
+                
+                
+                <input type="submit" value="Ajouter une matière" >
+        </form> 
+
+
+
+       
         @if ($errors->any())
     <div class="alert alert-danger">
         <ul>

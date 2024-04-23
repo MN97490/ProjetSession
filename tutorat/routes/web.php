@@ -4,14 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsagersController;
 use App\Http\Controllers\TutoratsController;
 use App\Http\Controllers\ConversationController;
-<<<<<<< Updated upstream
-use App\Http\Controllers\DomaineEtudesController;
-=======
+
 use App\Http\Controllers\domaineEtudesController;
 use App\Http\Controllers\MatieresController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\DisponibilitesController;
->>>>>>> Stashed changes
+
+
 
 
 
@@ -67,10 +66,8 @@ Route::get('/usagers/liste',
 Route::delete('/usagers/{id}',
 [UsagersController::class, 'destroy'])->name('Usagers.destroy')->middleware('auth');
 
-<<<<<<< Updated upstream
-Route::get('/Messagerie',[ConversationController::class,'index'])->name('Conversation.index');
-Route::get('/Messagerie/{id}','ConversationController@show')->name('conversation.show');
-=======
+
+
 Route::POST('/domaineAdmin',
 [domaineEtudesController::class, 'store'])->name('Domaines.store')->middleware('auth');
 
@@ -130,4 +127,6 @@ Route::post('/recherche-tuteur', [TutoratsController::class, 'rechercherTuteur']
 
 Route::get('/Messagerie',[ConversationController::class,'index'])->name('Conversation.index');
 Route::get('/Messagerie/{user}',[ConversationController::class,'show'])->name('conversation.users');
->>>>>>> Stashed changes
+
+Route::get('/devenirTuteur', [TutoratsController::class, 'devenirTuteur'])->name('Tutorat.demande');
+

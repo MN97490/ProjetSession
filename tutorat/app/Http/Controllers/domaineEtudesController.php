@@ -1,10 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+use Auth;
+use Log;
 
+use App\Http\Requests\UsagerRequest;
+
+
+
+use App\Models\Usager;
 use Illuminate\Http\Request;
 use App\Models\Domaine;
 use App\Models\Matiere;
+use App\Models\Note;
 use App\Http\Requests\DomaineRequest;
 
 class domaineEtudesController extends Controller
@@ -17,6 +25,27 @@ class domaineEtudesController extends Controller
         $domaineEtudes = domaine::all();
         return $domaineEtudes;
     }
+
+    public function indexProf()
+    {
+        $matieress = Matiere::all();
+        $usager = Auth::user();
+        $domaineId = $usager->domaineEtude;
+        $domaine = Domaine::find($domaineId);
+        
+        $matieres = $domaine->matieres;
+    
+        // Récupérer les notes des élèves pour chaque matière
+        $notesParMatiere = [];
+        foreach ($matieres as $matiere) {
+            $notesParMatiere[$matiere->id] = Note::where('idMatiere', $matiere->id)
+                ->with('usager')
+                ->get();
+        }
+    
+        return view('Domaines.index', compact('domaine', 'matieres','matieress', 'notesParMatiere'));
+    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -102,13 +131,30 @@ class domaineEtudesController extends Controller
             // Ajout de la relation
             $domaine->matieres()->attach($matiere);
     
-            return redirect()->back()->with('success', 'La relation a été ajoutée avec succès.');
-        } catch (\Throwable $e) {
-            // Gérer l'erreur
-            Log::error($e);
-            return redirect()->back()->withErrors(['Erreur lors de l\'ajout de la relation.']);
+            // Création de notes pour tous les utilisateurs élèves du domaine d'étude
+            $utilisateurs = Usager::where('domaineEtude', $idDomaine)->where('role', 'eleve')->get();
+            foreach ($utilisateurs as $utilisateur) {
+                // Vérifier si une note existe déjà pour cette matière et cet utilisateur
+                $noteExiste = Note::where('idCompte', $utilisateur->id)
+                                  ->where('idMatiere', $idMatiere)
+                                  ->exists();
+                if (!$noteExiste) {
+                    // Créer une nouvelle note avec une valeur par défaut
+                    $note = new Note();
+                    $note->idCompte = $utilisateur->id;
+                    $note->idMatiere = $idMatiere;
+                    $note->note = 0; // Valeur par défaut de la note
+                    $note->save();
+                }
+            }
+    
+            return redirect()->back()->with('success', 'Relation ajoutée avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['Une erreur est survenue lors de l\'ajout de la relation.']);
         }
     }
+    
+
     
     public function destroyRelation($idDomaine, $idMatiere)
     {

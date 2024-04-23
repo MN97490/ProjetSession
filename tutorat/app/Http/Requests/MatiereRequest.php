@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UsagerRequest extends FormRequest
+class MatiereRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,21 @@ class UsagerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required',
-            'password' => 'confirmed|required',
-            'nomUtilisateur' => 'required',
-            'nom' => 'required',
-            'prenom' => 'required',
-            'domaineEtude' => 'required',
-            'role' => 'required',
-            'is_tuteur'=>'required',
+            'nomMatiere'=>'required',
+            
+        ];
+    }
+
+     /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'nomMatiere.required' => 'Le champ nom de matière est requis.',
+            
         ];
     }
 }
