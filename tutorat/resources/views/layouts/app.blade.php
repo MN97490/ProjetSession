@@ -38,7 +38,7 @@
  
         <a href="/tutorat">Tutorat</a>
         @unless(Auth::user()->is_tuteur)
-      <a href="">Devenir Tuteur</a>
+      <a href="devenirTuteur">Devenir Tuteur</a>
     @endunless
     
         <a href="/profil">Profil</a>

@@ -118,3 +118,6 @@ Route::get('/tutorat', [TutoratsController::class, 'indexRecherche'])->name('Tut
 
 
 Route::post('/recherche-tuteur', [TutoratsController::class, 'rechercherTuteur'])->name('Tutorat.recherche');
+
+Route::get('/devenirTuteur', [TutoratsController::class, 'devenirTuteur'])->name('Tutorat.demande');
+

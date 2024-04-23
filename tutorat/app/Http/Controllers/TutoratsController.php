@@ -33,6 +33,18 @@ class TutoratsController extends Controller
 
          return view('Tutorat.tuteur',compact('matieres'));
     }
+
+    public function devenirTuteur(){
+
+        $matieress = Matiere::all();
+        $usager = Auth::user();
+        $domaineId = $usager->domaineEtude;
+        $domaine = Domaine::find($domaineId);
+        $matieres = $domaine->matieres;
+        $nomDomaine = $domaine ? $domaine->nomDomaine : '';
+        return view('Tutorat.demande',compact('domaine','nomDomaine','matieres','matieress'));
+
+    }
     public function rechercherTuteur(Request $request)
     {
         // Récupérer l'ID de la matière
