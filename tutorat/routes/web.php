@@ -120,4 +120,17 @@ Route::get('/tutorat', [TutoratsController::class, 'indexRecherche'])->name('Tut
 Route::post('/recherche-tuteur', [TutoratsController::class, 'rechercherTuteur'])->name('Tutorat.recherche');
 
 Route::get('/devenirTuteur', [TutoratsController::class, 'devenirTuteur'])->name('Tutorat.demande');
+Route::get('/devenirTuteur', [TutoratsController::class, 'devenirTuteur'])->name('Tutorat.demande');
+Route::POST('/devenirTuteurs', [TutoratsController::class, 'devenirTuteurs'])->name('Tutorat.devenirTuteur');
+
+Route::get('/demande/{demande}/edit', [TutoratsController::class, 'editDemande'])->name('Tutorat.demandeedit');
+Route::put('/demande/{demande}', [TutoratsController::class, 'updateDemande'])->name('demande.update');
+Route::DELETE('/demande/{id}', [TutoratsController::class, 'destroyDemande'])->name('Tutorat.demande.destroy');
+
+Route::post('/accepter-demande/{demande}', [TutoratsController::class,'accepterDemande'])->name('Tutorat.accepterDemande');
+Route::post('/refuser-demande/{demande}', [TutoratsController::class,'refuserDemande'])->name('Tutorat.refuserDemande');
+
+Route::get('/Usager/rechercherUsagers', [UsagersController::class,'rechercherUsagers'])->name('Usagers.recherche');
+
+
 

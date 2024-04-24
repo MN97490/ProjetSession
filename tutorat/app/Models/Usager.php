@@ -40,4 +40,9 @@ public function disponibilites()
 {
     return $this->hasMany(Disponibilite::class, 'usager_id');
 }
+public function demandes()
+{
+    return $this->hasMany(Demande::class);
+}
+
 }

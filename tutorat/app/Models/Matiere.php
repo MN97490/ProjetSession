@@ -19,4 +19,9 @@ class Matiere extends Model
     { 
         return $this->hasMany(Note::class, 'idMatiere');
     }
+    public function demandes()
+{
+    return $this->belongsToMany(Demande::class, 'demande_matiere');
+}
+
 }

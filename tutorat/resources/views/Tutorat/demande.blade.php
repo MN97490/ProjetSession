@@ -1,22 +1,84 @@
 @extends('layouts.app')
-@section('title', "Devenir Tuteur")
-@section('contenu')
-<h1>Devenir Tuteur dans votre programme {{ $nomDomaine }}</h1>
-<section class="main-container" >
-    <form action="">
-        @csrf
 
-        <label for="matiere">Sélectionnez les matières :</label><br>
-        @foreach($matieress as $matiere)
-            <input type="checkbox" name="matieres[]" value="{{ $matiere->id }}" id="matiere{{ $matiere->id }}">
-            <label for="matiere{{ $matiere->id }}">{{ $matiere->nomMatiere }}</label><br>
-        @endforeach
-        
-        <br><br>
-        <label for="motivation">Décrire vos motivations pour devenir Tuteur :</label><br>
-        <textarea name="motivation" style="width: 400px; height: 100px;"></textarea>
-        <br><br>
-        <button type="submit">Soumettre</button>
-    </form>
-</section>
+@section('title', "Devenir Tuteur")
+
+@section('contenu')
+    <h1>Devenir Tuteur dans votre programme {{ $nomDomaine }}</h1>
+    <section class="main-container">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('Tutorat.devenirTuteur') }}">
+            @csrf
+
+            <label for="matieres">Sélectionnez les matières :</label><br>
+            @foreach($matieres as $matiere)
+                <input type="checkbox" name="matieres[]" value="{{ $matiere->id }}" id="matiere{{ $matiere->id }}">
+                <label for="matiere{{ $matiere->id }}">{{ $matiere->nomMatiere }}</label><br>
+            @endforeach
+            
+            <br><br>
+            <label for="motivation">Décrire vos motivations pour devenir Tuteur :</label><br>
+            <textarea name="motivation" style="width: 400px; height: 100px;"></textarea>
+            <br><br>
+            <button type="submit">Soumettre</button>
+        </form>
+
+        <h2>Demandes en cours</h2>
+        <div class="demandes">
+            @if ($demandes->where('statut', 'en cours')->isEmpty())
+                <p>Vous n'avez aucune demande en cours.</p>
+            @else
+                @foreach($demandes->where('statut', 'en cours') as $demande)
+                    <div class="demande">
+                        <h3>Demande #{{ $demande->id }}</h3>
+                        <p>Motivation : {{ $demande->motivation }}</p>
+                        <p>Matières :</p>
+                        <ul>
+                            @foreach($demande->matieres as $matiere)
+                                <li>{{ $matiere->nomMatiere }}</li>
+                            @endforeach
+                        </ul>
+                        <p>Statut : {{ $demande->statut }}</p>
+                        @if ($demande->statut === 'en cours')
+                            <a href="{{ route('Tutorat.demandeedit', $demande->id) }}">Modifier la demande</a>
+                            
+                            <form method="POST" action="{{ route('Tutorat.demande.destroy', $demande->id) }}" style="display:inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?')">Supprimer la demande</button>
+                            </form>
+                        @endif
+                    </div>
+                @endforeach
+            @endif
+        </div>
+
+        <h2>Historique des demandes</h2>
+        <div class="historique-demandes">
+            @if ($historique->isEmpty())
+                <p>Il n'y a pas d'historique de demandes.</p>
+            @else
+                @foreach($historique as $demande)
+                    <div class="demande">
+                        <h3>Numéro de Demande #{{ $demande->id }}</h3>
+                        <p>Motivation : {{ $demande->motivation }}</p>
+                        <p>Matières :</p>
+                        <ul>
+                            @foreach($demande->matieres as $matiere)
+                                <li>{{ $matiere->nomMatiere }}</li>
+                            @endforeach
+                        </ul>
+                        <p>Statut : {{ $demande->statut }}</p>
+                        @if ($demande->statut === 'refuser')
+                            <p>Motif du refus : {{ $demande->motif }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    </section>
 @endsection

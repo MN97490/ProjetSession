@@ -34,6 +34,27 @@ class UsagersController extends Controller
         return View('Usagers.liste', compact('usagers','domainesEtude','matieresParDomaine','matieres'));
     }
 
+    public function rechercherUsagers(Request $request)
+{
+    
+      $search = $request->input('search');
+
+      
+      $domaineId = Auth::user()->domaineEtude;
+  
+    
+      $usagers = Usager::where('domaineEtude', $domaineId)
+                      ->where(function($query) use ($search) {
+                          $query->where('nom', 'LIKE', "{$search}%")
+                                ->orWhere('prenom', 'LIKE', "{$search}%")
+                                ->orWhere('nomUtilisateur', 'LIKE', "{$search}%");
+                      })
+                      ->get();
+
+    return view('Usagers.recherche', compact('usagers'));
+}
+
+
     /**
      * Show the form for creating a new resource.
      */

@@ -55,6 +55,52 @@
         </li>
     @endforeach
 </ul>
+
+<h2>Demandes pour être tuteur</h2>
+<ul>
+    @foreach($demandess as $demande)
+        @if($demande->usager->domaineEtude === Auth::user()->domaineEtude)
+            <li>
+                <h3>Demande #{{ $demande->id }}</h3>
+                <p>Motivation : {{ $demande->motivation }}</p>
+                <p>Matières :</p>
+                <ul>
+                    @foreach($demande->matieres as $matiere)
+                        <li>{{ $matiere->nomMatiere }}</li>
+                    @endforeach
+                </ul>
+                <p>Usager : {{ $demande->usager->nom }} {{ $demande->usager->prenom }}</p>
+                <form method="POST" action="{{ route('Tutorat.accepterDemande', $demande->id) }}">
+                    @csrf
+                    <button type="submit">Accepter</button>
+                </form>
+                <button type="button" onclick="toggleRefuseMotif({{ $demande->id }})">Refuser</button>
+                <form method="POST" action="{{ route('Tutorat.refuserDemande', $demande->id) }}" id="refuseForm-{{ $demande->id }}" style="display: none;">
+                    @csrf
+                    <input type="text" name="motif" placeholder="Motif du refus" required>
+                    <button type="submit">Confirmer le refus</button>
+                </form>
+            </li>
+        @endif
+    @endforeach
+</ul>
+
+<script>
+    function toggleRefuseMotif(demandeId) {
+        var form = document.getElementById('refuseForm-' + demandeId);
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
+
+ 
+
+
+<h2>Notes des matières</h2>
+
 @foreach($matieres as $matiere)
     <h3>{{ $matiere->nomMatiere }}</h3>
     <ul>
@@ -69,7 +115,7 @@
                     <form method="POST" action="{{ route('notes.update', ['noteId' => $note->id]) }}">
                         @csrf
                         @method('PUT')
-                        <input type="number" name="newNote" min="0" max="20" value="{{ $note->Note }}" required>
+                        <input type="number" name="newNote" min="0" max="100" value="{{ $note->Note }}" required>
                         <button type="submit">Modifier</button>
                     </form>
                 </li>

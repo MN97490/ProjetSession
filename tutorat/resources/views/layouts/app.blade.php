@@ -54,7 +54,16 @@
 
         @endrole
         <a href=""><i class="fas fa-bell sub-nav-logo"></i></a>
-     
+        
+        <a href="#" onclick="toggleSearch(); return false;"><i class="fas fa-search sub-nav-logo"></i></a>
+
+        <div id="searchBar" style="display:none;">
+        <h2>Rechercher des utilisateurs dans votre domaine d'étude</h2>
+        <form action="{{ route('Usagers.recherche') }}" method="GET">
+          <input type="text" name="search" placeholder="Rechercher par nom...">
+          <button type="submit">Rechercher</button>
+        </form>
+      </div>
         @csrf
         
         <form class="deconnexionBtn" action="{{route('Usagers.logout')}}" method="get">
@@ -96,3 +105,16 @@
 </body>
 
 </html>
+
+<script>
+
+function toggleSearch() {
+    var searchBar = document.getElementById("searchBar");
+    if (searchBar.style.display === 'none' || searchBar.style.display === '') {
+        searchBar.style.display = 'block';
+    } else {
+        searchBar.style.display = 'none';
+    }
+}
+
+</script>

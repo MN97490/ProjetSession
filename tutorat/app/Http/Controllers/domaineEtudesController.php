@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Domaine;
 use App\Models\Matiere;
 use App\Models\Note;
+use App\Models\Demande;
 use App\Http\Requests\DomaineRequest;
 
 class domaineEtudesController extends Controller
@@ -28,6 +29,7 @@ class domaineEtudesController extends Controller
 
     public function indexProf()
     {
+
         $matieress = Matiere::all();
         $usager = Auth::user();
         $domaineId = $usager->domaineEtude;
@@ -42,8 +44,20 @@ class domaineEtudesController extends Controller
                 ->with('usager')
                 ->get();
         }
+
+
+
+      
+        $demandess = Demande::where('statut', 'en cours')
+        ->with('usager', 'matieres')
+        ->get()
+        ->filter(function ($demande) use ($domaineId) {
+            return $demande->usager->domaineEtude === $domaineId;
+        });
+
+        $demandes = Demande::with(['usager', 'matieres'])->get();
     
-        return view('Domaines.index', compact('domaine', 'matieres','matieress', 'notesParMatiere'));
+        return view('Domaines.index', compact('domaine', 'matieres','matieress', 'notesParMatiere','demandes','demandess'));
     }
     
 

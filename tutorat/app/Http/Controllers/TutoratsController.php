@@ -15,6 +15,7 @@ use App\Models\Disponibilite;
 use App\Models\Domaine;
 use App\Models\Matiere;
 use App\Models\Note;
+use App\Models\Demande;
 
 class TutoratsController extends Controller
 {
@@ -35,16 +36,103 @@ class TutoratsController extends Controller
     }
 
     public function devenirTuteur(){
+      
 
         $matieress = Matiere::all();
         $usager = Auth::user();
+        $historique = $usager->demandes()->whereNotIn('statut', ['en cours'])->get();
         $domaineId = $usager->domaineEtude;
         $domaine = Domaine::find($domaineId);
         $matieres = $domaine->matieres;
         $nomDomaine = $domaine ? $domaine->nomDomaine : '';
-        return view('Tutorat.demande',compact('domaine','nomDomaine','matieres','matieress'));
+        $demandes = Demande::where('usager_id', auth()->user()->id)
+        ->where('statut', 'en cours')
+        ->get();
+        return view('Tutorat.demande',compact('domaine','nomDomaine','matieres','matieress','demandes','historique'));
 
     }
+
+    public function editDemande(Demande $demande)
+    {
+        $matieres = Matiere::all();
+        return view('Tutorat.demandeedit', compact('demande', 'matieres'));
+    
+
+    }
+
+    public function updateDemande(Request $request, Demande $demande)
+    {
+        $request->validate([
+            'motivation' => 'required|string',
+            'matieres' => 'required|array',
+        ]);
+
+        $demande->update([
+            'motivation' => $request->motivation,
+        ]);
+
+        $demande->matieres()->sync($request->matieres);
+
+        return redirect()->route('Tutorat.demande')->with('success', 'Demande mise à jour avec succès');
+    }
+
+    public function accepterDemande($id)
+{
+    $demande = Demande::findOrFail($id);
+    $demande->update(['statut' => 'accepter']);
+    return back()->with('success', 'Demande acceptée avec succès.');
+}
+
+
+public function refuserDemande(Request $request, $id)
+{
+    $request->validate([
+        'motif' => 'required|string|max:255',
+    ]);
+
+    $demande = Demande::findOrFail($id);
+    $demande->update([
+        'statut' => 'refuser',
+        'motif' => $request->motif,
+    ]);
+
+    return back()->with('success', 'Demande refusée avec succès.');
+}
+
+    public function destroyDemande(Request $request, $id)
+    {
+        $demande = Demande::findOrFail($id);
+        $demande->delete();
+        return redirect()->back()->with('success', 'La demande a été supprimée avec succès.');
+    }
+
+    public function devenirTuteurs(Request $request)
+{
+    $utilisateur = auth()->user();
+    $demandeEnCours = Demande::where('usager_id', $utilisateur->id)
+        ->where('statut', 'en cours')
+        ->exists();
+
+        if ($demandeEnCours) {
+            return redirect()->back()->with('error', 'Vous avez déjà une demande en cours.');
+        }else {
+    $data = $request->validate([
+        'matieres' => 'required|array',
+        'motivation' => 'required|string|max:255',
+    ]);
+
+   
+    $demande = Demande::create([
+        'usager_id' => $utilisateur->id,
+        'motivation' => $data['motivation'],
+    ]);
+
+    
+    $demande->matieres()->attach($data['matieres']);
+
+    return redirect()->back()->with('success', 'Votre demande a été soumise avec succès.');
+    }
+}
     public function rechercherTuteur(Request $request)
     {
         // Récupérer l'ID de la matière
