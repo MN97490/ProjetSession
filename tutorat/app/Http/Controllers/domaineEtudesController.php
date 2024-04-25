@@ -56,8 +56,15 @@ class domaineEtudesController extends Controller
         });
 
         $demandes = Demande::with(['usager', 'matieres'])->get();
+        $tuteurs = Usager::where('domaineEtude', $domaineId)
+                     ->where('is_tuteur', true)
+                     ->with('matieresAutorisees')
+                     ->get();
     
-        return view('Domaines.index', compact('domaine', 'matieres','matieress', 'notesParMatiere','demandes','demandess'));
+
+                     $usagersDomaine = Usager::where('domaineEtude', $domaineId)->get();
+
+        return view('Domaines.index', compact('domaine', 'matieres','matieress', 'notesParMatiere','demandes','demandess','tuteurs', 'usagersDomaine'));
     }
     
 

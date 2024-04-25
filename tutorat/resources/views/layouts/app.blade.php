@@ -36,10 +36,10 @@
        
       
  
-        <a href="/tutorat">Tutorat</a>
-        @unless(Auth::user()->is_tuteur)
-      <a href="devenirTuteur">Devenir Tuteur</a>
-    @endunless
+        
+        
+      <a href="devenirTuteur">Tutorat</a>
+ 
     
         <a href="/profil">Profil</a>
         @role('admin')

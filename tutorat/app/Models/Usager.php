@@ -45,4 +45,11 @@ public function demandes()
     return $this->hasMany(Demande::class);
 }
 
+
+public function matieresAutorisees()
+{
+    return $this->belongsToMany(Matiere::class, 'matieres_tuteur', 'usager_id', 'matiere_id');
+}
+
+
 }

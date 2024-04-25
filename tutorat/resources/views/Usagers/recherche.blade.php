@@ -10,22 +10,19 @@
     @else
         <ul class="usagers-list">
             @foreach($usagers as $usager)
-                @if($usager->id !== Auth::id())
+                @if($usager->id !== Auth::id() && !(Auth::user()->role === 'eleve' && $usager->role === 'admin'))
                     <li>
                         <strong>{{ $usager->nom }} {{ $usager->prenom }}</strong>
                         <span>Rôle(s) : {{ $usager->role }}</span>
-                        <a href="" class="btn-profil">Voir le profil</a>
+                        <a href="{{ route('Usagers.zoom', $usager->id) }}" class="btn-profil">Voir le profil</a>
                     </li>
                 @endif
             @endforeach
         </ul>
     @endif
-
-
-
+</section>
 
 <style>
-
 .usagers-list {
     list-style-type: none;
     padding: 0;
@@ -43,10 +40,6 @@
     font-style: italic;
     color: #666;
 }
-
 </style>
-
-
-</section>
 
 @endsection

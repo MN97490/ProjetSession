@@ -95,8 +95,59 @@
         }
     }
 </script>
+<h2>Tuteurs du programme {{ $domaine->nomDomaine }}:</h2>
+<h2>Ajouter des autorisations</h2>
+        <form action="{{ route('autorisation.add') }}" method="POST">
+            @csrf
+            <label for="usagerSelect">Choisir un usager :</label>
+            <select name="usager_id" id="usagerSelect">
+                @foreach($usagersDomaine as $usager)
+                    <option value="{{ $usager->id }}">{{ $usager->nom }} {{ $usager->prenom }}</option>
+                @endforeach
+            </select>
 
- 
+            <h3>Choisir les matières :</h3>
+            @foreach($matieres as $matiere)
+                <div>
+                    <input type="checkbox" name="matieres[]" value="{{ $matiere->id }}" id="matiere{{ $matiere->id }}">
+                    <label for="matiere{{ $matiere->id }}">{{ $matiere->nomMatiere }}</label>
+                </div>
+            @endforeach
+
+            <button type="submit">Ajouter les autorisations</button>
+        </form>
+
+        <ul>
+    @foreach($tuteurs as $tuteur)
+        <li>
+            <strong>{{ $tuteur->nom }} {{ $tuteur->prenom }}</strong>
+       
+            <form method="POST" action="{{ route('tuteur.remove', ['usager_id' => $tuteur->id]) }}" style="display: inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir retirer ce statut de tuteur ?')">Retirer Status Tuteur</button>
+            </form>
+
+            <ul>
+                <li><strong>Matières autorisées :</strong>
+                    <ul>
+                        @foreach($tuteur->matieresAutorisees as $matiere)
+                            <li>
+                                {{ $matiere->nomMatiere }}
+                                <form method="POST" action="{{ route('matieres_tuteur.destroy', ['usager_id' => $tuteur->id, 'matiere_id' => $matiere->id]) }}" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette autorisation ?')">Supprimer</button>
+                                </form>
+                            </li>
+                            <br>
+                        @endforeach
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    @endforeach
+</ul>
 
 
 <h2>Notes des matières</h2>
@@ -123,7 +174,11 @@
         @endforeach
     </ul>
 @endforeach
+
+
+
+
 </section>
 
-
+@endsection
 

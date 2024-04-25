@@ -129,8 +129,13 @@ Route::DELETE('/demande/{id}', [TutoratsController::class, 'destroyDemande'])->n
 
 Route::post('/accepter-demande/{demande}', [TutoratsController::class,'accepterDemande'])->name('Tutorat.accepterDemande');
 Route::post('/refuser-demande/{demande}', [TutoratsController::class,'refuserDemande'])->name('Tutorat.refuserDemande');
+Route::delete('/matieres-tuteur/{usager_id}/{matiere_id}', [TutoratsController::class, 'destroyMatiereTuteur'])->name('matieres_tuteur.destroy');
+Route::post('/autorisation/add', [TutoratsController::class, 'addAutorisation'])->name('autorisation.add');
+Route::delete('/tuteur/remove/{usager_id}', [TutoratsController::class, 'removeTuteurStatus'])->name('tuteur.remove');
+
 
 Route::get('/Usager/rechercherUsagers', [UsagersController::class,'rechercherUsagers'])->name('Usagers.recherche');
 
 
+Route::get('/Usager/rechercherUsagers{id}', [UsagersController::class,'zoomUsager'])->name('Usagers.zoom');
 

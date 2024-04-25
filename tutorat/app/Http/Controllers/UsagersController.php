@@ -35,7 +35,7 @@ class UsagersController extends Controller
     }
 
     public function rechercherUsagers(Request $request)
-{
+    {
     
       $search = $request->input('search');
 
@@ -46,18 +46,28 @@ class UsagersController extends Controller
       $usagers = Usager::where('domaineEtude', $domaineId)
                       ->where(function($query) use ($search) {
                           $query->where('nom', 'LIKE', "{$search}%")
-                                ->orWhere('prenom', 'LIKE', "{$search}%")
-                                ->orWhere('nomUtilisateur', 'LIKE', "{$search}%");
+                                ->orWhere('prenom', 'LIKE', "{$search}%") ;
+                                
                       })
                       ->get();
 
     return view('Usagers.recherche', compact('usagers'));
-}
+    }
+
+    public function zoomUsager(string $id){
+        $domaines = Domaine::all();
+        
+
+        $usager = Usager::findOrFail($id);
+        $domaineUsager=$usager->domaineEtude;
+        $domaine=Domaine::findOrFail($domaineUsager);
+        
+        return view('Usagers.zoom', compact('usager','domaine'));
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    }
+
+
     public function create()
     {
         //$domaines = domaine::all();

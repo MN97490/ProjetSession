@@ -75,13 +75,41 @@ class TutoratsController extends Controller
 
         return redirect()->route('Tutorat.demande')->with('success', 'Demande mise à jour avec succès');
     }
-
     public function accepterDemande($id)
-{
-    $demande = Demande::findOrFail($id);
-    $demande->update(['statut' => 'accepter']);
-    return back()->with('success', 'Demande acceptée avec succès.');
-}
+    {
+        $demande = Demande::findOrFail($id);
+        $demande->statut = 'accepter';
+        $demande->save();
+    
+        $usager = $demande->usager;
+    
+        // Vérifier si l'utilisateur est déjà un tuteur
+        if (!$usager->is_tuteur) {
+            $usager->is_tuteur = true;
+            $usager->save();
+        }
+    
+        // Récupérer les matières pour lesquelles l'utilisateur est déjà autorisé à être tuteur
+        $matieresExistantes = $usager->matieresAutorisees()->pluck('matieres.id')->toArray();
+
+    
+        // Récupérer les nouvelles matières pour lesquelles l'utilisateur a demandé à être tuteur
+        $matieresAutorisees = $usager->matieresAutorisees()->pluck('matieres.id')->toArray();
+
+    
+       // Récupérer les nouvelles matières pour lesquelles l'utilisateur a demandé à être tuteur
+       $nouvellesMatieres = $demande->matieres()->pluck('matieres.id')->toArray();
+
+
+// Fusionner les nouvelles matières avec les matières existantes pour éviter les doublons
+$matieresAutorisees = array_merge($matieresExistantes, $nouvellesMatieres);
+
+        // Enregistrer les matières pour lesquelles l'utilisateur est autorisé à être tuteur
+        $usager->matieresAutorisees()->sync($matieresAutorisees);
+    
+        return back()->with('success', 'Demande acceptée avec succès.');
+    }
+    
 
 
 public function refuserDemande(Request $request, $id)
@@ -98,6 +126,50 @@ public function refuserDemande(Request $request, $id)
 
     return back()->with('success', 'Demande refusée avec succès.');
 }
+
+public function destroyMatiereTuteur($usager_id, $matiere_id)
+{
+    $usager = Usager::find($usager_id);
+    $usager->matieresAutorisees()->detach($matiere_id);
+
+    return redirect()->back()->with('success', 'Autorisation supprimée avec succès.');
+}
+
+public function addAutorisation(Request $request)
+{
+    $usager = Usager::find($request->usager_id);
+
+    
+    if (!$usager->is_tuteur) {
+        $usager->is_tuteur = true;
+        $usager->save();
+    }
+
+
+    $usager->matieresAutorisees()->syncWithoutDetaching($request->matieres);
+
+    return redirect()->back()->with('success', 'Autorisations ajoutées avec succès. Usager mis à jour comme tuteur si nécessaire.');
+}
+
+
+public function removeTuteurStatus($usager_id)
+{
+    $usager = Usager::find($usager_id);
+    if ($usager && $usager->is_tuteur) {
+       
+        $usager->is_tuteur = false;
+        $usager->save();
+
+     
+        $usager->matieresAutorisees()->detach();
+
+        return redirect()->back()->with('success', 'Statut de tuteur retiré avec succès.');
+    }
+
+    return redirect()->back()->with('error', 'Usager non trouvé ou nétait pas un tuteur.');
+}
+
+
 
     public function destroyDemande(Request $request, $id)
     {
