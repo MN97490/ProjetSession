@@ -13,8 +13,11 @@ class DisponibilitesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'start' => 'required|date',
-            'end' => 'required|date|after:start',
+            'start' => 'required|date|after:now',  
+            'end' => 'required|date|after:start',          
+        ], [    
+            'start.after' => 'La date et l\'heure de début doivent être dans le futur.',
+            'end.after' => 'La date de fin doit être après la date de début.',
         ]);
 
         // Ajoutez cette ligne pour extraire la date à partir de la valeur 'start'

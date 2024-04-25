@@ -39,12 +39,21 @@
         slotDuration: '01:00', // Durée des créneaux (1 heure)
         selectable: true, // Active la sélection de dates
         select: function(info) {
-          // Vérifier si la date sélectionnée est un samedi ou un dimanche
-          if ([6, 0].includes(info.start.getDay())) {
-            alert("Vous ne pouvez pas créer de disponibilité le samedi ou le dimanche.");
-            calendar.unselect();
-            return;
-          }
+  // Vérifie si la date sélectionnée est un samedi ou un dimanche
+  if ([6, 0].includes(info.start.getDay())) {
+    alert("Vous ne pouvez pas créer de disponibilité le samedi ou le dimanche.");
+    calendar.unselect();
+    return;
+  }
+  
+  // Vérifie si la durée de la sélection dépasse 2 heures
+  var diffInHours = moment(info.end).diff(moment(info.start), 'hours');
+
+  if (diffInHours >1 ) {
+    alert("Vous ne pouvez sélectionner qu'une période maximale de 1 heure.");
+    calendar.unselect();
+    return;
+  }
           
           var start = info.startStr;
           var end = info.endStr;
