@@ -12,7 +12,11 @@ use Illuminate\Http\Request;
 
 class ConversationController extends Controller
 {
-
+    
+    private $conversationRepository;
+    public function __construct(ConversationRepository $conversationRepository){
+        $this->conversationRepository=$conversationRepository;
+    }
     public function index(){
         $users = Usager::all() -> where('id','!=',Auth::user()->id);
         return view('Conversation.index',compact('users'));
