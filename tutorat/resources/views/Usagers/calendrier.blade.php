@@ -3,6 +3,7 @@
 @section('title', 'Calendrier')
 
 @section('contenu')
+<section class="main-container">
   <div id="calendar"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -15,7 +16,9 @@
       max-width: 1100px;
       margin: 0 auto;
       height: 40vh; /* 70% de la hauteur de la fenêtre */
+      padding-top: 20px;
     }
+
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -118,5 +121,5 @@
       calendar.render();
     });
   </script>
-  
+  </section>
 @endsection

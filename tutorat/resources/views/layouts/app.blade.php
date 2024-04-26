@@ -59,7 +59,7 @@
         <a href="#" onclick="toggleSearch(); return false;"><i class="fas fa-search sub-nav-logo"></i></a>
 
         <div id="searchBar" style="display:none;">
-        <h2>Rechercher des utilisateurs dans votre domaine d'étude</h2>
+        <h2 class="barrecherche">Rechercher des utilisateurs dans votre domaine d'étude</h2>
         <form action="{{ route('Usagers.recherche') }}" method="GET">
           <input type="text" name="search" placeholder="Rechercher par nom...">
           <button type="submit">Rechercher</button>

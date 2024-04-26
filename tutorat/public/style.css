@@ -3,7 +3,6 @@
     text-align: center;
  }
 
- 
 .bodyConnect {
    margin: 0;
    display: flex;
@@ -611,7 +610,9 @@ text-align: center;
   min-height: 100vh;
    position: relative;
  }
- 
+ .barrecherche{
+  color:white;
+ }
  /* HEADER */
  header {
    padding: 20px 20px 0 20px;

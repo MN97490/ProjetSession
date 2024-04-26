@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
 @section('title', "Devenir Tuteur")
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @section('contenu')
+<br><br>
+
     <h1>Devenir Tuteur dans votre programme {{ $nomDomaine }}</h1>
     <section class="main-container">
         @if (session('error'))
@@ -24,7 +26,7 @@
             <label for="motivation">Décrire vos motivations pour devenir Tuteur :</label><br>
             <textarea name="motivation" style="width: 400px; height: 100px;"></textarea>
             <br><br>
-            <button type="submit">Soumettre</button>
+            <button type="submit" class="btn btn-success">Soumettre</button>
         </form>
 
         <h2>Demandes en cours</h2>
@@ -44,12 +46,12 @@
                         </ul>
                         <p>Statut : {{ $demande->statut }}</p>
                         @if ($demande->statut === 'en cours')
-                            <a href="{{ route('Tutorat.demandeedit', $demande->id) }}">Modifier la demande</a>
+                            <a href="{{ route('Tutorat.demandeedit', $demande->id) }}" class="btn btn-info">Modifier la demande</a>
                             
                             <form method="POST" action="{{ route('Tutorat.demande.destroy', $demande->id) }}" style="display:inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?')">Supprimer la demande</button>
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?')">Supprimer la demande</button>
                             </form>
                         @endif
                     </div>
