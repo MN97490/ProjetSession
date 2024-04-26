@@ -4,15 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsagersController;
 use App\Http\Controllers\TutoratsController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\RencontresController;
 
 use App\Http\Controllers\domaineEtudesController;
 use App\Http\Controllers\MatieresController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\DisponibilitesController;
-
-
-
-
 
 
 Route::get('/',
@@ -121,6 +118,9 @@ Route::delete('/disponibilites/{id}', [DisponibilitesController::class, 'destroy
 Route::get('/tutorat', [TutoratsController::class, 'indexRecherche'])->name('Tutorat.tuteur');
 
 
+Route::get('/Messagerie',[ConversationController::class,'index'])->name('Conversation.index');
+Route::get('/Messagerie/{user}',[ConversationController::class,'show'])->name('conversation.users');
+Route::get('/Messagerie/{id}','ConversationController@show')->name('conversation.show');
 
 Route::post('/recherche-tuteur', [TutoratsController::class, 'rechercherTuteur'])->name('Tutorat.recherche');
 
