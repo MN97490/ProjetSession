@@ -143,3 +143,5 @@ Route::get('/Usager/rechercherUsagers{id}', [UsagersController::class,'zoomUsage
 Route::post('/rencontres/store', [RencontresController::class, 'store'])->name('rencontres.store');
 
 Route::get('/rencontres', [RencontresController::class,'index'])->name('Tutorat.rencontre');
+
+Route::delete('/rencontres/remove/{rencontre_id}', [RencontresController::class, 'destroy'])->name('rencontres.destroy');

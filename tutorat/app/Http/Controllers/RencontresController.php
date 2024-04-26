@@ -19,9 +19,32 @@ class RencontresController extends Controller
 {
 
     public function index() {
-        return view('Tutorat.rencontre');
+        $userId = auth()->id(); 
+        $rencontres = Rencontre::where('tuteur_id', $userId)
+                                ->orWhere('eleve_id', $userId)
+                                ->get();  
 
+            foreach ($rencontres as $rencontre) {
+             if ($rencontre->heure_fin < now() && $rencontre->status !== 'terminé') {
+              $rencontre->update(['status' => 'terminé']);
+              }
+                 }
+                            
+                                
+             $rencontres = Rencontre::where('tuteur_id', $userId)
+                    ->orWhere('eleve_id', $userId)
+                    ->get();
+                            
+    
+        return view('Tutorat.rencontre', compact('rencontres'));  
     }
+
+    public function destroy($id)
+{
+    $rencontre = Rencontre::findOrFail($id);
+    $rencontre->delete();
+    return redirect()->route('Tutorat.rencontre')->with('success', 'Rencontre annulée avec succès.');
+}
 
     
     public function store(Request $request)

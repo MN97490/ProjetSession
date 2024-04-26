@@ -83,28 +83,28 @@ class TutoratsController extends Controller
     
         $usager = $demande->usager;
     
-        // Vérifier si l'utilisateur est déjà un tuteur
+        
         if (!$usager->is_tuteur) {
             $usager->is_tuteur = true;
             $usager->save();
         }
     
-        // Récupérer les matières pour lesquelles l'utilisateur est déjà autorisé à être tuteur
+        
         $matieresExistantes = $usager->matieresAutorisees()->pluck('matieres.id')->toArray();
 
     
-        // Récupérer les nouvelles matières pour lesquelles l'utilisateur a demandé à être tuteur
+      
         $matieresAutorisees = $usager->matieresAutorisees()->pluck('matieres.id')->toArray();
 
     
-       // Récupérer les nouvelles matières pour lesquelles l'utilisateur a demandé à être tuteur
+      
        $nouvellesMatieres = $demande->matieres()->pluck('matieres.id')->toArray();
 
 
-// Fusionner les nouvelles matières avec les matières existantes pour éviter les doublons
+
 $matieresAutorisees = array_merge($matieresExistantes, $nouvellesMatieres);
 
-        // Enregistrer les matières pour lesquelles l'utilisateur est autorisé à être tuteur
+     
         $usager->matieresAutorisees()->sync($matieresAutorisees);
     
         return back()->with('success', 'Demande acceptée avec succès.');
@@ -240,24 +240,17 @@ public function rechercherTuteur(Request $request)
                             }
                         });
                     })
-                    ->where(function ($query) use ($disponibilitesUtilisateur) {
-                        $query->whereHas('disponibilites', function ($q) use ($disponibilitesUtilisateur) {
-                            $q->where(function ($subQuery) use ($disponibilitesUtilisateur) {
-                                foreach ($disponibilitesUtilisateur as $disponibilite) {
-                                    $subQuery->orWhere(function ($subSubQuery) use ($disponibilite) {
-                                        $subSubQuery->where('jour', $disponibilite->jour)
-                                                    ->where('start', $disponibilite->start)
-                                                    ->where('end', $disponibilite->end);
-                                    });
-                                }
-                            });
-                        });
-                    })
+                    ->with(['disponibilites' => function ($query) use ($disponibilitesUtilisateur) {
+                        $query->whereIn('jour', $disponibilitesUtilisateur->pluck('jour'))
+                              ->whereIn('start', $disponibilitesUtilisateur->pluck('start'))
+                              ->whereIn('end', $disponibilitesUtilisateur->pluck('end'));
+                            }])
                     ->get();
 
     return view('Tutorat.recherche', [
         'tuteurs' => $tuteurs,
-        'nomMatiere' => $matiere->nomMatiere
+        'nomMatiere' => $matiere->nomMatiere,
+        'disponibilitesUtilisateur' => $disponibilitesUtilisateur 
     ]);
 }
 
