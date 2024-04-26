@@ -37,7 +37,7 @@
       
  
         
-        
+      <a href="/tutorat">Recherche Tuteur</a>
       <a href="devenirTuteur">Tutorat</a>
  
     
@@ -47,6 +47,7 @@
 
         @endrole
         <a href="/calendrier">Mes disponibilités</a>
+        <a href="/rencontres">Mes rencontres</a>
         
         
         @role('admin','prof')

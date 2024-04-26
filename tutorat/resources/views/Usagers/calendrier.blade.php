@@ -45,6 +45,15 @@
     calendar.unselect();
     return;
   }
+
+  var today = new Date();
+    if (info.start.getFullYear() === today.getFullYear() &&
+        info.start.getMonth() === today.getMonth() &&
+        info.start.getDate() === today.getDate()) {
+        alert("Vous ne pouvez pas choisir aujourd'hui comme disponibilité.");
+        calendar.unselect();
+        return;
+    }
   
   // Vérifie si la durée de la sélection dépasse 2 heures
   var diffInHours = moment(info.end).diff(moment(info.start), 'hours');
@@ -109,4 +118,5 @@
       calendar.render();
     });
   </script>
+  
 @endsection

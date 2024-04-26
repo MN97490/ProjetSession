@@ -8,6 +8,7 @@ use App\Http\Controllers\domaineEtudesController;
 use App\Http\Controllers\MatieresController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\DisponibilitesController;
+use App\Http\Controllers\RencontresController;
 
 
 
@@ -139,3 +140,6 @@ Route::get('/Usager/rechercherUsagers', [UsagersController::class,'rechercherUsa
 
 Route::get('/Usager/rechercherUsagers{id}', [UsagersController::class,'zoomUsager'])->name('Usagers.zoom');
 
+Route::post('/rencontres/store', [RencontresController::class, 'store'])->name('rencontres.store');
+
+Route::get('/rencontres', [RencontresController::class,'index'])->name('Tutorat.rencontre');

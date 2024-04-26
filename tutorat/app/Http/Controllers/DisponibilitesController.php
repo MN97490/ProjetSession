@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Disponibilite;
 use Carbon\Carbon;
+use App\Models\Rencontre;
 
 
 
@@ -19,7 +20,19 @@ class DisponibilitesController extends Controller
             'start.after' => 'La date et l\'heure de début doivent être dans le futur.',
             'end.after' => 'La date de fin doit être après la date de début.',
         ]);
+           // Vérifier si une rencontre est déjà prévue pendant cette période
+    $existingMeeting = Rencontre::where(function ($query) use ($request) {
+        $query->where('eleve_id', auth()->id())
+              ->orWhere('tuteur_id', auth()->id());
+    })
+    ->where('status', 'à venir')
+    ->where('heure_debut', '<', $request->end)
+    ->where('heure_fin', '>', $request->start)
+    ->exists();
 
+    if ($existingMeeting) {
+        return response()->json(['message' => 'Vous avez déjà une rencontre prévue à cette période.'], 409);
+    }
         // Ajoutez cette ligne pour extraire la date à partir de la valeur 'start'
         $jour = Carbon::parse($request->start)->toDateString();
 
@@ -35,6 +48,9 @@ class DisponibilitesController extends Controller
 
     public function index()
 {
+    Disponibilite::where('usager_id', auth()->id())
+    ->where('end', '<', Carbon::now())
+    ->delete();
     $disponibilites = Disponibilite::where('usager_id', auth()->id())->get(['id', 'start', 'end']);
     return response()->json($disponibilites);
 }

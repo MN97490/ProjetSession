@@ -30,7 +30,7 @@ class TutoratsController extends Controller
     {
         $matieres = Matiere::all();
        
-      
+        Disponibilite::where('end', '<', Carbon::now())->delete();
 
          return view('Tutorat.tuteur',compact('matieres'));
     }
@@ -205,54 +205,62 @@ public function removeTuteurStatus($usager_id)
     return redirect()->back()->with('success', 'Votre demande a été soumise avec succès.');
     }
 }
-    public function rechercherTuteur(Request $request)
-    {
-        // Récupérer l'ID de la matière
-        $matiereId = $request->input('matiere');
+public function rechercherTuteur(Request $request)
+{
     
-        // Récupérer l'utilisateur
-        $utilisateur = auth()->user();
-    
-        // Récupérer la matière
-        $matiere = Matiere::findOrFail($matiereId);
-    
-        // Récupérer les disponibilités de l'utilisateur
-        $disponibilitesUtilisateur = $utilisateur->disponibilites;
-    
-        // Récupérer la note de l'utilisateur pour cette matière
-        $utilisateurNote = $utilisateur->notes->where('idMatiere', $matiereId)->first();
-    
-        // Récupérer les tuteurs
-        $tuteurs = Usager::where('is_tuteur', 1)
-                        ->where('domaineEtude', $utilisateur->domaineEtude)
-                        ->whereHas('notes', function ($query) use ($matiereId, $utilisateurNote) {
-                            $query->where('idMatiere', $matiereId);
+    $matiereId = $request->input('matiere');
+
+   
+    $utilisateur = auth()->user();
+
+ 
+    $matiere = Matiere::findOrFail($matiereId);
+
+
+    $disponibilitesUtilisateur = $utilisateur->disponibilites;
+
+  
+    $tuteurs = Usager::where('is_tuteur', 1)
+                    ->where('presence', $utilisateur->presence)
+                    ->where('domaineEtude', $utilisateur->domaineEtude)
+                    ->whereHas('matieresAutorisees', function ($query) use ($matiereId) {
+                        $query->where('matiere_id', $matiereId);
+                    })
+                    ->where(function ($query) use ($matiereId, $utilisateur) {
+       
+                        $query->whereHas('notes', function ($subQuery) use ($matiereId) {
+                            $subQuery->where('idMatiere', $matiereId);
+                        }, '=', 0) 
+                        ->orWhereHas('notes', function ($subQuery) use ($matiereId, $utilisateur) {
+                            $utilisateurNote = $utilisateur->notes->where('idMatiere', $matiereId)->first();
+                            $subQuery->where('idMatiere', $matiereId)
+                                     ->where('role', '!=', 'prof'); 
                             if ($utilisateurNote) {
-                                $query->where('Note', '>', (float) $utilisateurNote->Note); // Conversion en nombre
+                                $subQuery->where('Note', '>', (float) $utilisateurNote->Note);
                             }
-                        })
-                        ->where(function ($query) use ($disponibilitesUtilisateur) {
-                            $query->whereHas('disponibilites', function ($q) use ($disponibilitesUtilisateur) {
-                                // Comparaison de chaque disponibilité de l'utilisateur avec celle du tuteur
-                                $q->where(function ($subQuery) use ($disponibilitesUtilisateur) {
-                                    foreach ($disponibilitesUtilisateur as $disponibilite) {
-                                        $subQuery->orWhere(function ($subSubQuery) use ($disponibilite) {
-                                            $subSubQuery->where('jour', $disponibilite->jour)
-                                                        ->where('start', $disponibilite->start)
-                                                        ->where('end', $disponibilite->end);
-                                        });
-                                    }
-                                });
+                        });
+                    })
+                    ->where(function ($query) use ($disponibilitesUtilisateur) {
+                        $query->whereHas('disponibilites', function ($q) use ($disponibilitesUtilisateur) {
+                            $q->where(function ($subQuery) use ($disponibilitesUtilisateur) {
+                                foreach ($disponibilitesUtilisateur as $disponibilite) {
+                                    $subQuery->orWhere(function ($subSubQuery) use ($disponibilite) {
+                                        $subSubQuery->where('jour', $disponibilite->jour)
+                                                    ->where('start', $disponibilite->start)
+                                                    ->where('end', $disponibilite->end);
+                                    });
+                                }
                             });
-                        })
-                        ->get();
-    
-        return view('Tutorat.recherche', [
-            'tuteurs' => $tuteurs,
-            'nomMatiere' => $matiere->nomMatiere
-        ]);
-    }
-    
+                        });
+                    })
+                    ->get();
+
+    return view('Tutorat.recherche', [
+        'tuteurs' => $tuteurs,
+        'nomMatiere' => $matiere->nomMatiere
+    ]);
+}
+
     
     
     
