@@ -48,6 +48,10 @@
         @endrole
         <a href="/calendrier">Mes disponibilités</a>
         <a href="/rencontres">Mes rencontres</a>
+
+       @if(auth()->user()->is_tuteur) 
+         <a href="/remuneration/check">Ma rémunération</a>
+       @endif
         
         
         @role('admin','prof')

@@ -25,8 +25,8 @@ class RencontresController extends Controller
                                 ->get();  
 
             foreach ($rencontres as $rencontre) {
-             if ($rencontre->heure_fin < now() && $rencontre->status !== 'terminé') {
-              $rencontre->update(['status' => 'terminé']);
+             if ($rencontre->heure_fin < now() && $rencontre->status !== 'terminer') {
+              $rencontre->update(['status' => 'terminer']);
               }
                  }
                             

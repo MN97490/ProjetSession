@@ -145,3 +145,12 @@ Route::post('/rencontres/store', [RencontresController::class, 'store'])->name('
 Route::get('/rencontres', [RencontresController::class,'index'])->name('Tutorat.rencontre');
 
 Route::delete('/rencontres/remove/{rencontre_id}', [RencontresController::class, 'destroy'])->name('rencontres.destroy');
+
+
+
+Route::get('/remuneration/check', [TutoratsController::class, 'afficherFormSecu'])->name('Tutorat.check');
+
+
+
+Route::post('/remuneration/verify', [TutoratsController::class, 'verifyPassword'])->name('remuneration.verify');
+
