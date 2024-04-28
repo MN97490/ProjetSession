@@ -28,7 +28,7 @@
         <div>
             <p>{{ $sondage->titre }} - {{ $sondage->description }} - Type: {{ $sondage->type }}
                 @if($sondage->type === 'evaluation')
-                    - Rating: {{ $sondage->ratingSondage ?? 'Non évalué' }}
+                    - Rating: {{ $sondage->ratingSondage ?? 'Non évalué' }}/5
                 @endif
             </p>
             <a href="{{ route('Sondages.show', $sondage->id) }}" class="btn btn-info">Voir Sondage</a>

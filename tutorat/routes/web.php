@@ -10,6 +10,7 @@ use App\Http\Controllers\NotesController;
 use App\Http\Controllers\DisponibilitesController;
 use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SondagesController;
+use App\Http\Controllers\ConversationsController;
 
 
 
@@ -172,3 +173,7 @@ Route::DELETE('/gestionSondage/destroy/{sondage_id}', [SondagesController::class
 Route::get('/gestionSondage/zoom/{id}', [SondagesController::class,'show'])->name('Sondages.show');
 
 Route::POST('/Sondage/reponse', [SondagesController::class,'storeCommentaire'])->name('commentaires.store');
+
+Route::get('/Conversation', [ConversationsController::class,'index'])->name('Conversations.index');
+
+Route::post('/Conversation/store', [ConversationsController::class,'store'])->name('conversations.store');
