@@ -181,7 +181,7 @@ class UsagersController extends Controller
     {
         $reussi = Auth::attempt(['nomUtilisateur' => $request->username, 'password' => $request->password]);
         if($reussi){
-            return redirect()->route('Tutorat.index') ->with('message', "Connexion réussie");
+            return redirect()->route('Sondages.index') ->with('message', "Connexion réussie");
         }
         else{
             return redirect()->route('login')->withErrors(['Informations invalides']); 

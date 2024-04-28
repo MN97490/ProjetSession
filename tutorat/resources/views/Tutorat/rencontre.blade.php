@@ -26,7 +26,7 @@
 
         <h2>Rencontres terminées</h2>
         <ul>
-            @foreach($rencontres->where('status', 'terminé') as $rencontre)
+            @foreach($rencontres->where('status', 'terminer') as $rencontre)
                 <li>
                     Rencontre avec {{ $rencontre->tuteur_id == auth()->id() ? $rencontre->eleve->nom : $rencontre->tuteur->nom }}
                     le {{ $rencontre->heure_debut }} à

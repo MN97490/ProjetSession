@@ -44,7 +44,7 @@
         <a href="/profil">Profil</a>
         @role('admin')
         <a href="/usagers/liste">Panneau Administration</a>
-
+        <a href="/gestionSondage">Gestion Sondages</a>
         @endrole
         <a href="/calendrier">Mes disponibilités</a>
         <a href="/rencontres">Mes rencontres</a>

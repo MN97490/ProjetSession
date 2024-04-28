@@ -68,18 +68,39 @@ class TutoratsController extends Controller
     {
     $tuteurId = Auth::id(); 
     $deuxSemaines = Carbon::now()->subWeeks(2);
+    $mois = Carbon::now()->subMonth();
+    $year = Carbon::now()->year;
+
     $tarifParRencontre = 17;
 
     $rencontres = Rencontre::where('tuteur_id', $tuteurId)
                             ->where('status', 'terminer')
                             ->where('heure_fin', '>=', $deuxSemaines)
                             ->get();
+                            
 
+
+     $rencontresM = Rencontre::where('tuteur_id', $tuteurId)
+                            ->where('status', 'terminer')
+                            ->where('heure_fin', '>=', $mois)
+                            ->get();
+
+    $rencontresY = Rencontre::where('tuteur_id', $tuteurId)
+                            ->where('status', 'terminer')
+                            ->where('heure_fin', '>=', $year)
+                            ->get();
     $totalRemuneration = count($rencontres) * $tarifParRencontre;
+    $totalRemunerationM = count($rencontresM)* $tarifParRencontre;
+    $totalRemunerationY = count($rencontresY)* $tarifParRencontre;
 
     return view('Tutorat.remuneration', [
         'totalRemuneration' => $totalRemuneration,
-        'rencontresCount' => count($rencontres)
+        'rencontresCount' => count($rencontres),
+        'rencontresCountM'=>count ($rencontresM),
+        'totalRemunerationM'=>$totalRemunerationM,
+        'rencontresCountY'=>count ($rencontresY),
+        'totalRemunerationY'=>$totalRemunerationY,
+        'year'=>$year,
     ]);  
 }
 
