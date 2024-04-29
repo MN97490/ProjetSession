@@ -9,6 +9,8 @@ use App\Http\Controllers\MatieresController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\DisponibilitesController;
 use App\Http\Controllers\RencontresController;
+use App\Http\Controllers\SondagesController;
+use App\Http\Controllers\ConversationsController;
 
 
 
@@ -145,3 +147,33 @@ Route::post('/rencontres/store', [RencontresController::class, 'store'])->name('
 Route::get('/rencontres', [RencontresController::class,'index'])->name('Tutorat.rencontre');
 
 Route::delete('/rencontres/remove/{rencontre_id}', [RencontresController::class, 'destroy'])->name('rencontres.destroy');
+
+
+
+Route::get('/remuneration/check', [TutoratsController::class, 'afficherFormSecu'])->name('Tutorat.check');
+
+
+
+Route::post('/remuneration/verify', [TutoratsController::class, 'verifyPassword'])->name('remuneration.verify');
+
+
+Route::get('/Sondage', [SondagesController::class, 'index'])->name('Sondages.index');
+Route::get('/gestionSondage', [SondagesController::class, 'gestionSondage'])->name('Sondages.gestion');
+
+Route::get('/gestionSondage/creation', [SondagesController::class, 'create'])->name('Sondages.create');
+
+Route::post('/gestionSondage/store', [SondagesController::class, 'store'])->name('Sondages.store');
+
+Route::get('/gestionSondage/edit/{sondage_id}', [SondagesController::class, 'edit'])->name('Sondages.edit');
+
+Route::put('/gestionSondage/update/{sondage_id}', [SondagesController::class, 'update'])->name('Sondages.update');
+
+Route::DELETE('/gestionSondage/destroy/{sondage_id}', [SondagesController::class, 'destroy'])->name('Sondages.destroy');
+
+Route::get('/gestionSondage/zoom/{id}', [SondagesController::class,'show'])->name('Sondages.show');
+
+Route::POST('/Sondage/reponse', [SondagesController::class,'storeCommentaire'])->name('commentaires.store');
+
+Route::get('/Conversation', [ConversationsController::class,'index'])->name('Conversations.index');
+
+Route::post('/Conversation/store', [ConversationsController::class,'store'])->name('conversations.store');

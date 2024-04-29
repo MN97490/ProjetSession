@@ -32,7 +32,7 @@
       <nav class="main-nav">     
      
         <a href="/index">Accueil</a>
-        <a href="">Messagerie</a>
+        <a href="/Conversation">Messagerie</a>
        
       
  
@@ -44,10 +44,14 @@
         <a href="/profil">Profil</a>
         @role('admin')
         <a href="/usagers/liste">Panneau Administration</a>
-
+        <a href="/gestionSondage">Gestion Sondages</a>
         @endrole
         <a href="/calendrier">Mes disponibilités</a>
         <a href="/rencontres">Mes rencontres</a>
+
+       @if(auth()->user()->is_tuteur) 
+         <a href="/remuneration/check">Ma rémunération</a>
+       @endif
         
         
         @role('admin','prof')

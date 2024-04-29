@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Auth;
 use Log;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Usager;
 use App\Models\Disponibilite;
@@ -16,6 +17,7 @@ use App\Models\Domaine;
 use App\Models\Matiere;
 use App\Models\Note;
 use App\Models\Demande;
+use App\Models\Rencontre;
 
 class TutoratsController extends Controller
 {
@@ -34,6 +36,85 @@ class TutoratsController extends Controller
 
          return view('Tutorat.tuteur',compact('matieres'));
     }
+
+
+    public function calculerRemunerationTuteurs()
+    {
+        $deuxSemaines = Carbon::now()->subWeeks(2);
+        $tarifParRencontre = 17;  
+    
+        $tuteurs = Rencontre::where('status', 'terminé')
+                            ->where('heure_fin', '>=', $deuxSemaines)
+                            ->get()
+                            ->groupBy('tuteur_id');
+    
+        $remunerations = [];
+        foreach ($tuteurs as $tuteur_id => $rencontres) {
+            $nombreRencontres = count($rencontres);
+            $remunerations[$tuteur_id] = $nombreRencontres * $tarifParRencontre; 
+        }
+    
+        return $remunerations;
+    }
+
+   
+    public function afficherFormSecu()
+    {
+        
+        return View('Tutorat.check');
+    }
+
+    public function afficherFormRemu()
+    {
+    $tuteurId = Auth::id(); 
+    $deuxSemaines = Carbon::now()->subWeeks(2);
+    $mois = Carbon::now()->subMonth();
+    $year = Carbon::now()->year;
+
+    $tarifParRencontre = 17;
+
+    $rencontres = Rencontre::where('tuteur_id', $tuteurId)
+                            ->where('status', 'terminer')
+                            ->where('heure_fin', '>=', $deuxSemaines)
+                            ->get();
+                            
+
+
+     $rencontresM = Rencontre::where('tuteur_id', $tuteurId)
+                            ->where('status', 'terminer')
+                            ->where('heure_fin', '>=', $mois)
+                            ->get();
+
+    $rencontresY = Rencontre::where('tuteur_id', $tuteurId)
+                            ->where('status', 'terminer')
+                            ->where('heure_fin', '>=', $year)
+                            ->get();
+    $totalRemuneration = count($rencontres) * $tarifParRencontre;
+    $totalRemunerationM = count($rencontresM)* $tarifParRencontre;
+    $totalRemunerationY = count($rencontresY)* $tarifParRencontre;
+
+    return view('Tutorat.remuneration', [
+        'totalRemuneration' => $totalRemuneration,
+        'rencontresCount' => count($rencontres),
+        'rencontresCountM'=>count ($rencontresM),
+        'totalRemunerationM'=>$totalRemunerationM,
+        'rencontresCountY'=>count ($rencontresY),
+        'totalRemunerationY'=>$totalRemunerationY,
+        'year'=>$year,
+    ]);  
+}
+
+    public function verifyPassword(Request $request)
+{
+    $request->validate(['password' => 'required']);
+
+    if (Hash::check($request->password, Auth::user()->password)) {
+       
+        return $this->afficherFormRemu();
+    } else {
+        return back()->withErrors(['password' => 'Mot de passe incorrect.']);
+    }
+}
 
     public function devenirTuteur(){
       
@@ -221,6 +302,7 @@ public function rechercherTuteur(Request $request)
 
   
     $tuteurs = Usager::where('is_tuteur', 1)
+                    ->where('id', '!=', $utilisateur->id) 
                     ->where('presence', $utilisateur->presence)
                     ->where('domaineEtude', $utilisateur->domaineEtude)
                     ->whereHas('matieresAutorisees', function ($query) use ($matiereId) {

@@ -181,7 +181,7 @@ class UsagersController extends Controller
     {
         $reussi = Auth::attempt(['nomUtilisateur' => $request->username, 'password' => $request->password]);
         if($reussi){
-            return redirect()->route('Tutorat.index') ->with('message', "Connexion réussie");
+            return redirect()->route('Sondages.index') ->with('message', "Connexion réussie");
         }
         else{
             return redirect()->route('login')->withErrors(['Informations invalides']); 
@@ -344,10 +344,10 @@ class UsagersController extends Controller
         try {
             $usager = Usager::findOrFail($id);
             
-            // Supprimer toutes les notes associées à l'utilisateur
+           
             $usager->notes()->delete();
             
-            // Maintenant, supprimer l'utilisateur lui-même
+          
             $usager->delete();
             
             return redirect()->route('Usagers.liste')->with('message', "Suppression de " . $usager->nomUsager . " réussie!");
@@ -356,6 +356,8 @@ class UsagersController extends Controller
             return redirect()->route('Usagers.liste')->withErrors(['La suppression n\'a pas fonctionné']); 
         }
     }
+
+
     
     
 }
