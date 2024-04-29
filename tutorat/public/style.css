@@ -254,7 +254,7 @@ p {
 }
 
 .footerConnect {
-  background-color: rgba(9, 45, 116, 0.7);
+  background-color: rgba(9, 45, 116, 1);
   padding: 10px 0; /* Réduire le padding en haut et en bas */
   text-align: center;
   color: white;
