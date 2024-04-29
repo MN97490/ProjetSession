@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('title', "Page modification Administrateur")
 @section('contenu')
 

@@ -1,9 +1,14 @@
 @extends('layouts.app')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @section('title', "Profil")
 @section('contenu')
 
 <section class="main-container" >
 <h1 class="text-center">Page profil de @auth {{ Auth::user()->nomUtilisateur }} @endauth</h1>
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-4"> </div>
+  <div class="col-4"style="justify-content: center">
 <form method="GET" action="{{route('Usagers.modifier')}}" >
 @csrf
 <div class="form-group">
@@ -27,6 +32,10 @@
   
         </div>      
   </form>
+  <div class="col-4"></div>
+</div>
+</div>
+  </div>
   @role('eleve')
   @foreach($matieres as $matiere)
     <form method="POST" action="{{ route('updateNote', ['note' => $notes[$matiere->id]->id]) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cette note ?')">
@@ -37,7 +46,9 @@
         <input type="hidden" name="idCompte" value="{{ Auth::user()->id }}">
         <input type="number" name="Note"  min="0" max="100" value="{{ $notes[$matiere->id]['Note'] }}">
         <button type="submit">Enregistrer</button>
+
     </form>
+
   @endforeach
 
 
