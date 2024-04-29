@@ -15,6 +15,7 @@ use App\Models\Note;
 use App\Models\Disponibilite;
 use App\Models\Conversation;
 use App\Models\Message;
+use Carbon\Carbon;
 
 
 class ConversationsController extends Controller
@@ -23,16 +24,32 @@ class ConversationsController extends Controller
     {
         $user = Auth::user();
 
-    // Utilisation de la relation 'conversations' définie dans le modèle Usager
+    
     $conversations = $user->conversations()->with('user1', 'user2')->get();
 
-    // Récupérer d'autres utilisateurs pour la création de nouvelles conversations
+    
+
+   
     $users = Usager::where('id', '!=', $user->id)->get();
 
     return view('Conversations.index', compact('conversations', 'users'));
 
     }
+
     
+    public function show($id)
+    {
+        
+        $conversation = Conversation::findOrFail($id);
+
+       
+        $messages = $conversation->messages()->orderBy('created_at', 'asc')->get();
+
+       
+
+       
+        return view('Conversations.zoom', compact('conversation', 'messages'));
+    }
 
     public function store(Request $request)
 {
@@ -50,11 +67,12 @@ class ConversationsController extends Controller
     }
 
     
-    $existingConversation = Conversation::where(function ($query) use ($user1, $user2) {
-        $query->where('user1', $user1)->where('user2', $user2);
-    })->orWhere(function ($query) use ($user1, $user2) {
-        $query->where('user1', $user2)->where('user2', $user1);
-    })->first();
+
+        $existingConversation = Conversation::where(function ($query) use ($user1, $user2) {
+            $query->where('user1', $user1->id)->where('user2', $user2);
+        })->orWhere(function ($query) use ($user1, $user2) {
+            $query->where('user1', $user2)->where('user2', $user1->id);
+        })->first();
 
     if ($existingConversation) {
         return redirect()->route('Conversations.index', $existingConversation->id)
@@ -71,6 +89,33 @@ class ConversationsController extends Controller
     return redirect()->route('Conversations.index', $conversation->id)
                      ->with('success', 'Conversation créée avec succès.');
 }
+
+public function ajoutMessage(Request $request)
+{
+    $user = Auth::user();
+    $request->validate([
+        'texte' => 'required|string',
+        'conversation_id' => 'required|exists:conversations,id',
+    ]);
+
+ 
+    $message = new Message([
+        'texte' => $request->texte,
+        'conversation_id' => $request->conversation_id,
+        'userfrom' => $user->id,
+        'created_at' => now(),
+    ]);
+    $message->save();
+
+
+    $senderName = $message->getSenderName();
+
+    
+
+    return response()->json(['success' => true, 'message' => $message, 'sender_name' => $senderName]);
+}
+
+
 
     
 }

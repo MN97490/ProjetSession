@@ -57,9 +57,5 @@ public function conversations()
     return $this->hasMany(Conversation::class, 'user1')->orWhere('user2', $this->id);
 }
 
-public function messages()
-{
-    return $this->hasMany(Message::class, 'userto');
-}
 
 }

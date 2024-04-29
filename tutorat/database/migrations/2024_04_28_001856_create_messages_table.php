@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('conversation_id')->constrained('conversations')->onDelete('cascade');
             $table->foreignId('userfrom')->constrained('usagers')->onDelete('cascade');
-            $table->foreignId('userto')->constrained('usagers')->onDelete('cascade');
             $table->text('texte');
-            $table->string('status')->default('pas lu');
-            $table->dateTime('date');
+          
             $table->timestamps();
         });
     }

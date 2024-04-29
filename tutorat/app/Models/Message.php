@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    protected $fillable = ['conversation_id', 'userfrom', 'userto', 'texte', 'status', 'date'];
+    protected $fillable = ['conversation_id', 'userfrom', 'texte','created_at' ];
 
     public function conversation()
     {
@@ -17,8 +17,9 @@ class Message extends Model
         return $this->belongsTo(Usager::class, 'userfrom');
     }
 
-    public function receveur()
+    public function getSenderName()
     {
-        return $this->belongsTo(Usager::class, 'userto');
+        return $this->sender->nom . ' ' . $this->sender->prenom;
     }
+  
 }

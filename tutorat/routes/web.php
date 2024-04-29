@@ -177,3 +177,9 @@ Route::POST('/Sondage/reponse', [SondagesController::class,'storeCommentaire'])-
 Route::get('/Conversation', [ConversationsController::class,'index'])->name('Conversations.index');
 
 Route::post('/Conversation/store', [ConversationsController::class,'store'])->name('conversations.store');
+
+
+Route::get('/Conversation/show/{id}', [ConversationsController::class,'show'])->name('Conversations.zoom');
+Route::post('/messages/ajout', [ConversationsController::class,'ajoutMessage'])->name('messages.store');
+
+

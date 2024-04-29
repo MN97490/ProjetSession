@@ -24,11 +24,10 @@
     @else
         @foreach($conversations as $conversation)
             <div>
-                @if($conversation->user1 == Auth::id())
-                    Conversation avec {{ $conversation->user2}}
-                @else
-                    Conversation avec {{ $conversation->user1 }}
-                @endif
+              
+                <a href="{{ route('Conversations.zoom', $conversation->id) }}"> {{ $conversation->getOtherUserName()}}</a>
+                   
+              
             </div>
         @endforeach
     @endif
