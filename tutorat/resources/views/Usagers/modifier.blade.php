@@ -1,14 +1,20 @@
 @extends('layouts.app')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @section('title', "Profil")
 @section('contenu')
 
 
 <section class="main-container" >
 <h1 class="text-center">Page modification profil de @auth {{ Auth::user()->nomUtilisateur }} @endauth</h1>
+<div class="container-fluid">
 <form method="POST" action="{{ route('Usagers.update', ['usager' => $usager]) }}" >
 @csrf
 @method('PATCH')
+
 <div class="form-group">
+  <div class="row">
+    <div class="col-4" ></div>
+    <div class="col-4">
         <label for="nomUtilisateurUsager">Nom d'utilisateur</label>
         <input type="text" class="form-control" id="nomUtilisateurUsager" value="{{ old('nomUtilisateur', $usager->nomUtilisateur) }}" name="nomUtilisateur"><br/>
 
@@ -43,10 +49,15 @@
 
 
             </div>
-          <button type="submit" class="btn btn-primary" >Modifier les informations</button>
+          <button type="submit" class="btn btn-success" >confirmer les modifications</button>
   
         </div>      
-</form>
+
+      </form>
+      <div class="col-4"></div>
+    </div>
+    </div>
+</div>
 
 
 

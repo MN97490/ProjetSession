@@ -25,7 +25,7 @@
                 <input type="password" name="password"  placeholder="Mot de Passe"><br>
                 <p style="color:red;"></p>
                 @if ($errors->any())
-    <div class="alert alert-danger">
+    <div class="alert alert-danger" style="color:red">
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>

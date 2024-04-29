@@ -37,7 +37,7 @@
 
 .formulaireCo {
    border: 1px solid white;
-   width: auto;
+   width: 100%;
    /*max-width: 80%;*/
    padding: 10px;
    text-align: center;
