@@ -75,7 +75,7 @@
               start: moment(start).format("YYYY-MM-DD HH:mm:ss"),
               end: moment(end).format("YYYY-MM-DD HH:mm:ss"),
             };
-            // Envoyer les données au serveur pour les enregistrer dans la base de données
+          
             $.ajax({
               url: '/disponibilites',
               type: 'POST',
@@ -85,13 +85,13 @@
                 _token: '{{ csrf_token() }}'
               },
               success: function(response) {
-                // Afficher un message de succès
+              
                 alert(response.message);
-                // Recharger le calendrier
+              
                 calendar.refetchEvents();
               },
               error: function(xhr) {
-                // Afficher un message d'erreur
+          
                 alert("Une erreur s'est produite lors de l'ajout de la disponibilité.");
               }
             });

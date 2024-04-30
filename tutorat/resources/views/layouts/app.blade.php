@@ -45,10 +45,11 @@
         @role('admin')
         <a href="/usagers/liste">Panneau Administration</a>
         <a href="/gestionSondage">Gestion Sondages</a>
+        <a href="/gestion/aide/admin">Gestion demande d'aide</a>
         @endrole
         <a href="/calendrier">Mes disponibilités</a>
         <a href="/rencontres">Mes rencontres</a>
-
+        <a href="/demandeAide">Demande aide</a>
        @if(auth()->user()->is_tuteur) 
          <a href="/remuneration/check">Ma rémunération</a>
        @endif
@@ -123,3 +124,5 @@ function toggleSearch() {
 }
 
 </script>
+
+

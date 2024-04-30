@@ -11,6 +11,7 @@ use App\Http\Controllers\DisponibilitesController;
 use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SondagesController;
 use App\Http\Controllers\ConversationsController;
+use App\Http\Controllers\AideController;
 
 
 
@@ -183,3 +184,12 @@ Route::get('/Conversation/show/{id}', [ConversationsController::class,'show'])->
 Route::post('/messages/ajout', [ConversationsController::class,'ajoutMessage'])->name('messages.store');
 
 
+Route::get('/gestion/aide/admin', [AideController::class,'indexAdmin'])->name('Aides.gestion');
+
+Route::get('/demandeAide', [AideController::class,'index'])->name('Aides.index');
+
+
+Route::post('/demandeAide/store', [AideController::class,'store'])->name('Aides.store');
+Route::get('/demandeAide/edit/{aide_id}', [AideController::class,'edit'])->name('Aides.edit');
+Route::put('/demandeAide/update/{aide_id}', [AideController::class,'update'])->name('Aides.update');
+Route::DELETE('/demandeAide/update/{aide_id}', [AideController::class,'destroy'])->name('Aides.destroy');

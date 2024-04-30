@@ -17,7 +17,7 @@
             @endforeach
         </ul>
 
-       
+        <!-- Formulaire pour envoyer un nouveau message -->
         <form id="messageForm" action="{{ route('messages.store') }}" method="POST">
             @csrf
             <div class="form-group mt-3">
