@@ -13,4 +13,9 @@ class Aide extends Model
     {
         return $this->belongsTo(Usager::class, 'user');
     }
+    public function getUserName()
+    {
+        $user = Usager::findOrFail($this->user);
+        return $user->nomUtilisateur . ' ' . $user->nom;
+    }
 }

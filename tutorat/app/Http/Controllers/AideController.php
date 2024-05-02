@@ -69,6 +69,15 @@ class AideController extends Controller
         return redirect()->route('Aides.index')->with('success', 'La demande d\'aide a été mise à jour avec succès.');
     }
 
+    public function updateStatus(Request $request, $id)
+{
+    $aide = Aide::findOrFail($id);
+    $aide->status = $request->status;
+    $aide->save();
+
+    return redirect()->route('Aides.gestion')->with('success', 'Le statut de la demande a été mis à jour.');
+}
+
     public function updateAdmin(Request $request, $id)
     {
         $request->validate([
@@ -84,6 +93,36 @@ class AideController extends Controller
     
         return redirect()->route('Aides.gestion')->with('success', 'La demande d\'aide a été mise à jour avec succès.');
     }
+    public function uploadGuide(Request $request)
+{
+    $request->validate([
+        'guideFile' => 'required|file|mimes:pdf|max:10240', 
+    ]);
+
+    $file = $request->file('guideFile');
+    $filename = 'guide-Prof.pdf'; 
+
+   
+    $file->move(public_path('downloads'), $filename);
+
+    return back()->with('success', 'Le guide de l\'usager a été mis à jour avec succès.');
+}
+public function uploadGuideEleve(Request $request)
+{
+    $request->validate([
+        'guideFile' => 'required|file|mimes:pdf|max:10240', 
+    ]);
+
+    $file = $request->file('guideFile');
+    $filename = 'guide-Eleve.pdf'; 
+
+   
+    $file->move(public_path('downloads'), $filename);
+
+    return back()->with('success', 'Le guide de l\'usager a été mis à jour avec succès.');
+}
+
+
     
     public function destroy($id)
     {

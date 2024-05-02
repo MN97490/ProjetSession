@@ -18,16 +18,19 @@ use App\Models\Matiere;
 use App\Models\Note;
 use App\Models\Demande;
 use App\Models\Rencontre;
+use App\Models\Actualite;
 
 class TutoratsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return View('Tutorat.index');
-    }
+  
+     public function index()
+     {
+         $actualites = Actualite::all();
+         return view('Tutorat.index', compact('actualites'));
+     }
     public function indexRecherche()
     {
         $matieres = Matiere::all();

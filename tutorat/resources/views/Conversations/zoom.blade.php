@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversation avec {{ $conversation->getOtherUserName() }}</title>
-    <!-- Liens vers les styles Bootstrap -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
             @endforeach
         </ul>
 
-        <!-- Formulaire pour envoyer un nouveau message -->
+       
         <form id="messageForm" action="{{ route('messages.store') }}" method="POST">
             @csrf
             <div class="form-group mt-3">

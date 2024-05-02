@@ -88,23 +88,23 @@ class UsagersController extends Controller
                 'email' => 'required|string|email|max:255|unique:usagers',
                 'nom' => 'required|string|max:255',
                 'prenom' => 'required|string|max:255',
-                'domaineEtude' => 'required|exists:domaines,id', // Modifiez ici si le nom de votre table est "domaines"
+                'domaineEtude' => 'required|exists:domaines,id', 
                 'password' => 'required|string|min:8|confirmed',
                 
             ]);
     
-            // Création d'un nouvel utilisateur
+          
             $usager = new Usager();
             $usager->nomUtilisateur = $validatedData['nomUtilisateur'];
             $usager->email = $validatedData['email'];
             $usager->nom = $validatedData['nom'];
             $usager->prenom = $validatedData['prenom'];
-            $usager->domaineEtude = $validatedData['domaineEtude']; // Assurez-vous que la colonne dans la table "usagers" correspond
+            $usager->domaineEtude = $validatedData['domaineEtude']; 
             $usager->password = Hash::make($validatedData['password']);
            
             $usager->save();
     
-            // Récupérer les matières associées au domaine d'étude de l'utilisateur
+            // Récupére les matières associées au domaine d'étude de l'utilisateur
             $matieres = Domaine::find($usager->domaineEtude)->matieres;
     
             // Créer des notes de base pour chaque matière
@@ -112,14 +112,14 @@ class UsagersController extends Controller
                 $note = new Note();
                 $note->idCompte = $usager->id;
                 $note->idMatiere = $matiere->id;
-                $note->note = 0; // Vous pouvez définir la note de base ici
+                $note->note = 0; 
                 $note->save();
             }
     
-            // Log successful user creation
+            
             Log::info('New user created successfully: ' . $usager->nomUtilisateur);
         } catch (\Throwable $e) {
-            // Log error if user creation fails
+           
             Log::error('Error creating user: ' . $e->getMessage());
             return redirect()->route('usagers.create')->withErrors(['L\'ajout n\'a pas fonctionné']);
         }

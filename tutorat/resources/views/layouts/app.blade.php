@@ -46,6 +46,7 @@
         <a href="/usagers/liste">Panneau Administration</a>
         <a href="/gestionSondage">Gestion Sondages</a>
         <a href="/gestion/aide/admin">Gestion demande d'aide</a>
+        <a href="/Actualite/gestion">Actualités</a>
         @endrole
         <a href="/calendrier">Mes disponibilités</a>
         <a href="/rencontres">Mes rencontres</a>

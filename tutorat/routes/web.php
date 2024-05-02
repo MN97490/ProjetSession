@@ -12,6 +12,7 @@ use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SondagesController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\AideController;
+use App\Http\Controllers\ActualitesController;
 
 
 
@@ -193,3 +194,12 @@ Route::post('/demandeAide/store', [AideController::class,'store'])->name('Aides.
 Route::get('/demandeAide/edit/{aide_id}', [AideController::class,'edit'])->name('Aides.edit');
 Route::put('/demandeAide/update/{aide_id}', [AideController::class,'update'])->name('Aides.update');
 Route::DELETE('/demandeAide/update/{aide_id}', [AideController::class,'destroy'])->name('Aides.destroy');
+Route::PATCH('/demandeAide/updateStatus/{aide_id}', [AideController::class,'updateStatus'])->name('Aides.updateStatus');
+Route::post('/demandeAide/uploadGuideEleve', [AideController::class, 'uploadGuide'])->name('Aides.uploadGuide');
+Route::post('/demandeAide/uploadGuideProf', [AideController::class, 'uploadGuideEleve'])->name('Aides.uploadGuideEleve');
+
+Route::get('/Actualite/gestion', [ActualitesController::class, 'create'])->name('Actualites.gestion');
+Route::post('/Actualite/store', [ActualitesController::class, 'store'])->name('Actualites.store');
+Route::DELETE('/Actualite/destroy/{actualite_id}', [ActualitesController::class, 'destroy'])->name('Actualites.destroy');
+Route::get('/Actualite/edit/{actualite_id}', [ActualitesController::class, 'edit'])->name('Actualites.edit');
+Route::PATCH('/Actualite/update/{actualite_id}', [ActualitesController::class, 'update'])->name('Actualites.update');

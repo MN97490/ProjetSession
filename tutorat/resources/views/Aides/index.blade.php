@@ -4,6 +4,10 @@
 
 @section('contenu')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+
+
 <section class="main-container">
     <div class="container">
         <h1>Poster une demande d'aide</h1>
@@ -15,6 +19,12 @@
             </div>
             <button type="submit" class="btn btn-primary">Poster</button>
         </form>
+        <div class="mt-2">
+                <a href="{{ asset('downloads/guide-Prof.pdf') }}" download="GuideProf.pdf" class="btn btn-info">Télécharger le Guide Prof</a>
+            </div>
+            <div class="mt-2">
+                <a href="{{ asset('downloads/guide-Eleve.pdf') }}" download="GuideEleve.pdf" class="btn btn-info">Télécharger le Guide de l'Eleve</a>
+            </div>
     </div>
 
     <div class="container my-4">
