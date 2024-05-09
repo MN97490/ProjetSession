@@ -32,9 +32,19 @@
 
         <input type="text" class="form-control" id="roleUsager" value="{{ old('role', $usager->role) }}" name="role"  hidden ><br/>
 
+        <label for="presence">Présence :</label><br/>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="presence" id="presentiel" value="presentiel" {{ $usager->presence == 'presentiel' ? 'checked' : '' }}>
+            <label class="form-check-label" for="presentiel">Présentiel</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="presence" id="distanciel" value="distanciel" {{ $usager->presence == 'distanciel' ? 'checked' : '' }}>
+            <label class="form-check-label" for="distanciel">Distanciel</label>
+        </div><br/><br/>
+
         <div class="form-group">
                   <label for="password">Mot de passe</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" class="form-control" id="password" name="password" value="{{$usager->password}}">
                 <div class="form-group">
                   <label for="password_confirmation">Mot de passe confirmation</label>
                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"><br>

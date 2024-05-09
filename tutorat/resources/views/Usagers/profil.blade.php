@@ -27,6 +27,15 @@
 
         <label for="motDePasse">Mot de passe</label>
         <input type="text" class="form-control" id="motDePasseUsager" value="*******" readonly  ><br/>
+        <label for="presence">Présence :</label><br/>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="presence" id="presentiel" value="presentiel" {{ $usager->presence == 'presentiel' ? 'checked' : '' }} disabled>
+            <label class="form-check-label" for="presentiel">Présentiel</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="presence" id="distanciel" value="distanciel" {{ $usager->presence == 'distanciel' ? 'checked' : '' }}disabled>
+            <label class="form-check-label" for="distanciel">Distanciel</label>
+        </div><br/><br/>
 
         <button type="submit" class="btn btn-primary" >Modifier les informations</button>
   

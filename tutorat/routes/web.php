@@ -192,7 +192,7 @@ Route::get('/demandeAide', [AideController::class,'index'])->name('Aides.index')
 
 Route::post('/demandeAide/store', [AideController::class,'store'])->name('Aides.store');
 Route::get('/demandeAide/edit/{aide_id}', [AideController::class,'edit'])->name('Aides.edit');
-Route::put('/demandeAide/update/{aide_id}', [AideController::class,'update'])->name('Aides.update');
+Route::patch('/demandeAide/update/{aide_id}', [AideController::class,'update'])->name('Aides.update');
 Route::DELETE('/demandeAide/update/{aide_id}', [AideController::class,'destroy'])->name('Aides.destroy');
 Route::PATCH('/demandeAide/updateStatus/{aide_id}', [AideController::class,'updateStatus'])->name('Aides.updateStatus');
 Route::post('/demandeAide/uploadGuideEleve', [AideController::class, 'uploadGuide'])->name('Aides.uploadGuide');

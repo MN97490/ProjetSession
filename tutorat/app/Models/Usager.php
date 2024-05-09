@@ -19,7 +19,8 @@ class Usager extends Authenticatable
         'email',
         'role',
         'is_tuteur',
-        'presence'
+        'presence',
+        'password'
     ];
 
     protected $hidden = [

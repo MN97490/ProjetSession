@@ -130,7 +130,7 @@ class UsagersController extends Controller
     public function storeAdmin(Request $request)
     {
         try {
-            // Validation des données soumises
+         
             $validatedData = $request->validate([
                 'nomUtilisateur' => 'required|string|max:255|unique:usagers',
                 'email' => 'required|string|email|max:255|unique:usagers',
@@ -138,6 +138,7 @@ class UsagersController extends Controller
                 'prenom' => 'required|string|max:255',
                 'domaineEtude' => 'required|exists:domaines,id', 
                 'password' => 'required|string|min:8|confirmed',
+               
                 'role' => 'required',
             ]);
     
@@ -243,15 +244,17 @@ class UsagersController extends Controller
     public function update(UsagerRequest $request, Usager $usager)
     {
         try{
-        
-            $usager->nom = $request->nom;
-            $usager->nomUtilisateur = $request->nomUtilisateur;
-            $usager->prenom = $request->prenom;
-            $usager->email = $request->email;
-            $usager->domaineEtude=$request->domaineEtude;
-            $usager->role=$request->role;
-            $usager->password = Hash::make($request->password);
-            $usager->save();
+            $usager->update([
+                'nom' => $request->nom,
+                'nomUtilisateur' => $request->nomUtilisateur,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'domaineEtude' => $request->domaineEtude,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'presence' => $request->presence,
+            ]);
+     
             return redirect()->route('Usagers.profil')->with('message', "Modification de " . $usager->nomUtilisateur . " réussie!");
         }
         catch(\Throwable $e){
@@ -266,11 +269,16 @@ class UsagersController extends Controller
     public function updateAdmin(UsagerRequest $request, Usager $usager)
     {
         try {
-            $usager->nom = $request->nom;
-            $usager->nomUtilisateur = $request->nomUtilisateur;
-            $usager->prenom = $request->prenom;
-            $usager->email = $request->email;
-            $usager->is_tuteur = $request->is_tuteur;
+            $usager->update([
+                'nom' => $request->nom,
+                'nomUtilisateur' => $request->nomUtilisateur,
+                'prenom' => $request->prenom,
+                'email' => $request->email,
+                'domaineEtude' => $request->domaineEtude,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'presence' => $request->presence,
+            ]);
             
        
             if ($request->role !== $usager->role) {
