@@ -64,7 +64,7 @@ public function updateNote(NoteRequest $request, Note $note)
         $note->update($request->all());
         return redirect()->route('Usagers.profil')->with('message', "Modification de la note réussie!");
     } catch (\Throwable $e) {
-        // Gérer l'erreur
+  
         Log::emergency($e);
         return redirect()->route('Tutorat.index')->withErrors(['La modification n\'a pas fonctionné']); 
     }

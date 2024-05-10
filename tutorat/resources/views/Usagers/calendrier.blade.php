@@ -15,7 +15,7 @@
       width: 100%;
       max-width: 1100px;
       margin: 0 auto;
-      height: 40vh; /* 70% de la hauteur de la fenêtre */
+      height: 40vh; 
       padding-top: 20px;
     }
 
@@ -37,8 +37,8 @@
           startTime: '07:00', // Heure de début
           endTime: '17:00' // Heure de fin
         },
-        slotMinTime: '07:00', // Heure de début des créneaux
-        slotMaxTime: '17:00', // Heure de fin des créneaux
+        slotMinTime: '07:00',
+        slotMaxTime: '17:00', 
         slotDuration: '01:00', // Durée des créneaux (1 heure)
         selectable: true, // Active la sélection de dates
         select: function(info) {

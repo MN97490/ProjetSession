@@ -82,7 +82,7 @@ class UsagersController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validation des données soumises
+    
             $validatedData = $request->validate([
                 'nomUtilisateur' => 'required|string|max:255|unique:usagers',
                 'email' => 'required|string|email|max:255|unique:usagers',
@@ -104,10 +104,10 @@ class UsagersController extends Controller
            
             $usager->save();
     
-            // Récupére les matières associées au domaine d'étude de l'utilisateur
+         
             $matieres = Domaine::find($usager->domaineEtude)->matieres;
     
-            // Créer des notes de base pour chaque matière
+         
             foreach ($matieres as $matiere) {
                 $note = new Note();
                 $note->idCompte = $usager->id;
@@ -268,6 +268,7 @@ class UsagersController extends Controller
 
     public function updateAdmin(UsagerRequest $request, Usager $usager)
     {
+        $oldRole=$usager->role;
         try {
             $usager->update([
                 'nom' => $request->nom,
@@ -275,15 +276,16 @@ class UsagersController extends Controller
                 'prenom' => $request->prenom,
                 'email' => $request->email,
                 'domaineEtude' => $request->domaineEtude,
-                'password' => Hash::make($request->password),
+                'password' =>$usager->password,
                 'role' => $request->role,
                 'presence' => $request->presence,
+                'is_tuteur'=>$request->is_tuteur,
             ]);
             
        
-            if ($request->role !== $usager->role) {
+            if ($request->role !==  $oldRole) {
                
-                if ($usager->role === 'eleve') {
+                if ( $oldRole === 'eleve') {
                    
                     if ($request->role === 'admin' || $request->role === 'prof') {
                         $usager->notes()->delete();
@@ -297,12 +299,12 @@ class UsagersController extends Controller
                             
                             $existingNote = $usager->notes()->where('idMatiere', $matiere->id)->first();
     
-                            // Si aucune note n'existe, on en crée une nouvelle
+                          
                             if (!$existingNote) {
                                 $note = new Note();
                                 $note->idCompte = $usager->id;
                                 $note->idMatiere = $matiere->id;
-                                $note->note = 0; // Vous pouvez définir la note de base ici
+                                $note->note = 0; 
                                 $note->save();
                             }
                         }
@@ -340,7 +342,7 @@ class UsagersController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Une erreur s\'est produite lors de la mise à jour du profil.');
         }
-    }
+    } 
     
     
 

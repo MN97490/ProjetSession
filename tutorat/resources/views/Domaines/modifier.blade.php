@@ -2,7 +2,7 @@
 @section('title', "Page d'acceuil")
 @section('contenu')
 
-
+@role('admin','prof')
 <section class="main-container" >
   <h1 class="text-center">Page modification du domaine d'étude </h1>
   <form method="POST" action="{{ route('Domaines.update', ['domaine' => $domaine]) }}" >
@@ -18,5 +18,10 @@
   
         </div>      
   </form>
+  @else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
+@endrole
 
 @endsection

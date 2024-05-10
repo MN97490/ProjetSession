@@ -3,6 +3,7 @@
 @section('title', 'Modifier Sondage')
 
 @section('contenu')
+@role('admin')
     <h1>Modifier Sondage</h1>
     <form action="{{ route('Sondages.update', $sondage->id) }}" method="POST">
         @csrf
@@ -27,4 +28,9 @@
 
         <button type="submit">Mettre à jour</button>
     </form>
+    @else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
+@endrole
 @endsection

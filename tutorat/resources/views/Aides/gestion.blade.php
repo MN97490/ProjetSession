@@ -3,6 +3,7 @@
 @section('title', 'Gestion des Aides')
 
 @section('contenu')
+@role('admin')
 <section class="main-container">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -80,4 +81,10 @@
     </div>
 </div>
 </section>
+@else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
+@endrole
+
 @endsection

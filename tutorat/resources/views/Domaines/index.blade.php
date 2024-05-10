@@ -2,6 +2,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @section('title', "Gestion Domaine Étude ")
 @section('contenu')
+@role('admin','prof')
 <br>
 <br>
 <section class="main-container" >
@@ -181,6 +182,11 @@
 
 
 </section>
+@else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
+@endrole
 
 @endsection
 

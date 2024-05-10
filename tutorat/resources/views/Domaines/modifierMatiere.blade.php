@@ -3,7 +3,7 @@
 @section('contenu')
 
 
-
+@role('admin','prof')
 <section class="main-container" >
   <h1 class="text-center">Page modification de la matière </h1>
   <form method="POST" action="{{ route('Matieres.update', ['matiere' => $matiere]) }}" >
@@ -27,6 +27,10 @@
 
 
 
+  @else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
 
+
+@endrole
 
 @endsection

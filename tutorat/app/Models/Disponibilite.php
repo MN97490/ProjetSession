@@ -11,8 +11,8 @@ class Disponibilite extends Model
 
     protected $fillable = [
         'jour',
-        'start', // Changer 'heure_debut' en 'start'
-        'end',   // Changer 'heure_fin' en 'end'
+        'start', 
+        'end',   
         'usager_id',
     ];
 

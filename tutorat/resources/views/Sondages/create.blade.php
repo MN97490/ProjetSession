@@ -3,6 +3,7 @@
 @section('title', 'Créer un Sondage')
 
 @section('contenu')
+@role('admin')
 <section class="main-container">
     <h1>Créer un Nouveau Sondage</h1>
     <form action="{{ route('Sondages.store') }}" method="POST">
@@ -26,4 +27,9 @@
         <button type="submit">Créer</button>
     </form>
 </section>
+@else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
+@endrole
 @endsection

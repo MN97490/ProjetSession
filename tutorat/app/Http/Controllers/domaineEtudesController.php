@@ -37,7 +37,7 @@ class domaineEtudesController extends Controller
         
         $matieres = $domaine->matieres;
     
-        // Récupérer les notes des élèves pour chaque matière
+      
         $notesParMatiere = [];
         foreach ($matieres as $matiere) {
             $notesParMatiere[$matiere->id] = Note::where('idMatiere', $matiere->id)
@@ -82,13 +82,13 @@ class domaineEtudesController extends Controller
     public function store(DomaineRequest $request)
     {
         try {
-            // Créer un nouveau domaine avec les données validées
+           
             $domaine = Domaine::create($request->validated());
 
-            // Rediriger avec un message de succès
+          
             return redirect()->back()->with('success', 'Le domaine a été ajouté avec succès.');
         } catch (\Throwable $e) {
-            // Gérer l'erreur
+         
             Log::error($e);
             return redirect()->back()->withErrors(['Une erreur est survenue lors de l\'ajout du domaine.']);
         }
@@ -121,7 +121,7 @@ class domaineEtudesController extends Controller
     
             return redirect()->route('Usagers.liste')->with('message', "Modification de " . $domaine->nomDomaine . " réussie!");
         } catch (\Throwable $e) {
-            // Gérer l'erreur
+           
             Log::emergency($e);
             return redirect()->route('Usagers.liste')->withErrors(['La modification n\'a pas fonctionné']); 
         }
@@ -140,31 +140,31 @@ class domaineEtudesController extends Controller
             $idDomaine = $request->input('idDomaine');
             $idMatiere = $request->input('idMatiere');
     
-            // Recherche du domaine et de la matière
+          
             $domaine = Domaine::findOrFail($idDomaine);
             $matiere = Matiere::findOrFail($idMatiere);
             
-            // Vérification si la relation existe déjà
+            
             if ($domaine->matieres->contains($matiere)) {
                 return redirect()->back()->withErrors(['La relation existe déjà.']);
             }
             
-            // Ajout de la relation
+       
             $domaine->matieres()->attach($matiere);
     
-            // Création de notes pour tous les utilisateurs élèves du domaine d'étude
+           
             $utilisateurs = Usager::where('domaineEtude', $idDomaine)->where('role', 'eleve')->get();
             foreach ($utilisateurs as $utilisateur) {
-                // Vérifier si une note existe déjà pour cette matière et cet utilisateur
+           
                 $noteExiste = Note::where('idCompte', $utilisateur->id)
                                   ->where('idMatiere', $idMatiere)
                                   ->exists();
                 if (!$noteExiste) {
-                    // Créer une nouvelle note avec une valeur par défaut
+                 
                     $note = new Note();
                     $note->idCompte = $utilisateur->id;
                     $note->idMatiere = $idMatiere;
-                    $note->note = 0; // Valeur par défaut de la note
+                    $note->note = 0; 
                     $note->save();
                 }
             }
@@ -189,7 +189,7 @@ class domaineEtudesController extends Controller
     
             return redirect()->back()->with('success', 'La relation a été supprimée avec succès.');
         } catch (\Throwable $e) {
-            // En cas d'erreur, enregistrer l'exception dans les logs et rediriger avec un message d'erreur
+           
             Log::emergency($e);
             return redirect()->back()->withErrors(['La suppression de la relation n\'a pas fonctionné']); 
         }

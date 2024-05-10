@@ -4,7 +4,6 @@
 
 @role('admin')
 
-  <!-- MAIN CONTAINER -->
   <section class="main-container" >
       <div class="location" id="personne">
       @if (count($usagers))

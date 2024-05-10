@@ -3,6 +3,7 @@
 @section('title', "Détails du Sondage")
 
 @section('contenu')
+@role('admin')
 <section class="main-container">
     <h1>Détails du Sondage: {{ $sondage->titre }}</h1>
     <p>Description: {{ $sondage->description }}</p>
@@ -31,8 +32,13 @@
 
 
 
-</section>
 
+</section>
+@else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
+@endrole
 
 
 

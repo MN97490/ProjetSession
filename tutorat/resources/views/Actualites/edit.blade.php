@@ -3,6 +3,7 @@
 @section('title', "Page modification actu")
 
 @section('contenu')
+@role('admin')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <section class="main-container">
     <div class="container mt-4">
@@ -33,4 +34,9 @@
         </form>
     </div>
 </section>
+@else
+    <script>window.location = "{{ route('Tutorat.index') }}";</script>
+
+
+@endrole
 @endsection

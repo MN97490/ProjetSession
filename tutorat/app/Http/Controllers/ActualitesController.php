@@ -73,7 +73,7 @@ class ActualitesController extends Controller
             return view('Actualites.edit', compact('actualite'));
         }
 
-      // Dans app/Http/Controllers/ActualitesController.php
+    
 
 public function update(Request $request, $id)
 {

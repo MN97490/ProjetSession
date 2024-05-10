@@ -20,7 +20,7 @@ class DisponibilitesController extends Controller
             'start.after' => 'La date et l\'heure de début doivent être dans le futur.',
             'end.after' => 'La date de fin doit être après la date de début.',
         ]);
-           // Vérifier si une rencontre est déjà prévue pendant cette période
+          
     $existingMeeting = Rencontre::where(function ($query) use ($request) {
         $query->where('eleve_id', auth()->id())
               ->orWhere('tuteur_id', auth()->id());
@@ -33,13 +33,13 @@ class DisponibilitesController extends Controller
     if ($existingMeeting) {
         return response()->json(['message' => 'Vous avez déjà une rencontre prévue à cette période.'], 409);
     }
-        // Ajoutez cette ligne pour extraire la date à partir de la valeur 'start'
+     
         $jour = Carbon::parse($request->start)->toDateString();
 
         Disponibilite::create([
             'start' => $request->start,
             'end' => $request->end,
-            'jour' => $jour, // Ajout de la date à la création
+            'jour' => $jour,
             'usager_id' => auth()->id(),
         ]);
 
